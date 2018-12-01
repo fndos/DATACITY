@@ -1,0 +1,41 @@
+Introducción
+============
+
+RESCLIMA es una plataforma para subir, buscar, visualizar y descargar
+datos espaciales (capas) y series de tiempo provenientes de estaciones
+meteorológicas.
+
+El proyecto consiste de una aplicación web hecha en Django y unos scripts
+para descargar datos de las estaciones meteorológicas.
+
+
+Contenido del respositorio
+--------------------------
+
+
+El respositorio tiene como raiz la carpeta **RESCLIMA**
+y su contenido es:
+
++ RESCLIMA/
+	Aplicación web de Django
++ StationScripts/
+	Scripts para descargar datos de las estaciones
++ data/
+	Datos para probar el proyecto
++ scripts/
+	Scripts de configuración
++ README.md
++ dbparams.json
+	Archivo json con las credenciales de la base de datos
+
+
+Arquitectura del proyecto
+-------------------------
+
+El siguiente gráfico muestra la arquitectura del proyecto
+
+.. image:: _static/arquitectura.png
+
+
+
+

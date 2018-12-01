@@ -1,0 +1,115 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title%}RESCLIMA | BUSCAR{% endblock %}
+
+
+  {% block scripts %}
+  <script src="{% static 'vectorLayers/js/import_shapefile.js' %}" type= "text/javascript"></script>
+  {% endblock %}
+
+{% block content %}
+
+<div class="section">
+	<div class="row">
+		<div class="col s12 m12 l6">				
+				<div class="card-panel">
+					<h4>Importar Shapefile</h4>
+
+					<div class="row">
+						<div id="errorMsg"></div>
+					</div>
+
+					<div class="row">
+						<form enctype="multipart/form-data" method="post" action="import" id="shapefileForm" class="col s12">
+							<!-- File chooser --> 
+							<div class="row">
+								<label for="id_import_files">Importar archivos shapefile</label>
+								<div class="file-field input-field">
+									<div class="btn">
+										<span>Archivos</span>
+										<input type="file" name="import_files" required="" multiple="" id="id_import_files">
+									</div>
+									<div class="file-path-wrapper">
+										<input class="file-path validate" type="text" placeholder="Seleccione archivos: .shp, .shx, .dbf, .prj">
+									</div>
+								</div>
+							</div>
+							<!-- Codificacion --> 
+							<div class="row">
+								<div class="input-field col s12">
+									<select name="encoding" id="id_encoding" class="initialized">
+										<option value="utf8">UTF-8</option>
+										<option value="latin1">Latin-1</option>
+										<option value="ascii">ASCII</option>
+									</select>
+									<label for="id_encoding">Codificaci&oacute;n</label>
+								</div>
+							</div>
+							<!-- Titulo --> 
+							<div class="row">
+								<div class="input-field col s12">
+									<input type="text" name="title" required="" id="id_title" data-length="50">
+									<label for="id_title">T&iacute;tulo</label>
+								</div>
+							</div>
+							<!-- Resumen -->
+							<div class="row">
+								<div class="input-field col s12">
+									<textarea name="abstract" id="id_abstract" width="100%" rows="10" cols="40" data-length="500" required="" class="materialize-textarea"></textarea>
+									<label for="id_abstract">Resumen</label>
+								</div>
+							</div>
+							<!-- Fecha -->
+							<div class="row">
+								<div class="col s12">
+									<label for="data_date">Fecha de los datos</label>
+									<input type="date" name="data_date" id="data_date">
+								</div>
+							</div>
+							<!-- Categorias -->
+							<div class="row">
+								<div class="col s12">
+									<label for="categories">Categorias</label>
+									<div id="categories">
+										{% for category in categories %}
+											<div 
+											class="chip z-depth-3"
+											onclick="markCategory(event)">
+												{{category.name}}
+											</div>
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div style="height:30px;"></div>
+							</div>
+
+							<!-- Botones -->
+							<div class="row">
+								<button type="submit" id="Upload" name="action" class="btn waves-effect waves-light">
+									<i class="material-icons left">file_upload</i>Subir
+								</button>
+								<button type="button" id="Cancel" onClick='window.location="/vector";' class="btn waves-effect waves-light red accent-2">
+									<i class="material-icons left">cancel</i>Cancelar
+								</button>
+							</div>
+						</form>
+					</div>
+					
+					<div class="row" id="progress-container" style="visibility:hidden;">
+						<div class="progress">
+							<div id="uploadPercent" class="determinate" style="width: 0%"></div>
+						</div>
+						<p id="uploadPercentLabel"></p>
+					</div>
+
+				</div>
+
+		</div>
+	</div>
+
+</div>
+{% endblock %}

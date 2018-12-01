@@ -1,0 +1,113 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title%}RESCLIMA | IMPORTAR ESTILO{% endblock %}
+
+{% block content %}
+	<div class="section">
+		<div class="row">
+			<div class="col s12 m12 l6">
+				<div class="card-panel">
+					<h4>Importar Estilo</h4>
+
+					<div class="row" id="errorMsg">
+						{% if err_msg %}
+						<div class="red"><b>{{err_msg}}</b></div>
+						{% endif %}
+					</div>
+
+					<div class="row">
+						<form enctype="multipart/form-data" method="post" id="styleForm" onsubmit="return validateForm()">
+							{% csrf_token %}
+							<!-- File chooser --> 
+							<div class="row">
+								<label for="id_import_file">Importar archivo SLD 1.1.0</label>
+								<div class="file-field input-field">
+									<div class="btn">
+										<span>Archivos</span>
+										<input type="file" name="file" required="" id="id_import_file">
+									</div>
+									<div class="file-path-wrapper">
+										<input class="file-path validate" type="text" placeholder="Seleccione archivo .sld">
+									</div>
+								</div>
+							</div>
+							<!--Titulo-->
+							<div class="row">
+								<div class="input-field col s12">
+									<input type="text" name="title" required="" id="id_title" data-length="50">
+									<label for="id_title">T&iacute;tulo</label>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div style="height:30px;"></div>
+							</div>
+
+							<!-- Botones -->
+							<div class="row">
+								<button type="submit" id="Upload" name="action" class="btn waves-effect waves-light">
+									<i class="material-icons">file_upload</i>Subir
+								</button>
+								<button type="button" id="Cancel" onClick='cancelForm();' class="btn waves-effect waves-light red accent-2">
+									<i class="material-icons">cancel</i>Cancelar
+								</button>
+							</div>
+						</form>
+					</div>
+				</div
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block scripts_body %}
+<script>
+
+var vectorlayer_id = {{vectorlayer_id}};
+
+function renderError(error){
+	errorMsg.innerHTML = '<div class="red"><b>' + error + '</b></div>'
+	window.scrollTo(0, 0);
+}
+
+function checkFile(){
+	var file_input = document.getElementById("id_import_file");
+	var list_files = file_input.files;
+	var fileName = list_files[0].name
+
+	var parts = fileName.split(".");
+
+	if(parts.length!=2){
+		return "El archivo debe tener extension y no contener puntos en el nombre" 
+	}
+	// se obtiene el nombre y extension del archivo
+	var fname = parts[0].toLowerCase();
+	var extension = parts[1].toLowerCase();
+
+	if(extension!="sld" & extension!="SLD"){
+		return "La extension debe ser sld"
+	}
+	return null;
+}
+
+function validateForm(){
+	var result = checkFile();
+	if(result){
+		renderError(result);
+		return false;
+	}
+	// se desactiva el boton cancelar
+	var cancelButton = document.getElementById("Cancel");
+	cancelButton.disabled = true;
+	return true;
+}
+
+function cancelForm(){
+	var url = "/vector/edit/"+vectorlayer_id;
+	window.location=url;
+}
+
+
+</script>
+{% endblock %}

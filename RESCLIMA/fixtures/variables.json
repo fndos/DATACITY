@@ -1,0 +1,79 @@
+[
+	{
+		"categories": ["Clima","Deslizamientos","Islas de Calor","Inundación"],
+		"name": "Temperatura",
+		"unit": "Celsius",
+		"symbol": "C",
+		"datatype": "float"
+	},
+	{
+		"categories": ["Clima","Deslizamientos","Islas de Calor","Inundación"],
+		"name": "Humedad relativa",
+		"unit": "Porcentaje",
+		"symbol": "%",
+		"datatype": "float"
+	},
+	{
+		"categories": ["Clima","Deslizamientos","Islas de Calor","Inundación"],
+		"name": "Lluvia",
+		"unit": "Milinetros",
+		"symbol": "mm",
+		"datatype": "float"
+	},
+	{
+		"categories": ["Clima","Deslizamientos","Islas de Calor","Inundación"],
+		"name": "Dirección del viento",
+		"unit": "",
+		"symbol": "ø",
+		"datatype": "float"
+	},
+	{
+		"categories": ["Clima","Deslizamientos","Islas de Calor","Inundación"],
+		"name": "Velocidad del viento",
+		"unit": "metros sobre segundos",
+		"symbol": "m/s",
+		"datatype": "float"
+	},
+	{
+		"categories": ["Clima","Deslizamientos","Islas de Calor","Inundación"],
+		"name": "Velocidad de rafagas",
+		"unit": "metros sobre segundos",
+		"symbol": "m/s",
+		"datatype": "float"
+	},
+	{
+		"categories": ["Clima","Deslizamientos","Islas de Calor","Inundación"],
+		"name": "Luminancia",
+		"unit": "Candela por metro cuadrado",
+		"symbol": "cd/m2",
+		"datatype": "float"
+	},
+	{
+		"categories": ["Clima","Deslizamientos","Islas de Calor","Inundación"],
+		"name": "Imagen SKY2",
+		"unit": "",
+		"symbol": "",
+		"datatype": "string"
+	},
+	{
+		"categories": ["Clima","Deslizamientos","Islas de Calor","Inundación"],
+		"name": "Detección de lluvia",
+		"unit": "",
+		"symbol": "",
+		"datatype": "boolean"
+	},
+	{
+		"categories": ["Clima","Deslizamientos","Islas de Calor","Inundación"],
+		"name": "Presión",
+		"unit": "Milibar",
+		"symbol": "mbar",
+		"datatype": "float"
+	},
+	{
+		"categories": ["Clima","Deslizamientos","Islas de Calor","Inundación"],
+		"name": "Indice UV",
+		"unit": "",
+		"symbol": "",
+		"datatype": "float"
+	}
+]

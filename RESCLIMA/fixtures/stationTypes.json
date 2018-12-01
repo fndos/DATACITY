@@ -1,0 +1,26 @@
+[
+	{
+		"brand": "HOBO",
+		"model": "MX2300",
+		"automatic":false,
+		"variables":["Temperatura",
+					"Humedad relativa",
+					"Lluvia",
+					"Dirección del viento",
+					"Velocidad del viento",
+					"Velocidad de rafagas"]
+	},
+	{
+		"brand": "BloomSky",
+		"model": "SKY2",
+		"automatic":true,
+		"variables":["Luminancia",
+					"Temperatura",
+					"Humedad relativa",
+					"Imagen SKY2",
+					"Detección de lluvia",
+					"Presión",
+					"Indice UV"]
+	}
+]
+

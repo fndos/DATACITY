@@ -1,0 +1,31 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title%}RESCLIMA | VISUALIZAR SERIES DE TIEMPO{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'timeSeries/css/seriesview.css' %}" type="text/css">
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'timeSeries/js/plotly-latest.min.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div id="seriesApp" class="main">
+	<div id="wrapper" class="wrapper">
+		<!-- Layer list -->
+		<serielist_component></serielist_component>
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts_body  %}
+<script src="{% static "main/js/vue.min.js" %}"></script>
+<script src="{% static "main/js/vue-router.min.js" %}"></script>
+<script src="{% static "timeSeries/js/store.js" %}"></script>
+<script src="{% static "timeSeries/js/serie_component.js" %}"></script>
+<script src="{% static "timeSeries/js/serielist_component.js" %}"></script>
+<script src="{% static "timeSeries/js/main.js" %}"></script>
+{% endblock%}
+

@@ -1,0 +1,45 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title%}RESCLIMA | USUARIOS{% endblock %}
+
+{% block content %}
+<div class="section">
+	<!--start container-->
+	<div class="container">
+		<div id="horizontal-card" class="section">
+			<div class="row">
+				<div class="col s12 m12 l6">
+					<div class="row">
+						<a class="btn waves-effect waves-light" href="{{request.META.HTTP_REFERER|escape }}"><i class="material-icons left">keyboard_backspace</i> Atrás</a>
+						<div class="card-panel">
+							<h4>Información General</h4>
+							<p><b>Cédula/Pasaporte: </b>{{ object.identity_card }}</p>
+							<p><b>Nombre: </b>{{ object.first_name }}</p>
+							<p><b>Apellido: </b>{{ object.last_name }}</p>
+							<p><b>Usuario: </b>{{ object.username }}</p>
+							<p><b>Correo electr&oacute;nico: </b>{{ object.email }}</p>
+							<p><b>Institución: </b>{{ object.institution }}</p>
+							<p><b>Teléfono: </b>{{ object.phone_number }}</p>
+							<p><b>Tipo de usuario: </b>{{ object.get_user_type }}</p>
+
+							<h4>Registro de actividad</h4>
+							<p><b>Creado por: </b>{{ object.created_by }}</p>
+							<p><b>Fecha de creación: </b>{{ object.date_joined }}</p>
+							{% if object.updated_by == None %}
+							<!--No hay información-->
+							{% else %}
+							<p><b>Modificado por: </b>{{ object.updated_by }}</p>
+							<p><b>Fecha de modificación: </b>{{ object.date_updated }}</p>
+							{% endif %}
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!--end container-->
+</div>
+{% endblock content %}

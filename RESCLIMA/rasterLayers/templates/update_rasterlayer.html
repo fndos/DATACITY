@@ -1,0 +1,184 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title%}RESCLIMA | CAPA RASTER{% endblock %}      
+
+{% block content %}
+
+<div class="section">
+	<div class="row">
+		<div class="col s12 m12 l6">				
+			<div class="card-panel">
+				<h4>Editar capa raster</h4>
+
+				<div class="row">
+					<div id="errorMsg">
+						{% if err_msg %}
+						<div class="red"><b>{{err_msg}}</b></div>
+						{% endif %}
+					</div>
+				</div>
+
+				<div class="row">
+					<form id="formUpdate" method="post">
+						{% csrf_token %}
+						<!-- Titulo --> 
+						<div class="row">
+							<div class="input-field col s12">
+								<input type="text" name="title" required="" id="id_title" value="{{rasterlayer.title}}" data-length="50">
+								<label for="id_title">T&iacute;tulo</label>
+							</div>
+						</div>
+						<!-- Resumen -->
+						<div class="row">
+							<div class="input-field col s12">
+								<textarea name="abstract" id="id_abstract" width="100%" rows="10" cols="40" data-length="500" required="" class="materialize-textarea">{{rasterlayer.abstract}}</textarea>
+								<label for="id_abstract">Resumen</label>
+							</div>
+						</div>
+						<!-- Fecha -->
+						<div class="row">
+							<div class="col s12">
+								<label for="data_date">Fecha de los datos</label>
+								<input type="date" name="data_date" id="data_date" value="{{rasterlayer.data_date|date:'Y-m-d'}}">
+							</div>
+						</div>
+						<!-- Categories -->
+						<div class="row">
+							<div class="col s12">
+								<label for="categories">Categorias</label>
+								<div id="categories">
+									{% for category in categories %}
+										<div 
+										id="{{category.id}}"
+										class="chip z-depth-3"
+										onclick="markCategory(event)">
+											{{category.name}}
+										</div>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+						<!--Estilos -->
+						<div class="row">
+							<div class="col s12">
+								{% if styles %}
+								<div><label>Estilos</label></div>
+								<select id = "id_style" name = "style">
+									<option value="null">Ninguno</option>
+									{% for style in styles %}
+										{% if style.id == layer_style_id %}
+										<option value = {{style.id}} selected>{{style.title}}</option>
+										{% else %}
+										<option value = {{style.id}}>{{style.title}}</option>
+										{% endif %}
+									{% endfor %}
+								</select>
+								{% endif %}
+							</div>
+						</div>
+
+
+						<div class="row">
+							<div style="height:30px;"></div>
+						</div>
+
+						<!-- Botones -->
+						<div class="row">
+							<button type="submit" id="Upload" name="action" class="btn waves-effect waves-light">
+								<i class="material-icons left">file_upload</i>Subir
+							</button>
+							<button type="button" id="Cancel" onClick='window.location="/raster";' class="btn waves-effect waves-light red accent-2">
+								<i class="material-icons left">cancel</i>Cancelar
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+
+{% block scripts_body %}
+<script>
+	var categories_string = "{{rasterlayer.categories_string}}";
+	var categories = [];
+
+	function setCategories(){
+		var nodes = document.querySelectorAll("#categories div");
+		for(var i=0; i<nodes.length; i++){
+			var node = nodes[i];
+			categories.push({"id":node.id,"name":node.innerText,"selected":false});
+		}
+	}
+	function setSelectedCategories(){
+		for(var i=0; i<categories.length; i++){
+			var category = categories[i];
+			var category_name = category["name"];
+			if(categories_string.includes(category_name)){
+				var id_category = category["id"]
+				var node = document.getElementById(id_category);
+				node.className = "chip z-depth-3 cyan selected";
+			}
+		}
+	}
+
+	function selectCategories(){
+		var nodes = document.querySelectorAll("#categories div");
+		for(var i=0; i<categories.length; i++){
+			var category = categories[i];
+			if(category["selected"]){
+				for(var i=0; i<nodes.length; i++){
+					var node = nodes[i];
+					var category_name = 
+					node.className = "chip z-depth-3 cyan selected";
+				}
+			}
+		}
+	}
+
+	// se ejecuta cuando se da click en una categoria
+	function markCategory(event){
+		var category = event.target;
+		var classCategory = category.className;
+		if(classCategory.indexOf("selected") !== -1){
+			category.className = "chip z-depth-3"
+		}else{
+			category.className = "chip z-depth-3 cyan selected"
+		}
+	}
+	// obtiene el string de categorias
+	function getCategoriesString(){
+		categories_string = "";
+		nodes = document.querySelectorAll("#categories .selected");
+		for(var i=0; i<nodes.length; i++){
+			var node = nodes[i];
+			categories_string += node.innerText + " ";
+		}
+		categories_string = categories_string.slice(0, -1);
+		return categories_string;
+	}
+
+
+	$(document).ready(function() {
+		setCategories();
+		setSelectedCategories();
+		selectCategories();
+
+		$('#formUpdate').submit(function(eventObj) {
+			// se desactiva el boton cancelar
+			var cancelButton = document.getElementById("Cancel");
+			cancelButton.disabled = true;
+
+			var categories_string = getCategoriesString();
+			var hidden_field = '<input type="hidden" name="categories_string" value="' + categories_string + '"/> ' 
+			$(this).append(hidden_field);
+			return true;
+		});
+
+
+	});
+</script>
+{% endblock %}

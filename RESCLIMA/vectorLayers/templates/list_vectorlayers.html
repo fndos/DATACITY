@@ -1,0 +1,124 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %} RESCLIMA DURAN | Capas Vectoriales{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+{% endblock %}
+
+{% block scripts %}
+<!--sweet alert-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+	<div class="section">
+		<h4 class="header">CAPAS VECTORIALES</h4>
+		{% if vectorlayers %}
+			<div id="bordered-table">
+				<div class="row">
+					<div class="col s12">
+						<table class="bordered">
+						{% for vectorlayer in vectorlayers %}
+							<tbody>
+								<tr>
+									<td>
+										<span style="font-family:monospace">{{ vectorlayer.title}}</span>
+									</td>
+									<td>
+										<a href="/layer/view/?layers={{ vectorlayer.id }}">
+											<i  class="material-icons left">visibility</i>
+												Visualizar
+										</a>
+									</td>
+									<td>
+										<a href="/vector/export/{{ vectorlayer.id }}">
+											<i  class="material-icons left">file_download</i>
+												Descargar zip
+										</a>
+									</td>
+									<td>
+											<a href="/vector/edit/{{ vectorlayer.id }}">
+												<i  class="material-icons left">edit</i>
+													Editar
+											</a>
+									</td>
+									<td>
+											<a href="#" onclick="confirmationDelete('/vector/delete/{{ vectorlayer.id }}')">
+												<i  class="material-icons left">delete_forever</i>
+													Eliminar
+											</a>
+									</td>
+								</tr>
+							</tbody>
+						{% endfor %}
+						</table>
+						<!--PAGINACION-->
+						{% if vectorlayers.has_other_pages %}
+						<ul class="pagination">
+							{% if vectorlayers.has_previous %}
+							<li><a href="?page={{ vectorlayers.previous_page_number }}">&laquo;</a></li>
+							{% else %}
+							<li class="disabled"><span>&laquo;</span></li>
+							{% endif %}
+							{% for i in vectorlayers.paginator.page_range %}
+							{% if vectorlayers.number == i %}
+								<li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+							{% else %}
+								<li><a href="?page={{ i }}">{{ i }}</a></li>
+							{% endif %}
+							{% endfor %}
+							{% if vectorlayers.has_next %}
+							<li><a href="?page={{ vectorlayers.next_page_number }}">&raquo;</a></li>
+							{% else %}
+							<li class="disabled"><span>&raquo;</span></li>
+							{% endif %}
+						</ul>
+						{% endif %}
+						<!--END PAGINACION-->
+					</div>
+				</div>
+			</div>
+		{% else %}
+		<div class="wrapper">
+			</div class="container">
+				<p>No hay capas para mostrar</p>
+			</div>
+		{% endif %}
+			<div class="card-action">
+					<button class="waves-effect waves-light btn gradient-45deg-red-pink" onClick='window.location="/vector/import"'>Importar Shapefile</button>
+			</div>
+		</div>
+	</div>
+</div>
+	<div style="height:100px;"></div>
+{% endblock %}
+
+
+{% block scripts_body %}
+<script>
+  function confirmationDelete(url){
+    swal({
+      title: "¿Seguro desea eliminar esta capa?",
+      text: "¡Cuidado!",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonClass: "btn-danger",
+      confirmButtonText: "Eliminar",
+      cancelButtonText: "Cancelar",
+      closeOnConfirm: false,
+      closeOnCancel: false
+      },
+      function(isConfirm) {
+      if (isConfirm) {
+        window.location.replace(url);
+        swal("¡Borrado!", "La capa ha sido borrada correctamente", "success");
+      } else {
+        swal("¡Cancelado!", "No se ha registrado ningún cambio", "error");
+      }
+    });
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title%}RESCLIMA | BUSCAR{% endblock %}
+
+
+{% block content %}
+	<!-- START MAIN -->
+<div id="main">
+	<div id="searchForm" class="container">
+		<div class="section">
+			<div class="row">
+				<div class="col s12">
+					<ul class="collapsible collapsible-accordion" data-collapsible="accordion">
+						<li class="active">
+							<div class="collapsible-header active">¿Qu&eacute;?</div>
+							<div class="collapsible-body" style="display: block;">
+								<textsearch_component></textsearch_component>
+							</div>
+						</li>
+						<li>
+							<div class="collapsible-header">¿D&oacute;nde?</div>
+							<div class="collapsible-body">
+								<bbox_component></bbox_component>
+							</div>
+						</li>
+						<li>
+							<div class="collapsible-header">¿Cu&aacute;ndo?</div>
+							<div class="collapsible-body">
+								<time_component><time_component/>
+							</div>
+						</li>
+						<li>
+							<div class="collapsible-header">¿C&oacute;mo?</div>
+							<div class="collapsible-body">
+								<div>
+									<button
+										class="btn-default"
+										v-bind:class="{cyan: shared.search_option === 'layers'}"
+										v-on:click.prevent="shared.search_option='layers'">
+										<i class="material-icons">layers</i><br>Capas
+									</button>
+									<button
+										style="margin-left:10px"
+										class="btn-default"
+										v-bind:class="{cyan: shared.search_option === 'series'}"
+										v-on:click.prevent="shared.search_option='series'">
+										<i class="material-icons">timeline</i><br>Series de tiempo
+									</button>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="row">
+				<div style="padding:10px;">
+					<a class="btn waves-effect waves-light gradient-45deg-light-blue-cyan"  v-on:click="search"><i class="material-icons left">search</i>Buscar</a>
+				</div>
+			</div>
+			<hr style="border-width:2px;">
+			<div class="row">
+				<div style="margin-top:20px;">
+				<keep-alive>
+					<component v-bind:is='shared.search_option+"_component"'></component>
+				</keep-alive>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+
+{% block scripts_body  %}
+	<script src="{% static "main/js/vue.min.js" %}"></script>
+	<script src="{% static "main/js/vue-router.min.js" %}"></script>
+	<script src="{% static "main/js/textsearch_component.js" %}"></script>
+	<script src="{% static "main/js/OpenLayers.js" %}"></script>
+	<script src="{% static "main/js/store.js" %}"></script>
+	<script src="{% static "main/js/BboxSelector.js" %}"></script>
+	<script src="{% static "main/js/bbox_component.js" %}"></script>
+	<script src="{% static "main/js/time_component.js" %}"></script>
+	<script src="{% static "main/js/layers_component.js" %}"></script>
+	<script src="{% static "main/js/series_component.js" %}"></script>
+	<script src="{% static "main/js/main.js" %}"></script>
+{% endblock%}
+
+

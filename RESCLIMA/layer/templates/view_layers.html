@@ -1,0 +1,38 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title%}RESCLIMA | VISUALIZAR CAPAS{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'layer/css/layerview.css' %}" type="text/css">
+{% endblock %}
+
+{% block content %}
+<div id="layersApp">
+	<!-- Layer list -->
+	<layers_component></layers_component>
+	<currentlayer_component></currentlayer_component>
+	
+	<div class="row">
+		<div class="col s12">
+			<map_component></map_component>
+		</div>
+	</div>
+	<div>
+		<filters_component></filters_component>
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts_body  %}
+<script src="{% static "main/js/vue.min.js" %}"></script>
+<script src="{% static "main/js/vue-router.min.js" %}"></script>
+<script src="{% static "main/js/OpenLayers.js" %}"></script>
+<script src="{% static "layer/js/store.js" %}"></script>
+<script src="{% static "layer/js/layers_component.js" %}"></script>
+<script src="{% static "layer/js/currentlayer_component.js" %}"></script>
+<script src="{% static "layer/js/filters_component.js" %}"></script>
+<script src="{% static "layer/js/map_component.js" %}"></script>
+<script src="{% static "layer/js/main.js" %}"></script>
+{% endblock%}
+

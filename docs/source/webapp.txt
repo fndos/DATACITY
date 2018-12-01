@@ -1,0 +1,82 @@
+Aplicación web Django
+=====================
+
+En la carpeta **RESCLIMA/** se encuentra el código fuente de la aplicación web desarrollada en Django.
+Dentro se encuantran las apps del proyecto que son:
+
++ layer
++ main
++ rasterLayers
++ RESCLIMA
++ search
++ style
++ timeSeries
++ tms
++ vectorLayers 
+
+A continuación se detalla brevemente cada app:
+
+layer
+-----
+En esta app se implementa un modelo **Layer** del cual heredarán los otros tipos de capas más específicos (vectorial y raster). Además se implementan métodos comunes a las capas.
+
+Modelo **Layer** definido en **models.py**::
+
+	class Layer(FilterSearchTable):
+		title = models.CharField(max_length=50,null=True)
+		abstract = models.TextField(max_length=500,null=True)
+		type = models.CharField(max_length=10)
+		data_date = models.DateField(blank=True,null=True)
+		upload_date = models.DateTimeField(auto_now_add=True)
+		srs_wkt = models.TextField(max_length= 500)
+		bbox = models.PolygonField(srid=4326,null=True)
+		owner = models.ForeignKey(Researcher)
+
+Esta clase hereda de **FilterSearchTable** que es un modelo definido en la app **search** y que sirve para que las capas puedan ser buscadas por texto.
+
+..  list-table:: Atributos del modelo Layer
+    :widths: 25  75
+    :header-rows: 1
+
+    * - Atributo
+      - Descripción
+    * - title
+      - Es el título de la capa, el usuario ingresa el título, en el formulario de subida de capas
+    * - abstract
+      - Es una descripción del contenido de la capa. El usuario escribe el abstract en el formulario de subida.
+    * - type
+      - Es el tipo de capa, sus valores pueden ser: **"vector"**, **"raster"**
+    * - data_date
+      - Es la fecha de los datos de la capa, el usuario deberá ingresarla en el formulario de subida de capas
+    * - upload_date
+      - Es la fecha en la que se subió la capa. El sistema la calcula (Tiene seteado el flag auto_now_add=True)
+    * - srs_wkt
+      - Es un string de 500 caracteres que contiene la descripción del sistema de referencia de la capa (srs). Y está representado en well-known-text (wkt) 
+    * - bbox
+      - Es un rectángulo que contiene a la capa, su bounding-box. Se guarda como un **Polygon** en Django, que por debajo se transforma en un **Geometry** (tipo de dato de Postgis), se usa srid = 4326. 
+    * - owner
+      - Es una referencia al **Researcher** que subió la capa.
+
+A continuación se explican algunos conceptos sobre capas geoespaciales:
+
+Una capa es un tipo de archivo que almacena datos geoespaciales. Una capa se puede observar en un mapa. Un mapa puede estar formado de varias capas.
+
+Existen dos tipos de capas, vectorial y raster. Las capas vectoriales almacenan datos como vectores (más detalles en app **vectorLayers**), se usan comumente para representar datos tabulares, como los resultados de un censo. Las capas raster son imágenes, se usan más para representar datos continuos, como la temperatura de una región del océano (Más información en app **rasterLayers**).
+
+Para representar las posiciones de la tierra se han desarrollado muchos modelos matemáticos que aproximan la forma de la tierra (geoide) a un elipsoide. Esos modelos definen diferentes valores de diámetro en cada eje del elipsoide. Dependiendo del elipsoide, ciertas zonas del planeta se aproximan mejor que otras. Es por eso que se usan varios modelos dependiendo del lugar de estudio, aunque existen modelos que son globales porque en promedio se ajusta bien a todo el planeta.
+
+Entonces, dado un elipsoide se puede definir un sistema de referencia **srs** que permite localizar cada punto de la tierra. Los **srs** están estandarizados, para definir un srs, ciertos parametros deben estar seteados (diametros del elipsoide, datumm, centro del elipsoide, etc). Por lo tanto, un srs puede estar definido en **well-known-text** que es una sintaxis para describir datos espaciales (hay otros formatos, aparte de wkt como ewkt). Por lo que una capa, debe tener un **srs** para saber en dónde está ubicada. Dependiendo del **srs** un punto del espacio se puede ubicar en diferentes lugares.
+
+Algunos **srs** están bien estandarizados, y algunos sistemas como Postgis no necesitan el wkt del srs, solo necesitan un id que lo identifique, este id se denomina **srid**. El srs con srid 4326 se llama WGS-84, y sirve para localizar puntos de todo el planeta. WGS-84 define una posición usando dos ángulos, longitud y latitud. Este sistema de referencia es el que utiliza el GPS.
+
+
+En la plataforma, se pueden buscar capas mediante un filtro espacial que es una opción, que tiene el usuario que permite dibujar en un mapa un rectángulo y la plataforma retornará todas las capas que estén dentro de ese rectángulo. Para implementar esta característica, se necesita obtener el bounding-box (bbox) de cada capa subida al sistema. Entonces, el filtro espacial funciona, recuperando las capas cuyo bbox se intersecta con el rectángulo que envió el usuario. El bbox se calcula cuando el usuario sube la capa y se guarda en el atributo **bbox**.
+
+Un bbox, consiste de 4 parámetros: minX, minY, maxX y maxY que definen el rectángulo. En Postgis no hay tipo de dato BBOX, así que se usó un Geomtry, que en geodjango se llama Polygon. Este tipo de datos sirve para guardar una geometría, ya sea un punto, una línea, un polígono, etc. Para guardar el bbox, se usa un polígono de 4 lados (rectángulo). En postgis para definir un Geometry, hay que enviar una lista de puntos. Por lo tanto, el Geometry de un bbox es: ((minX,minY),(minX,maxY),(maxX,maxY),(maxX,minY),(minX,minY)). El último punto es igual al primero, para cerrar la figura. Además de la lista de puntos, Postgis necesita el srid de esos puntos, en la plataforma está seteado como srid=4326.
+
+A todas las capas, idependientemente de su srid, se les calcula el bbox y es transformado a srid=4326 para guardarlo en Postgis. Además de esa forma, los bbox son comparables. 
+
+
+
+
+

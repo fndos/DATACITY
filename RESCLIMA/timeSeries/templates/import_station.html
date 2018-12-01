@@ -1,0 +1,174 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title%}RESCLIMA | INGRESAR ESTACION{% endblock %}
+
+{% block content %}
+<div class="section">
+	<div class="row">
+		<div class="col s12 m12 l6">
+			<div class="card-panel">
+				<h4>Ingresar Estaci&oacute;n</h4>
+
+				<div class="row" id="errorMsg">
+					{% if err_msg %}
+					<div class="red"><b>{{err_msg}}</b></div>
+					{% endif %}
+				</div>
+
+				<div class="row">
+					<form method="post" id="StationForm">
+						{% csrf_token %}
+						<!-- Tipo de estacion -->
+						<div class="row">
+							<div class="col s12">
+								{% if stationTypes %}
+								<div><label>Tipo de estaci&oacute;n</label></div>
+								<select id="id_stationType" name="stationType">
+									{% for stationType in stationTypes  %}
+									<option value={{stationType.id}} data-automatic={{stationType.automatic}}>{{stationType}}</option>
+									{% endfor %}
+								</select>
+								{% endif %}
+							</div>
+						</div>
+						<!--Numero serial-->
+						<div class="row">
+							<div class="input-field col s12">
+								<input id="id_serialNum" name="serialNum" required="" type="text" data-length="30">
+								<label for="id_serialNum">N&uacute;mero serial*</label>
+							</div>
+						</div>
+						<!--Latitud-->
+						<div class="row">
+							<div class="input-field col s12">
+								<input id="id_latitude" name="latitude" required="" type="number" min="-90.0" max="90.0"/>
+								<label for="id_latitude">Latitud*</label>
+							</div>
+						</div>
+						<!--longitud-->
+						<div class="row">
+							<div class="input-field col s12">
+								<input id="id_longitude" name="longitude" required="" type="number" min="-180.0" max="180.0"/>
+								<label for="id_longitude">Longitud*</label>
+							</div>
+						</div>
+						<!--Frecuencia-->
+						<div class="row optional">
+							<div class="input-field col s12">
+								<input id="id_frequency" name="frequency" step="1" type="number" min="15" max="60" value="15"/>
+								<label for="id_frequency">Frecuencia de requerimientos (en minutos)</label>
+							</div>
+						</div>
+						<!--Token-->
+						<div class="row optional">
+							<div class="input-field col s12">
+								<input id="id_token" name="token" type="text" data-length="30"/>
+								<label for="id_frequency">Token</label>
+							</div>
+						</div>
+
+						<div class="row">
+							<div style="height:30px;"></div>
+						</div>
+						
+						<!--Botones-->
+						<div class="row">
+							<button type="submit" id="Upload" name="action" class="btn waves-effect waves-light">
+								<i class="material-icons left">file_upload</i>Subir
+							</button>
+							<button type="button" id="Cancel" onClick='window.location="/series";' class="btn waves-effect waves-light red accent-2">
+								<i class="material-icons left">cancel</i>Cancelar
+							</button>
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block scripts_body %}
+<script>
+
+	var form = $("#StationForm");
+
+	function renderError(error){
+		errorMsg.innerHTML = '<div class="red"><b>' + error + '</b></div>'
+		window.scrollTo(0, 0);
+	}
+
+	function errorHandler(data){
+		status = String(data.status);
+		msg = "Ha ocurrido un error " + status+ " en el servidor"
+		renderError(error);
+	}
+
+	function successHandler(errorMsg){
+		if(errorMsg!="None"){
+			renderError(errorMsg);
+		}
+		else{
+			window.location = "/series"
+		}
+	}
+
+
+	function formSubmit(){
+		var data = new FormData(form.get(0));
+		$.ajax({
+			type: form.attr('method'),
+			url: form.attr('action'),
+			data: data,
+			processData: false,
+			contentType: false,
+			success: successHandler,
+			error: errorHandler
+		});
+
+		return false;
+	}
+
+
+	function hideOrShowOptional(automatic){
+		var options = document.querySelectorAll(".optional");
+		var display = "";
+
+		var display = (automatic=="True")?"":"None";
+
+		for(var i=0; i < options.length; i++){
+			var x = options[i];
+			x.style.display = display;
+		}
+	}
+
+	function init(){
+		var sensorTypes = document.getElementById("id_stationType");
+		
+		$('#id_stationType').material_select();
+
+		$('#id_stationType').change(function(){
+			var options = sensorTypes.options;
+			var option = options[options.selectedIndex];
+			var automatic = option.dataset["automatic"];
+			console.log("es automatic",automatic);
+			hideOrShowOptional(automatic);
+		});
+
+		// se oculta o muestran las opciones opcionales
+		var options = sensorTypes.options;
+		var option = options[options.selectedIndex];
+		var automatic = option.dataset["automatic"]
+		hideOrShowOptional(automatic);
+
+		form.submit(formSubmit);
+	}
+
+	$(document).ready(init);
+
+
+</script>
+{% endblock %}
+

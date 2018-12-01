@@ -1,0 +1,59 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title%}RESCLIMA | SERIES DE TIEMPO{% endblock %}
+
+{% block content %}
+<div class="section">
+	<!--start container-->
+	<div class="container">
+		<div id="horizontal-card" class="section">
+			<h4 class="header">Series de tiempo</h4>
+			<div class="row">
+				<div class="col s12 m12 l12">
+					<div class="row">
+						<!-- Primera tarjeta -->
+						<div class="col s12 m6 l6">
+							<div class="card horizontal">
+								<div class="card-image">
+									<img src="{% static 'main/images/subida.png' %}">
+								</div>
+								<div class="card-stacked">
+									<div class="card-content">
+										<p>Subir un archivo con los datos procedentes de una estaci&oacute;n metereol&oacute;gica.</p>
+									</div>
+									<div class="card-action">
+										<a class="waves-effect waves-light btn gradient-45deg-red-pink" onClick='window.location="/series/import/file";'>Importar archivo</a>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Segunda tarjeta -->
+						<div class="col s12 m6 l6">
+							<div class="card horizontal">
+								<div class="card-image">
+									<img src="{% static 'main/images/nueva.png' %}">
+								</div>
+								<div class="card-stacked">
+									<div class="card-content">
+										<p>Ingresar una nueva estaci&oacute;n meteorol&oacute;gica con su respectiva coordenada y frecuencia de requerimientos (opcional).</p>
+									</div>
+									<div class="card-action">
+										<a class="waves-effect waves-light btn gradient-45deg-red-pink" onClick='window.location="/series/import/station/";'>Nueva estaci&oacute;n</a>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div style="height:400px;"></div>
+		</div>
+	</div>
+	<!--end container-->
+</div>
+{% endblock content %}

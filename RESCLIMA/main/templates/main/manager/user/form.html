@@ -1,0 +1,38 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title%}RESCLIMA | USUARIOS{% endblock %}
+
+{% block content %}
+
+<div class="section">
+	<div class="row">
+		<div class="col s12 m12 l6">
+			<a class="btn waves-effect waves-light" href="{{request.META.HTTP_REFERER|escape }}"><i class="material-icons left">keyboard_backspace</i> Atrás</a>
+			<div class="card-panel">
+				{% ifequal form.instance.pk None %}
+					<!--Create-->
+					<h4>Nuevo usuario</h4>
+				{% else %}
+					<!--Update-->
+					<h4>Editar usuario</h4>
+				{% endifequal %}
+				<div class="row">
+					<!-- User Form -->
+					<form method="post">
+						{% csrf_token %}
+						{{ form.as_p }}
+						{% ifequal form.instance.pk None %}
+							<!--Create-->
+							<button class="btn waves-effect waves-light green accent-6" type="submit" ><i class="material-icons left">cloud_done</i>Guardar y salir</button>
+						{% else %}
+							<!--Update-->
+							<button class="btn waves-effect waves-light" type="submit"><i class="material-icons left">check_circle</i> Guardar cambios y salir</button>
+						{% endifequal %}
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

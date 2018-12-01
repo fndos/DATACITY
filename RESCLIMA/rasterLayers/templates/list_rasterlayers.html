@@ -1,0 +1,164 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title%} RESCLIMA | Capas Raster{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+{% endblock %}
+
+{% block scripts %}
+<!--sweet alert-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+	<div class="section">
+		<h4 class="header">CAPAS RASTER</h4>
+		{% if rasterlayers %}
+		<div>
+			<div class="row">
+				<div class="col s12">
+					<table class="bordered">
+					{% for raster in rasterlayers %}
+						<tbody>
+							<tr>
+								<td>
+									<span style="font-family:monospace">{{ raster.title}}</span>
+								</td>
+								<td>
+									<a href="/layer/view/?layers={{ raster.id }}">
+										<i  class="material-icons left">visibility</i>
+										Visualizar
+									</a>
+								</td>
+								<td>
+									<a href="/raster/export/{{ raster.id }}">
+										<i  class="material-icons left">file_download</i>
+										Descargar zip
+									</a>
+								</td>
+								<td>
+									<a href="/raster/edit/{{ raster.id }}">
+										<i  class="material-icons left">edit</i>  
+										Editar
+									</a>
+								</td>
+								<td>
+									<a href="#" onclick="confirmationDelete('/raster/delete/{{ raster.id }}')">
+										<i  class="material-icons left">delete_forever</i>
+										Eliminar
+									</a>	
+								</td>
+							</tr>
+						</tbody>
+					{% endfor %}
+					</table>
+					<!--PAGINACION-->
+					{% if rasterlayers.has_other_pages %}
+					<ul class="pagination">
+						{% if rasterlayers.has_previous %}
+							<li><a href="?page={{ rasterlayers.previous_page_number }}">&laquo;</a></li>
+						{% else %}
+							<li class="disabled"><span>&laquo;</span></li>
+						{% endif %}
+						{% for i in rasterlayers.paginator.page_range %}
+							{% if rasterlayers.number == i %}
+							<li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+						{% else %}
+							<li><a href="?page={{ i }}">{{ i }}</a></li>
+						{% endif %}
+						{% endfor %}
+						{% if rasterlayers.has_next %}
+						<li><a href="?page={{ rasterlayers.next_page_number }}">&raquo;</a></li>
+						{% else %}
+						<li class="disabled"><span>&raquo;</span></li>
+						{% endif %}
+					</ul>
+					{% endif %}
+					<!--END PAGINACION-->
+				</div>
+			</div>
+		</div>
+		{% else %}
+		<div class="wrapper">
+			<div class="container">
+				<p>No hay capas para mostrar</p>
+			</div>
+		</div>
+		{% endif %}
+	</div>
+
+	<div class="card-action">
+		<button class="waves-effect waves-light btn gradient-45deg-red-pink" onClick='window.location="/raster/import"'>Importar Raster</button>
+	</div>
+    <br>
+    
+	<div>
+		<h4 class="header">ESTILOS</h4>
+		{% if styles %}
+		<div class="row">
+			<div class="col s12">
+				<table class="bordered">
+					{% for style in styles %}
+					<tbody>
+						<tr>
+							<td>
+								<span style="font-family:monospace">{{style.title}}</span>
+							</td>
+							<td>&nbsp;</td>
+							<td>
+								<a href="#" onclick="confirmationDelete('/raster/delete_style/{{ style.id }}')">
+                      				<i  class="material-icons left">delete_forever</i>
+                        			Eliminar
+								</a>
+ 							</td>
+						</tr>
+					</tbody>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+		{% else %}
+		<div class="wrapper">
+			<div class="container">
+			<p>No hay estilos para mostrar</p>
+			</div>
+		</div>
+		{% endif %}
+	</div>
+
+	<div class="card-action">
+		<button class="waves-effect waves-light btn gradient-45deg-red-pink" onClick='window.location="/raster/import_style"'>Importar estilo</button>
+	</div>
+	<br>
+</div>
+{% endblock content %}
+
+{% block scripts_body %}
+<script>
+	function confirmationDelete(url){
+		swal({
+			title: "¿Seguro desea eliminar este elemento?",
+			text: "¡Cuidado!",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonClass: "btn-danger",
+			confirmButtonText: "Eliminar",
+			cancelButtonText: "Cancelar",
+			closeOnConfirm: false,
+			closeOnCancel: false
+			},
+			function(isConfirm){
+				if(isConfirm){
+					window.location.replace(url);
+					swal("¡Borrado!", "El elemento sido borrado correctamente", "success");
+				}
+				else{
+					swal("¡Cancelado!", "No se ha registrado ningún cambio", "error");
+				}
+		});
+	}
+</script>
+{% endblock %}

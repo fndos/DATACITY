@@ -1,0 +1,7 @@
+{
+	"dbname": "resclima",
+	"user":"postgres",
+	"password":"qladmin",
+	"host": "127.0.0.1",
+	"port": "5432"
+}

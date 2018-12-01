@@ -1,0 +1,30 @@
+{% extends 'main/base.html' %}
+
+{% block title%}RESCLIMA{% endblock %}
+
+{% block content %}
+<div id="error-page">
+  <div class="row">
+    <div class="col s12">
+      <div class="browser-window">
+        <div class="wrapper" style="text-align: center">
+          <div class="container">
+            <form class="form-signin">
+              <div class="container">
+                <div style="display: inline-block">
+                  <h2 class="form-signin-heading" style="text-align: center;">Acceso denegado</h2>
+                </div>
+                <br>
+                <div style="display: inline-block">
+                  <p>No tiene permiso para acceder a esta dirección</p>
+                  <a href="{% url 'login' %}" class="btn waves-effect waves-light col s12">Ingresar</a>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

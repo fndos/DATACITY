@@ -1,0 +1,123 @@
+#layerContainer{
+	position: absolute;
+	z-index: 800;
+	width: 400px;
+
+	transition: all 0.4s;
+	-moz-transition: all 0.4s;
+	-webkit-transition: all 0.4s;
+}
+
+#layerContainerOpen {
+	cursor: pointer;
+	width: 100px;
+	left: 370px;
+	top:270px;
+	display: block;
+	position: absolute;
+	transform: rotate(90deg);
+	color:white;
+}
+
+#layerWrapper{
+	background: #f9f9f9;
+	background-color:white;
+	box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 
+			0 3px 14px 2px rgba(0, 0, 0, 0.12), 
+			0 5px 5px -3px rgba(0, 0, 0, 0.3);
+}
+
+.positionMenu{
+	text-align: center;
+	margin-left: 10px;
+	margin-right: 10px;
+	border-bottom: 1px solid rgba(160, 160, 160, 0.2);
+}
+
+.positionBtn{
+	display: inline-block;
+	cursor: pointer;
+}
+
+#layerList{
+	height: 600px;
+	overflow-y: scroll;
+}
+
+.layerItem{
+	border-color: #29b6f6;
+	border-width: 1px;
+	border-style: solid;
+	margin-bottom: 18px;
+	margin-left:10px;
+	margin-right: 10px;
+	padding: 10px;
+}
+
+.layerTitle{
+	cursor: pointer;
+}
+
+.layerTitle:hover{
+	text-decoration: underline;
+}
+
+#currentlayer_component{
+	position: absolute;
+	background: white;
+	z-index: 800;
+	top:200px;
+	width: 270px;
+	right: 0px;
+	box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 
+			0 3px 14px 2px rgba(0, 0, 0, 0.12), 
+			0 5px 5px -3px rgba(0, 0, 0, 0.3);
+}
+
+.layerBtn{
+	cursor:pointer;
+}
+
+/*clase para el control
+del zoom de openlayers*/
+#customZoom {
+	z-index: 1001;
+	position: relative;
+	top: 10px;
+	left: 10px;
+	background: rgba(255,255,255,0.4);
+}
+#customZoom a {
+	position: absolute;
+	right: 20px;
+	display: block;
+	margin: 1px;
+	color: white;
+	font-family: 'Lucida Grande', Verdana, Geneva, Lucida, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	text-decoration: none;
+	text-align: center;
+	background: #130085;
+	background: rgba(0, 60, 136, 0.5);
+	font-size: 18px;
+	line-height: 19px;
+	height: 22px;
+	width: 22px;
+	padding: 0;
+}
+#customZoomIn{
+	border-radius: 4px 4px 0 0;
+}
+#customZoomOut{
+	border-radius: 0 0 4px 4px;
+}
+
+#customZoom a:hover {
+	background: #036;
+}
+#customZoomOut {
+	top: 25px;
+}
+
+
+

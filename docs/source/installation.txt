@@ -1,0 +1,337 @@
+Instalación
+===========
+
+Estos pasos aplican para un sistema Linux
+
+
+Dependencias
+------------
+Lo primero es instalar las dependencias que son:
+
++ Django 1.11 
++ GeoDjango + dependencias (geos, proj4)
++ gdal
++ PostgreSQL 10
++ Postgis
++ TimescaleDB
++ mapnik
++ lxml
++ Celery + RabbitMQ
+
+
+Django 1.11
+###########
+Instalación::
+
+	$ pip install Django== 1.11
+
+GeoDjango + dependencias
+########################
+Seguir las instrucciones de este enlace https://docs.djangoproject.com/es/1.11/ref/contrib/gis/install/
+
+
+Gdal
+####
+
+Obtener gdal en https://download.osgeo.org/gdal/2.1.0/
+
+En Ubuntu se instalan las dependencias de gdal con::
+
+	$ sudo apt-get build-dep gdal
+
+Compilación::
+
+	$ cd gdal-2.1.0/
+	$ ./configure --prefix=/usr/ --with-python
+	$ make
+
+Instalación::
+	
+	$ sudo make install
+
+Instalación wrapper de python::
+	
+	$ cd swig/python/
+	$ sudo python setup.py install
+
+Para comprobar que la instalación es correcta, en una consola de python,
+ejecutar::
+
+	from osgeo import ogr
+
+Postgres 10
+###########
+
+En este enlace hay información de cómo instalarlo en Ubuntu
+https://askubuntu.com/questions/1009975/unable-to-install-postgresql-10-on-ubuntu-16-04
+
+
+Postgis
+#######
+Es una extensión de Postgres que aporta con nuevos tipos de datos y funciones a 
+PostgreSQL convirtiéndola en una base de datos geoespacial.
+
+Se debe instalar PostGIS version 2.4.4
+
+Para Ubuntu::
+
+	$ sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable
+	$ sudo apt-get update
+	$ sudo apt-get install postgis
+
+
+TimescaleDB
+###########
+Es una extensión de Postgres para el almacenamiento de las series de tiempo
+En su página web se pueden encontrar los pasos de instalación en diferentes 
+sistemas operativos 
+https://docs.timescale.com
+
+Para Ubuntu::
+	
+	$ sudo add-apt-repository ppa:timescale/timescaledb-ppa
+	$ sudo apt-get update
+	$ sudo apt install timescaledb-postgresql-10
+
+Luego se debe configurar Postgres para que reconozca la extensión.
+
++ Abrir el archivo /etc/postgresql/10/main/postgresql.conf
++ Localizar y descomentar la línea shared_preload_libraries e igualarla a 'timescaledb'.
++ Debe quedar: **shared_preload_libraries = 'timescaledb'**
+
+Reiniciar PostgreSQL::
+
+	$ sudo systemctl restart postgresql-10.service
+
+Mapnik
+######
+Mpanik en una librería para renderizar mapas. Instalación::
+
+	$ sudo pip install mapnik
+
+
+lmxl
+####
+Librería para el manejo de xml::
+
+	$ sudo pip install lxml
+
+Celery + RabbitMQ
+#################
+
+Celery es un ejecutor de tareas. Para que la aplicación web responda rápidamente a las peticiones, las tareas computacionalmente complejas se ejecutan en paralelo usando Celery.
+
+Celery requiere un Broker o sistema de cola de tareas. El broker que se utiliza es
+RabbitMQ.
+
+Para instalar Celery::
+
+	$ sudo pip install Celery
+
+Para instalar RabittMQ, seguir las instrucciones de este enlace https://www.rabbitmq.com/install-rpm.html
+
+Configuración
+-------------
+
+Una vez se hayan instalado todas las dependencias, se deben configurar ciertos componentes
+
+PostgresSQL
+###########
+
+Conectarse a PostgresSQL y crear la base de datos **resclima**::
+	
+	> CREATE DATABASE resclima;
+
+Conectarse a la base de datos::
+
+	> \c resclima;
+
+Agregar la extensión postgis::
+	
+	> CREATE EXTENSION postgis;
+
+Agregar la extensión TimeScaleDB::
+
+	> CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;
+
+
+Se debe ejecutar las migraciones de django para crear las tablas.
+Para esto el **settings.py** de Django debe tener acceso a las credenciales
+de la base de datos. Lo primero es, modificar la variable DB_PARAMS de **settings.py**,
+se debe incluir la ruta del archivo **dbparams.json**.
+Luego, modifique el archivo **dbparams.json**. ::
+	
+	$ cd RESCLIMA/
+	$ python manage.py makemigrations
+	$ python manage.py migrate
+
+Ahora se debe crear la hypertabla de TimescaleDB. Los detalles de esto se los verá en la sección del app
+**timeSeries**. Debido a que el ORM de Django no crea un primary compuesto, se lo debe crear manualmente::
+
+	$ ALTER TABLE "timeSeries_measurement" DROP COLUMN id_m;
+	$ ALTER TABLE "timeSeries_measurement" DROP COLUMN ts;
+	$ ALTER TABLE "timeSeries_measurement" ADD CONSTRAINT ts PRIMARY KEY (ts,id_m);
+
+Finalmente se crea la hypertabla::
+	
+	$ SELECT create_hypertable('"timeSeries_measurement"','ts');
+	
+Si, se omite la creación de la hypertabla el proyecto funcionará igualmente.
+
+Ahora se deben crear triggers, indices y funciones en la base de datos. Para esto
+ejecute en la consola de PostgreSQL las sentencias que estan dentro del archivo **RESCLIMA/script.sql**
+
+
+El siguiente paso consiste en agregar valores iniciales a ciertas tablas. Por ejemplo, la
+aplicación utiliza **categorias**, **variables**, **tipos de estaciones meteorológicas**, etc.
+Para llenar con datos iniciales se tiene un script **RESCLIMA/fixtures/loaddata.py** que leerá los
+archivo json dentro de **RESCLIMA/fixtures/** y guardará esos valores en la base de datos. Ese script tambien necesita las credenciales de la base de datos. Nuevamente hay que asegurarse que **dbparams.json**
+esté correctamente configurado. Para ejecutar el script::
+
+	$ cd RESCLIMA/fixtures/
+	$ python loaddata.py
+
+Adicionalmente dentro **RESCLIMA/fixtures/** se tienen dos script para generar series de tiempo de prueba. Estos scripts son **saveMeasurements.py** y **saveMeasurementsExclusive.py**
+
+
+RabbitMQ
+########
+
+En RabbitMQ se deben crear un usuario, contraseñas, un host virtual. Esto se lo realiza con los siguientes comandos::
+	
+	$ sudo rabbitmqctl add_user resclima resclima // se ingresa usuario y contraseña
+	$ sudo rabbitmqctl add_vhost resclima
+	$ sudo rabbitmqctl set_user_tags resclima resclima
+	$ sudo rabbitmqctl set_permissions -p resclima resclima ".*" ".*" ".*"
+
+Si se desea se pueden ingresar otros nombres para el usuario, vhost, tags, etc. Pero eso implica que se debe modificar el **settings.py** del proyecto de Django. Se deben modificar las variables **CELERY_BROKER_URL** y **CELERY_RESULT_BACKEND** adecuadamente.
+
+Aplicación web
+##############
+
+Para que la aplicación funcione adecuadamente, se deben definir los siguientes parametros en el **settings.py**
+
+	+ STYLE_FILES_PATH: Ruta de una carpeta donde se guardarán los estilos (archivos sld) que suba un usuario
+	+ RASTER_FILES_PATH: Ruta de una carpeta donde se guardarán las capas raster
+	+ TEMPORARY_FILES_PATH: Ruta donde se guardarán archivos temporales
+
+Ejecución del proyecto
+----------------------
+
+Aplicación web
+##############
+Para ejecutar el proyecto de Django en modo de desarrollo::
+	
+	$ cd RESCLIMA/
+	$ python manager.py runserver
+
+Si ocurre algún error, revisar si todas las dependencias están bien instaladas y si se tiene acceso a la base de datos.
+
+Para ejecutar el proyecto en producción dentro de **scripts** se encuentra el archivo **httpd.conf** que es un archivo de configuración para apache. Se debe modificar ese archivo con las rutas adecuadas.
+
+Celery
+######
+En paralelo se debe tener ejecutando el proceso de celery. Hay dos formas de hacerlo.
+En modo desarrollo, ejecutar el siguiente comando en otra consola::
+
+	$ celery hfhfhff
+
+Para modo producción, se creó un **unit file** para **systemd**. Systemd es el arrancador de linux,
+se encarga de abrir procesos cuando se enciende el equipo.
+En **scripts/celery/** se encuentra el archivo **celeryd** con parametros del proceso de celery::
+
+	# The names of the workers. This example create two workers
+	CELERYD_NODES="worker1 worker2"
+
+	# The name of the Celery App, should be the same as the python file
+	# where the Celery tasks are defined
+	CELERY_APP="RESCLIMA"
+
+	# Log and PID directories
+	CELERYD_LOG_FILE="/var/log/celery/%n%I.log"
+	CELERYD_PID_FILE="/var/run/celery/%n.pid"
+
+	# Log level
+	CELERYD_LOG_LEVEL=INFO
+
+	# Path to celery binary, that is in your virtual environment
+	CELERY_BIN=/bin/celery
+    
+Como se observa, se deben crear los directorios **/var/log/celery/** y **/var/run/celery/**.
+En CELERYD_NODES, se especifica cuantos hilos workers va a tener celery, en este caso son 2.
+Este archivo debe ser copiado en /etc/default::
+
+	$ sudo cp celeryd /etc/default
+	
+
+El archivo **celery.service** es el unit file. 
+El archivo tiene varios parametros que deben ser llenados adecuadamente. Tenemos los parametros
+	
+	+ User: Un usuario del sistema que tenga los permisos adecuados
+	+ Group: El grupo del usuario
+	+ EnvironmentFile: La ruta del archivo de paramtros (**celeryd**). En este caso el valor de parametro es **/etc/default/celeryd**
+	+ WorkingDirectory: Directorio del proyecto de django resclima (Donde esta el manage.py). **/root/RESCLIMA/RESCLIMA/**
+
+
+Este archivo debe ser copiado en el directorio de **systemd**::
+	
+	$ sudo cp celery.service /etc/systemd/system/
+
+Hay que activar el unit file::
+
+	$ sudo systemctl enable celeryd
+
+Para empezar el proceso de celery se debe ejecutar::
+
+	$ sudo systemctl start celeryd
+
+Si se desea detener el proceso::
+
+	$ sudo systemctl stop celeryd
+
+Si se desea reiniciar::
+
+	$ sudo systemctl restart celeryd	
+
+Para comprobar el estado del proceso::
+
+	$ sudo systemctl status celeryd
+
+El estado debe ser **running**. Con estos pasos celery queda ejecutandose siempre, como un proceso demonio. Si se cambia el codigo de los **tasks** se debe reiniciar celery.
+
+
+Scripts de estaciones meteorológicas
+####################################
+
+En StationScripts están los scripts que descargan datos de las estaciones meteorológicas automáticas.
+Solo se cuenta con un tipo de estación automática, las de marca **Sky2**. Así que hay una carpeta **sky2**
+con el script que descarga los datos, que es **sky2.py**.
+
+Dentro de **sky2.py** hay tres variables que deben ser configuradas::
+	
+	configFileName = "/ruta/de/dbparams.json";
+	logFileName = "/ruta/de/algun/archivo/log.txt"
+	// se guarda aqui los datos, si se pierde conexión con la base de datos
+	backupFileName = "/ruta/de/algun/archivo/backup.txt";
+
+Si, no se tienen estaciones de tipo sky2 guardadas en la base de datos, no se va a descargar nada.
+
+Para ejecutar el programa::
+	
+	$ python sky2.py
+
+Además tambien se creó un unit file para que sky2.py se ejecute todo el tiempo. Primero se debe abrir el archivo **sky2.service** y modificar el parametro **ExecStart**, se debe incluir ahi el comando para ejecutar sky2.py. Por ejemplo, puede quedar: /usr/bin/python /root/RESCLIMA/StationScripts/Sky2/sky2.py
+
+
+Para activar y empezar el proceso::
+	
+	$ sudo cp sky2.service /etc/systemd/system/
+	$ sudo systemctl enable sky2.service
+	$ sudo systemctl start sky2.service
+
+Si se agregan o eliminan estaciones meteorológicas, se debe reiniciar el proceso::
+	
+	$ sudo systemctl restart sky2.service
+
+
+

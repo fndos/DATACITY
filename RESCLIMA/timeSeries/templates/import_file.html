@@ -1,0 +1,231 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title%}RESCLIMA | IMPORTAR SERIES DE TIEMPO{% endblock %}
+
+{% block content %}
+
+<div class="section">
+	<div class="row">
+		<div class="col s12 m12 l6">
+			<div class="card-panel">
+				<h4>Importar archivo CSV</h4>
+
+				<div class="row" id="errorMsg">
+					{% if err_msg %}
+					<div class="red"><b>{{err_msg}}</b></div>
+					{% endif %}
+				</div>
+
+				<div class="row">
+					<form method="post" enctype="multipart/form-data" id="importForm">
+						{% csrf_token %}
+						<!-- Tipo de estacion -->
+						<div class="row">
+							<div class="col s12">
+								{% if stationTypes %}
+								<div><label>Tipo de estaci&oacute;n</label></div>
+								<select name="stationType" id="id_stationType">
+									{% for stationType in stationTypes %}
+									<option value = {{stationType.id}}>{{stationType}}</option>
+									{% endfor %}
+								</select>
+								{% endif %}
+							</div>
+						</div>
+						<!-- File chooser --> 
+						<div class="row">
+							<label for="id_import_files">Importar archivo CSV</label>
+							<div class="file-field input-field">
+								<div class="btn">
+									<span>Archivos</span>
+									<input type="file" name="file" required="" id="id_file">
+								</div>
+								<div class="file-path-wrapper">
+									<input class="file-path validate" type="text" placeholder="Seleccione archivo .csv">
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div style="height:30px;"></div>
+						</div>
+						
+						<!--Botones-->
+						<div class="row">
+							<button type="submit" id="Upload" name="action" class="btn waves-effect waves-light">
+								<i class="material-icons left">file_upload</i>Subir
+							</button>
+							<button type="button" id="Cancel" onClick='window.location="/series";' class="btn waves-effect waves-light red accent-2">
+								<i class="material-icons left">cancel</i>Cancelar
+							</button>
+						</div>
+					</form>
+				</div>
+				<!-- Barra de progreso -->
+				<div class="row" id="progress-container" style="visibility:hidden;">
+					<div class="progress">
+						<div id="uploadPercent" class="determinate" style="width: 0%"></div>
+					</div>
+					<p id="uploadPercentLabel"></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block scripts_body %}
+<script>
+
+	// renderiza el progreso del procesamiento
+	// de la capa
+	function renderProcess(task_id){
+		$.ajax({
+			type: 'get',
+			url: '/get-task-info/',
+			data: {'task_id': task_id},
+			success: function (data) {
+				// recibe un objeto 
+				// data{"result":{"percent":porcentaje,"error":"mensaje de error"}
+				// ,"state":estado del task}
+
+				if(data["result"]["error"]){
+					renderError(data["result"]["error"]);
+					return;
+				}
+
+				// se hace visible la barra
+				// de progreso
+				var progressContainer = document.getElementById("progress-container");
+				progressContainer.style.visibility = "visible";
+
+				// si el estado de la tarea en celery
+				// es PENDING. Se muestra un mensaje: Procesando 0%
+				if (data.state == 'PENDING') {
+					uploadPercent.style.width = "0%";
+					uploadPercentLabel.innerText = "Procesando 0%";
+				}
+				// Si el estado de la tarea en Celery es PROGRESS o SUCCESS
+				// se muestra el progreso actual en la barra
+				else if (data.state == 'PROGRESS' || data.state == 'SUCCESS') {
+					var percentComplete_str = data.result.percent.toFixed(2) + "%"
+					uploadPercent.style.width = percentComplete_str;
+					uploadPercentLabel.innerText = "Procesando "+percentComplete_str;
+				}
+				
+				// Si el estado es SUCCESS, se redirije a /vector/
+				if(data.state == 'SUCCESS'){
+					document.location.href = "/series/"
+				}
+				// si el estado es diferente de SUCCESS
+				// se vuelve  a pedir informacion de la tarea de Celery 
+				if (data.state != 'SUCCESS') {
+					setTimeout(function () {
+						renderProcess(task_id)
+					}, 100);
+				}
+			},
+			error: function (data) {
+				var error_msg = "Error " + data.error;
+				renderError(error_msg);
+			}
+		});
+	}
+
+
+	function renderError(error){
+		errorMsg.innerHTML = '<div class="red"><b>' + error + '</b></div>'
+		var progressContainer = document.getElementById("progress-container");
+		progressContainer.style.visibility = "hidden";
+		window.scrollTo(0, 0);
+
+		// se activa el boton cancelar
+		var cancelButton = document.getElementById("Cancel");
+		cancelButton.disabled = false;
+	}
+
+	// crea un objeto xmlhttprequest 
+	// con el evento upload.progress
+	function createXHR(){
+		var xhr = new window.XMLHttpRequest();
+		
+		// este evento mostrara el progreso de la subida
+		// de los datos
+		xhr.upload.addEventListener("progress",function(evt){
+		if (evt.lengthComputable){
+			// hace visible el contenedor de la barra de progreso
+			var progressContainer = document.getElementById("progress-container");
+			progressContainer.style.visibility = "visible";
+			var percentComplete = evt.loaded / evt.total;
+			percentComplete = parseInt(percentComplete * 100);
+			var percentComplete_str = String(percentComplete) + "%"
+			uploadPercent.style.width = percentComplete_str;
+			if (percentComplete === 100){
+				uploadPercentLabel.innerText = "Completado, espere por favor";
+				return;
+			}
+			uploadPercentLabel.innerText = "Subiendo " + percentComplete_str;
+		}
+		},false);
+		return xhr;
+	}
+
+	// se ejecuta cuando la subida de los datos
+	// es exitosa
+	function successHandler(data){
+		// recibe un objeto 
+		//data{"error":"mensaje de error","task_id":id del task}
+
+		// si no hay error se muestra el
+		// porcentaje de procesamiento
+		if(!data.error){
+			renderProcess(data.task_id);
+		}// si hay un error se muestra
+		else{
+			// pendiente mejora aspecto del error
+			renderError(data.error);
+		}
+	}
+
+	// se ejecuta si ocurre un error en la subida el form
+	function errorHandler(data){
+		status = String(data.status);
+		msg = "Ha ocurrido un error " + status+ " en el servidor"
+		renderError(msg);
+	}
+
+	// se ejecuta cuando se hace submit
+	// al form
+	function formSubmit(e){
+		e.preventDefault(e);
+		
+		var formImport = $("#importForm");
+		// se obtiene los datos del formulario
+		var data = new FormData(formImport.get(0));
+
+		// se desactiva el boton cancelar
+		var cancelButton = document.getElementById("Cancel");
+		cancelButton.disabled = true;
+
+		// se envian los datos al servidor
+		$.ajax({
+			type: formImport.attr('method'),
+			url: formImport.attr('action'),
+			data: data,
+			processData: false,
+			contentType: false,
+			xhr: createXHR,
+			success: successHandler,
+			error: errorHandler
+		});
+		return false;
+	}
+
+	$(document).ready(function() {
+		var formImport = $("#importForm");
+		formImport.submit(formSubmit);
+	});
+</script>
+{% endblock %}
+

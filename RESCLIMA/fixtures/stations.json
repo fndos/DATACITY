@@ -1,0 +1,74 @@
+[
+	{
+		"serialNum": "serial1",
+		"location":"-2.405341,-80.265417",
+		"active":true,
+		"stationType":"BloomSky",
+		"frequency":30,
+		"token":"tdbDpM7ktbTRos6iv3C76dQ="
+	},
+	{
+		"serialNum": "serial2",
+		"location":"-0.507617,-79.879775",
+		"active":true,
+		"stationType":"BloomSky",
+		"frequency":30,
+		"token":"tokenfalso1"
+	},
+	{
+		"serialNum": "serial3",
+		"location":"-2.506404,-78.720174",
+		"active":true,
+		"stationType":"BloomSky",
+		"frequency":30,
+		"token":"tokenfalso2"
+	},
+	{
+		"serialNum": "serial4",
+		"location":"-4.053702,-68.309526",
+		"active":true,
+		"stationType":"BloomSky",
+		"frequency":30,
+		"token":"tokenfalso3"
+	},
+	{
+		"serialNum": "serial5",
+		"location":"2.875662,-55.863550",
+		"active":true,
+		"stationType":"BloomSky",
+		"frequency":30,
+		"token":"tokenfalso4"
+	},
+	{
+		"serialNum": "serial6",
+		"location":"-1.610241,-79.855182",
+		"active":true,
+		"stationType":"HOBO",
+		"frequency":0,
+		"token":""
+	},
+	{
+		"serialNum": "serial7",
+		"location":"-2.123907,-79.828513",
+		"active":true,
+		"stationType":"HOBO",
+		"frequency":0,
+		"token":""
+	},
+	{
+		"serialNum": "serial8",
+		"location":"-2.156112,-79.834557",
+		"active":true,
+		"stationType":"HOBO",
+		"frequency":0,
+		"token":""
+	},
+	{
+		"serialNum": "serial9",
+		"location":"21.978047,-10.174251",
+		"active":true,
+		"stationType":"HOBO",
+		"frequency":0,
+		"token":""
+	}
+]

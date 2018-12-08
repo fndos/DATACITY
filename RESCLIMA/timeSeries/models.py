@@ -71,10 +71,11 @@ class Provider(models.Model):
 
 class Measurement(models.Model):
 	id_m = models.AutoField(primary_key=True)
-	ts = models.DateTimeField(default=timezone.now)
+	ts =models.DateTimeField(default=timezone.now)
 	idStation = models.ForeignKey(Station, null=True, on_delete=models.CASCADE)
 	idProvider = models.ForeignKey(Provider, null=True, on_delete=models.CASCADE, blank=True)
 	readings = JSONField(default = dict)
+	id_s=models.BooleanField(default = True)
 
 	def __unicode__(self):
 		return "%s %s %s %s" % (self.idStation,self.idProvider,self.ts,self.readings)

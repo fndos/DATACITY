@@ -14,7 +14,7 @@ class User(AbstractUser):
 	  (4, 'Administrador'),
 	)
 	# Información General
-	identity_card = models.CharField(max_length=10, unique=False) # Must be unique=True
+	identity_card =models.CharField(max_length=10, unique=False) # Must be unique=True
 	phone_number = models.CharField(max_length=10)
 	institution = models.CharField(max_length=100)
 	user_type = models.PositiveSmallIntegerField(null=True, choices=USER_TYPE_CHOICES)

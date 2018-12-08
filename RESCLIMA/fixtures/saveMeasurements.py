@@ -27,7 +27,7 @@ def executeInsert(dbParams,query,queryParams):
 		if conn:
 			conn.close()
 
-	return None 
+	return None
 
 # ejecuta los querys select
 def executeSelect(dbParams,query,queryParams):
@@ -48,7 +48,7 @@ def executeSelect(dbParams,query,queryParams):
 		return None,error_str;
 	finally:
 		if conn:
-			conn.close() 
+			conn.close()
 
 # obtiene los datos de la base
 def getData(dbParams):
@@ -123,7 +123,7 @@ def createValues(variables):
 
 # genera y guarda series de tiempo
 def saveTimeSeries(stations,stationTypes):
-	
+
 	for station in stations:
 		stationtype_id = station["stationType_id"]
 		station_id = station["id"]
@@ -153,7 +153,7 @@ def saveTimeSeries(stations,stationTypes):
 
 # genera y guarda series de tiempo
 def saveTimeSeriesDynamic(stations,stationTypes, dbParams):
-	
+
 	for station in stations:
 		#ask to user if they want to continue
 		answer = input("Ingrese 0 si desea terminar, 1 si desea continuar\n")
@@ -193,16 +193,15 @@ def saveTimeSeriesDynamic(stations,stationTypes, dbParams):
 
 
 if __name__ == "__main__":
-	file_name = "/home/manager/RESCLIMA/dbparams.json"
+	file_name = "/home/fernando/Documentos/GitHub/DATACITY/dbparams.json"
 	dbParams = None
 	with open(file_name) as data_file:
 		dbParams = json.load(data_file)
 
 	print "Los parametros de la base de datos: ",dbParams
-	
+
 	stations, stationTypes = getData(dbParams)
 	print "Las estaciones obtenidas", stations
 	print "Los tipos de estaciones con sus variables: ", stationTypes
 	print "Creando series de tiempo..."
 	saveTimeSeries(stations,stationTypes)
-

@@ -88,7 +88,7 @@
 						</li>
 						{% else %}
 						<li>
-							<a href="{% url 'login' %}">Iniciar Sesi&oacute;n | Registrarse</a>
+							<a href="{% url 'login' %}">Iniciar Sesi&oacute;n &nbsp; &nbsp;</a>
 						</li>
 						{% endif %}
 					</ul>
@@ -97,13 +97,7 @@
 						<!-- Your Home -->
 						<li><a href="/" class="grey-text text-darken-1"><i class="material-icons">home</i> Inicio</a></li>
 						<!-- Your Profile -->
-						{% if user.user_type == 1 %}
-						<li><a href="{% url 'researcher_profile' %}" class="grey-text text-darken-1"><i class="material-icons">account_circle</i> Perfil</a></li>
-						{% elif user.user_type == 2 %}
-						<li><a href="{% url 'customer_profile' %}" class="grey-text text-darken-1"><i class="material-icons">account_circle</i> Perfil</a></li>
-						{% elif user.user_type == 4 %}
-						<li><a href="{% url 'manager_profile' %}" class="grey-text text-darken-1"><i class="material-icons">account_circle</i> Perfil</a></li>
-						{% endif %}
+						<li><a href="{% url 'profile' %}" class="grey-text text-darken-1"><i class="material-icons">account_circle</i> Perfil</a></li>
 						<li class="divider"></li>
 						<!-- Help -->
 						<li><a href="#" class="grey-text text-darken-1"><i class="material-icons">live_help</i>Ayuda</a></li>

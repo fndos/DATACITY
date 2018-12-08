@@ -171,9 +171,7 @@ gdal-2.1.0/
 */migrations/*
 RESCLIMA/TimeSeries/migrations/
 RESCLIMA/fixtures/dbParams.json
-RESCLIMA/RESCLIMA/RESCLIMA/settings.py
+DATACITY/RESCLIMA/RESCLIMA/settings.py
 migrations/
 migrations/*
-*settings.py
-settings.py
 RESCLIMA/static/*

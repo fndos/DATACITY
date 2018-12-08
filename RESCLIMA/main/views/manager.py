@@ -14,13 +14,9 @@ from .. forms import *
 from .. models import *
 
 @method_decorator([login_required(login_url='noAccess'), manager_required], name='dispatch')
-class Profile(TemplateView):
-	template_name = 'main/manager/profile.html'
-
-@method_decorator([login_required(login_url='noAccess'), manager_required], name='dispatch')
 class UserCreate(CreateView):
 	model = User
-	template_name = 'main/manager/user/form.html'
+	template_name = 'main/user/form.html'
 	form_class = UserForm
 	success_url = reverse_lazy('user_list')
 
@@ -31,13 +27,13 @@ class UserCreate(CreateView):
 @method_decorator([login_required(login_url='noAccess'), manager_required], name='dispatch')
 class UserList(ListView):
 	queryset = User.objects.order_by('id')
-	template_name = 'main/manager/user/list.html'
+	template_name = 'main/user/list.html'
 
 @method_decorator([login_required(login_url='noAccess'), manager_required], name='dispatch')
 class UserUpdate(UpdateView):
 	model = User
 	form_class = UserForm
-	template_name = 'main/manager/user/form.html'
+	template_name = 'main/user/form.html'
 	success_url = reverse_lazy('user_list')
 
 	def form_valid(self, form):
@@ -47,10 +43,10 @@ class UserUpdate(UpdateView):
 @method_decorator([login_required(login_url='noAccess'), manager_required], name='dispatch')
 class UserDelete(DeleteView):
 	model = User
-	template_name = 'main/manager/user/delete.html'
+	template_name = 'main/user/delete.html'
 	success_url = reverse_lazy('user_list')
 
 @method_decorator([login_required(login_url='noAccess'), manager_required], name='dispatch')
 class UserShow(DetailView):
 	model = User
-	template_name = 'main/manager/user/show.html'
+	template_name = 'main/user/show.html'

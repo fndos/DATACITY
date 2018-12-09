@@ -19,3 +19,12 @@ def sample_count_by_month(request):
         .values('month') \
         .annotate(count_items=Count('id'))
     return JsonResponse(list(data), safe=False)
+#Funcion para la creacion de un grafico estadistico especifico
+#Deberia recibir tipo de grafico, estilo, data y producto al que pertenece
+#Crea la entrada del grafico en la base de datos
+def create_graph(request):
+	pass
+#Funcion para la creacion de un producto
+#Deberia recibir el/los clientes al que va destinado el producto y el nombre del producto
+def create_product(request):
+	pass

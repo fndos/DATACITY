@@ -86,7 +86,7 @@ WSGI_APPLICATION = 'RESCLIMA.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-DB_PARAMS = "/home/fernando/Documentos/GitHub/RESCLIMA/dbparams.json"
+DB_PARAMS = "/home/carlos/Desktop/MateriaIntegradora/DATACITY/dbparams.json"
 
 dbParams = None
 with open(DB_PARAMS) as data_file:
@@ -95,14 +95,13 @@ print dbParams
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.contrib.gis.db.backends.postgis',
-		'NAME': dbParams["dbname"],
-		'USER':dbParams["user"],
-		'PASSWORD':dbParams["password"],
-		'HOST': dbParams["host"],
-		'PORT':dbParams["port"]
+		'NAME': 'resclima',
+		'USER': 'postgres',
+		'PASSWORD': 'qladmin',
+		'HOST': '127.0.0.1',
+		'PORT': '5432'
 	}
 }
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
@@ -133,8 +132,8 @@ CELERY_RESULT_BACKEND = 'amqp://resclima:resclima@localhost:5672/resclima'
 CELERY_RESULT_SERIALIZER = 'json'
 
 # paths for user data
-STYLE_FILES_PATH = "/home/fernando/styles/"
-RASTER_FILES_PATH = "/home/fernando/rasters/"
-TEMPORARY_FILES_PATH = "/home/fernando/tmp/"
+STYLE_FILES_PATH = "/home/carlos/styles/"
+RASTER_FILES_PATH = "/home/carlos/rasters/"
+TEMPORARY_FILES_PATH = "/home/carlos/tmp/"
 
 AUTH_USER_MODEL = 'main.User'

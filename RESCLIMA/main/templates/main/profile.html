@@ -4,68 +4,77 @@
 {% block title%}RESCLIMA | PERFIL{% endblock %}
 
 {% block content %}
-<!-- START MAIN -->
-<div id="main">
-  <!-- START WRAPPER -->
-  <div class="wrapper">
-    <!-- START CONTENT -->
-            <!--start container-->
-            <div class="container">
-              <div id="profile-page" class="section">
-                <!-- profile-page-header -->
-                <div id="profile-page-header" class="card">
-                        <div class="card-image waves-effect waves-block waves-light">
-                                <img class="activator" src="{% static 'main/images/14.png' %}" alt="user background">
-                              </div>
-                        <figure class="card-profile-image">
-                                <img src="{% static 'main/images/perfil.png' %}" alt="profile image" class="circle z-depth-2 responsive-img activator gradient-45deg-light-blue-cyan gradient-shadow">
-                              </figure>
-                              <div class="card-content">
-                                <div class="row pt-2">
-                                  <div class="col s12 m3 offset-m2">
-                                    <h4 class="card-title grey-text text-darken-4">{{ user.first_name }} {{ user.last_name }}</h4>
-                                    <p class="medium-small grey-text">{{ user.institution }}</p>
-                                  </div>
-                                </div>
-                              </div>
-                </div>
-                <!-- profile-page-content -->
-                <div id="profile-page-content" class="row">
-                    <div id="profile-page-sidebar" class="col s12 m4">
-                            <ul id="profile-page-about-details" class="collection z-depth-1">
-                                    <li class="collection-item">
-                                      <div class="row">
-                                        <div class="col s5">
-                                          <i class="material-icons left">poll</i> Series de tiempo</div>
-                                        <div class="col s7 right-align">
-                                            <button class="btn waves-effect waves-light col s12" type="button" onClick='window.location="/series";'>Ver</button><br>
-                                        </div>
-                                      </div>
-                                    </li>
-                                    <li class="collection-item">
-                                      <div class="row">
-                                        <div class="col s5">
-                                          <i class="material-icons left">place</i> Capas vectoriales</div>
-                                        <div class="col s7 right-align">
-                                            <button class="btn waves-effect waves-light col s12" type="button" onClick='window.location="/vector";'>Ver</button><br>
-                                        </div>
-                                      </div>
-                                    </li>
-                                    <li class="collection-item">
-                                      <div class="row">
-                                        <div class="col s5">
-                                          <i class="material-icons left">domain</i> Capas raster</div>
-                                        <div class="col s7 right-align">
-                                            <button class="btn waves-effect waves-light col s12" type="button" onClick='window.location="/raster";'>Ver</button><br>
-                                        </div>
-                                      </div>
-                                    </li>
-                            </ul>
-                    </div>
-                </div>
 
+<div id="main">
+  <div class="wrapper">
+  	<!-- START CONTAINER -->
+    <div class="container">
+      <div id="profile-page" class="section">
+
+        <!-- PROFILE PAGE HEADER-->
+        <div id="profile-page-header" class="card">
+	        <div class="card-image waves-effect waves-block waves-light">
+          	<img class="activator" src="{% static 'main/images/14.png' %}" alt="user background">
+	        </div>
+          <figure class="card-profile-image">
+        		<img src="{% static 'main/images/perfil.png' %}" alt="profile image" class="circle z-depth-2 responsive-img activator gradient-45deg-light-blue-cyan gradient-shadow">
+          </figure>
+          <div class="card-content">
+            <div class="row pt-2">
+              <div class="col s12 m3 offset-m2">
+                <h4 class="card-title grey-text text-darken-4">{{ user.first_name }} {{ user.last_name }}</h4>
+                <p class="medium-small grey-text">{{ user.institution }}</p>
               </div>
             </div>
+      		</div>
+        </div>
+
+        <!-- 1. PROFILE PAGE CONTENT-->
+        <div id="profile-page-content" class="row">
+	        <div id="profile-page-sidebar" class="col s12 m4">
+	          <ul id="profile-page-about-details" class="collection z-depth-1">
+							<!-- Series de tiempo -->
+	            <li class="collection-item">
+	              <div class="row">
+	                <div class="col s5"><i class="material-icons left">timeline</i> Series de tiempo</div>
+	                <div class="col s7 right-align"><button class="btn waves-effect waves-light col s12" type="button" onClick='window.location="/series";'>Ver</button><br></div>
+	              </div>
+	            </li>
+							<!-- Capas vectoriales -->
+	            <li class="collection-item">
+	              <div class="row">
+	                <div class="col s5"><i class="material-icons left">place</i> Capas vectoriales</div>
+	                <div class="col s7 right-align"><button class="btn waves-effect waves-light col s12" type="button" onClick='window.location="/vector";'>Ver</button><br></div>
+	              </div>
+	            </li>
+							<!-- Capas raster -->
+	            <li class="collection-item">
+	              <div class="row">
+	                <div class="col s5"><i class="material-icons left">domain</i> Capas raster</div>
+	                <div class="col s7 right-align"><button class="btn waves-effect waves-light col s12" type="button" onClick='window.location="/raster";'>Ver</button><br></div>
+	              </div>
+	            </li>
+	          </ul>
+	        </div>
+        </div>
+
+				<!-- 2. PROFILE PAGE CONTENT-->
+				<div id="profile-page-content" class="row">
+	        <div id="profile-page-sidebar" class="col s12 m4">
+	          <ul id="profile-page-about-details" class="collection z-depth-1">
+              <!-- Visualización de datos -->
+	            <li class="collection-item">
+	              <div class="row">
+	                <div class="col s5"><i class="material-icons left">equalizer</i> Visualización de datos</div>
+	                <div class="col s7 right-align"><button class="btn waves-effect waves-light col s12" type="button" onClick="{% if request.user.user_type == 4 %}window.location='/user';{% else %}window.location='/visualization';{% endif %}">Ver</button><br></div>
+	              </div>
+	            </li>
+	          </ul>
+	        </div>
+        </div>
+
+      </div>
     </div>
+  </div>
 </div>
 {% endblock content %}

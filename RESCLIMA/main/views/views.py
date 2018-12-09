@@ -18,14 +18,10 @@ def login(request):
 		user = authenticate(username=username, password=password)
 		if user is not None:
 			auth_login(request, user)
-			if user.user_type == 1:
-				return HttpResponseRedirect('/researcher/profile/')
-			elif user.user_type == 2:
-				return HttpResponseRedirect('/customer/profile/')
-			elif user.user_type == 3:
+			if user.user_type != 3:
+				return HttpResponseRedirect('/profile/')
+			else:
 				return HttpResponseRedirect('/')
-			elif user.user_type == 4:
-				return HttpResponseRedirect('/manager/profile/')
 		else:
 			print("ERROR DE AUTENTICACION...")
 			return render(request,'main/login.html', {'error':True})
@@ -38,7 +34,11 @@ def noAccess(request):
 
 # Redirecciona a la página de Inicio
 def home(request):
-	return render(request,"main/home.html", {})
+	return render(request,'main/home.html', {})
+
+# Redirecciona al perfil de usuario
+def profile(request):
+	return render(request, 'main/profile.html', {})
 
 # Retorna informacion de una tarea de Celery
 def get_task_info(request):

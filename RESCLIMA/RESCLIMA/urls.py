@@ -27,17 +27,13 @@ urlpatterns = [
 	url(r'^logout/$', logout, {'next_page': '/'}, name='logout'),
 	url(r'^noAccess/$', noAccess, name="noAccess"),
 	url(r'^get-task-info/',get_task_info,name="taskInfo"),
-    ################################# CUSTOMER #################################
-    url(r'^customer/profile/$', customer.Profile.as_view(), name='customer_profile'),
-    ################################ RESEARCHER ################################
-    url(r'^researcher/profile/$', researcher.Profile.as_view(), name='researcher_profile'),
+    url(r'^profile/$', profile, name='profile'),
     ################################# MANAGER ##################################
-    url(r'^manager/profile/$', manager.Profile.as_view(), name='manager_profile'),
-    url(r'^manager/user/create/$', manager.UserCreate.as_view(), name='user_create'),
-    url(r'^manager/user/$', manager.UserList.as_view(), name='user_list'),
-    url(r'^manager/user/update/(?P<pk>\d+)/$', manager.UserUpdate.as_view(), name='user_update'),
-    url(r'^manager/user/delete/(?P<pk>\d+)/$', manager.UserDelete.as_view(), name='user_delete'),
-    url(r'^manager/user/show/(?P<pk>\d+)/$', manager.UserShow.as_view(), name='user_show'),
+    url(r'^user/create/$', manager.UserCreate.as_view(), name='user_create'),
+    url(r'^user/$', manager.UserList.as_view(), name='user_list'),
+    url(r'^user/update/(?P<pk>\d+)/$', manager.UserUpdate.as_view(), name='user_update'),
+    url(r'^user/delete/(?P<pk>\d+)/$', manager.UserDelete.as_view(), name='user_delete'),
+    url(r'^user/show/(?P<pk>\d+)/$', manager.UserShow.as_view(), name='user_show'),
     ################################# RESCLIMA #################################
 	url(r'^admin/', include(admin.site.urls)),
 	url(r'^search/', include("search.urls")),
@@ -46,6 +42,7 @@ urlpatterns = [
 	url(r'^series/', include("timeSeries.urls")),
 	url(r'^raster/', include("rasterLayers.urls")),
 	url(r'^tms/', include("tms.urls")),
+    url(r'^visualization/', include("visualization.urls")),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

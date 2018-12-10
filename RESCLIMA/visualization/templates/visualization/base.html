@@ -3,12 +3,12 @@
 <html>
 
 <head>
-	<title>{% block title %}RESCLIMA | BUSCAR{% endblock %}</title>
+	<title>{% block title %}RESCLIMA | VISUALIZACIÓN{% endblock %}</title>
 	<meta charset="UTF-8">
 	<meta name="description" content="Plataforma para buscar, visualizar y descargar datos geograficos y seies de tiempo">
 	<meta name="keywords" content="Capa, Shapefile, Raster, Serie de tiempo">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Estilos de DATACITY -->
+	<!-- Estilos de DATACITY -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="{% static 'visualization/css/style.css' %}" type="text/css">
   <!-- Estilos de RESCLIMA -->
@@ -44,7 +44,7 @@
 
 	<!-- jQuery Library -->
 	<script src="{% static 'main/js/jquery-3.2.1.min.js' %}" type= "text/javascript"></script>
-	<!--materialize js-->
+	<!-- Materialize JS -->
 	<script src="{% static 'main/js/materialize.min.js' %}" type= "text/javascript"></script>
 	<script src="{% static 'main/js/plugins.min.js' %}" type= "text/javascript"></script>
 	<script src="{% static 'main/js/perfect-scrollbar.min.js' %}" type="text/javascript"></script>
@@ -82,13 +82,13 @@
         {% if user.user_type == 1 %}
         <!-- Researcher -->
 				<ul class="nav navbar-nav">
-          <li class="{% if request.resolver_match.url_name == 'index' %}active{% endif %}"><a class="tag" href="{% url 'index' %}"><span class="glyphicon glyphicon-stats"></span> &nbsp Mis Visualizaciones</a></li>
+          <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}"><a class="tag" href="{% url 'home' %}"><span class="glyphicon glyphicon-stats"></span> &nbsp Mis Visualizaciones</a></li>
 					<li><a class="tag" href="#"><span class="glyphicon glyphicon-cloud-download"></span> &nbsp Mis datos</a></li>
 					<li><a class="tag" href="#"><span class="glyphicon glyphicon-sd-video"></span> &nbsp Mis Simulaciones</a></li>
 				{% elif user.user_type == 2 %}
         <!-- Customer -->
 				<ul class="nav navbar-nav">
-          <li class="{% if request.resolver_match.url_name == 'index' %}active{% endif %}"><a class="tag" href="{% url 'index' %}"><span class="glyphicon glyphicon-stats"></span> &nbsp Mis Visualizaciones</a></li>
+          <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}"><a class="tag" href="{% url 'home' %}"><span class="glyphicon glyphicon-stats"></span> &nbsp Mis Visualizaciones</a></li>
 					<li><a class="tag" href="#"><span class="glyphicon glyphicon-cloud-download"></span> &nbsp Mis datos</a></li>
         {% elif user.user_type == 4 %}
         <!-- Manager -->

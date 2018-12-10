@@ -1,4 +1,4 @@
-/*-----------------------------Fundación Edúcate------------------------------*/
+/*-------------------------------- RESCLIMA ----------------------------------*/
 
 body {
   position: relative;
@@ -7,7 +7,6 @@ body {
 
 nav {
   border-radius: 0 !important;
-  /*background-color: #2aace7 !important;*/
   border-color: #2aace7 !important;
 }
 
@@ -26,6 +25,8 @@ nav {
 
 .navbar-brand {
   color: #fff !important;
+  font-size: 26px !important;
+  font-family: "Montserrat", sans-serif !important;
 }
 
 .nav.navbar-nav > li > a {
@@ -57,6 +58,13 @@ nav {
   background: #0288d1;
   background: -webkit-linear-gradient(45deg, #0288d1 0%, #26c6da 100%);
   background: linear-gradient(45deg, #0288d1 0%, #26c6da 100%);
+}
+
+button, button:focus,
+button:active, button:target,
+button:active:focus {
+  color: white !important;
+  border: 0 !important;
 }
 
 /*-------------------------- Sidebar Navigation ------------------------------*/

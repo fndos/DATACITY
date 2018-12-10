@@ -1,0 +1,297 @@
+{% extends 'visualization/base.html' %}
+{% load static %}
+
+{% block styles %}
+{% endblock %}
+
+{% block scripts %}
+<script src="http://d3js.org/d3.v4.js"></script>
+{% endblock %}
+
+{% block content %}
+
+<div id="visualization-main">
+  <div class="wrapper">
+    <div class="container">
+      <div id="visualization-page" class="section">
+        <!-- your content here! -->
+        <div id="chart"></div>
+      </div> <!-- end visualization-page -->
+    </div> <!-- end container-->
+  </div> <!-- end wrapper -->
+</div> <!-- end visualization-main -->
+
+<script type="text/javascript">
+
+  d3.json("{% url 'get_graph_data' value=request.resolver_match.kwargs.value %}", function(error, root) {
+
+    if (error) throw error;
+
+    var my_data = [],
+    labels = {},
+    data = [],
+    national = 0,
+    state = 0;
+
+    //data returns pie chart ready data + national and state averages
+    data = get_data(root)
+    my_data = data[0]
+    national = data[1]
+    state = data[2]
+
+    //define margin, radius, donut_width and color scale
+    var m = 10,
+      r = 100,
+      donut_width = 30,
+      color = d3.scaleOrdinal(d3.schemeCategory10);
+
+    //define pie scale
+    var pie_scale = d3.scaleLinear().domain([0, 100]).range([0, 2 * Math.PI]);
+
+    //define svg (new one drawn for each pie chart in the data)
+      var svg = d3.select("#chart").selectAll("svg")
+          .data(my_data)
+        .enter().append("svg")
+          .attr("width", (r + m) * 2)
+          .attr("height", ((r + m) * 2)+30)
+        .append("g")
+          .attr("transform", "translate(" + (r + m) + "," + (r + m) + ")");
+
+  //this boolean  colours only the first value in the data
+  var first=true;
+
+
+  //draw the arc.
+  var arc = d3.arc().innerRadius(r - donut_width).outerRadius(r);
+
+  //draw pies in the individual svg's
+  svg.selectAll("path")
+      .data(d3.pie().sort(null).value(function(d) { return d.number;}))
+      .enter().append("path")
+      .attr("d", arc)
+      .attr("class",function(d) { return d.endAngle;})
+      .style('stroke-width', 2)
+      .style('stroke-linejoin','round')
+      .style('stroke', 'lightgrey')
+      .style("fill", function(d, i) {
+        if(first==true){
+          first=false;
+          return color(d.data.label);//colour the first data entry (the value)
+
+        } else {
+          first=true;
+          return 'white';//colour the rest of the donut white
+        }});
+
+      //now draw the circles at the end of the donut (making the rounded edge)
+
+      function get_coords(val,radius){
+
+        //fix to account for clockwise pie AND 0 at top
+        //see https://medium.com/@bryony_17728/d3-donut-rounded-corners-the-mystery-of-pi-f772121d87a6#.5q54si4nl
+
+        //here radius is OuterRadius - innerRadius
+        //r is OuterRadius
+        if (val < Math.PI/2){
+          val = (2*Math.PI)- val
+        } else{
+          val = val - (Math.PI/2)
+        }
+        var x = (radius * Math.cos(val)) + ((2*r)/2)
+        var y = (radius * Math.sin(val)) + ((2*r)/2)
+
+
+        return [x,y];
+      };
+
+      //select each individual svg/pie
+      svgs = d3.selectAll('svg');
+      for(g in svgs._groups){
+        for(n in svgs._groups[g]){
+          if (n != 'length'){
+            //for each one.
+            //get the correct value (some in the wrong order)
+            //pie scale it
+            if(my_data[n][0].name=='color'){
+              val = pie_scale(my_data[n][0].number)
+            }else{
+              val = pie_scale(my_data[n][1].number)
+            }
+            //get the correct co-ordinates for the end Angle
+            coords = get_coords(val,r-(donut_width/2))
+
+            //draw the circles in the correct colour
+            //accounting for the margins
+            d3.select(svgs._groups[g][n]).append("circle")
+                                          .attr("cx",  coords[0]+m)
+                                          .attr("cy", coords[1]+m)
+                                         .attr('fill',color(my_data[n][0].label))//
+                                         .attr("r", donut_width/2-1);
+
+          } else{break}//svg group has no integer variables which we don't
+        }//need to loop through.
+      }
+
+      function draw_tick(ticks,colour,value,drop_shadow){
+
+        //function which draws the tick and it's drop shadow.
+
+        //drop shadow
+        ticks.enter().append("line")
+        .attr("x1", 0)
+        .attr("x2", 0)
+        .attr("y1", -r+donut_width+5)
+        .attr("y2", -r-5)
+        .attr("stroke", 'grey')
+        .attr('opacity',"0.1")
+        .attr('stroke-dasharray','5,2')
+        .attr('stroke-width', 3)
+        .attr("transform", function(d) {
+          //this rotates the tick according to the pie scale.
+          return "rotate(" + (((pie_scale(value)+pie_scale(value))/2 * (180/Math.PI)) + drop_shadow) + ")";
+        });
+
+        //draws the tick in the specified color
+        ticks.enter().append("line")
+        .attr("x1", 0)
+        .attr("x2", 0)
+        .attr("y1", -r+donut_width+5)
+        .attr("y2", -r-5)
+        .attr("stroke", colour)
+        .attr('stroke-width', 3)
+        .attr('stroke-dasharray','5,2')
+        .attr("transform", function(d) {
+          return "rotate(" + (pie_scale(value)+pie_scale(value))/2 * (180/Math.PI) + ")";
+        });
+      }
+
+      //define the tick line.
+      var ticks = svg.selectAll("line").data(my_data);
+
+      //change this value to make drop shadow further/close to line
+      //minus value will make it before the line
+      drop_shadow = 2.5
+
+      //draw tick marks
+      //takes the defined tick, colour, value and drop shadow unit
+      draw_tick(ticks,'gold',national,drop_shadow)
+      draw_tick(ticks,'grey',state,drop_shadow)
+
+      //append central % text
+        svg.append("text")
+            .attr("dy", ".35em")
+            .style("text-anchor", "middle")
+            .style("font-size","40")
+            .text(function(d) {
+              return d[0].number + '%'; });
+
+      //append smaller central label underneath
+      svg.append("text")
+          .attr("dy", ".35em")
+          .style("text-anchor", "middle")
+          .style("font-size","10")
+          .attr("dy", "+30")
+          .text(function(d) {return d[0].label; });
+
+
+      //to add legend I had to append to new svg to the html above the donuts:
+
+      //define width and margins
+      var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+
+      var margin = {top: 0, right: 0, bottom: 0, left: 0},
+          width = width - margin.left - margin.right,
+          height = 60,
+          padding = 0;
+
+    //draw new svg
+    var svg2 = d3.select("#donut").append("svg")
+       .attr("width", width + margin.left + margin.right)
+       .attr("height", height + margin.top + margin.bottom)
+       .append("g")
+       .attr("transform",
+             "translate(" + margin.left + "," + margin.top + ")");
+
+    function add_legend_line(my_svg,y,colour,text,drop_shadow){
+
+      //this function adds a legend line for each ticker
+
+      //change this value to move shadow left (+) or right(-) horizontally
+      shadow_h =1
+
+      //add the line
+      svg2.append("line")
+          .attr("x1", (width+ margin.left + margin.right)/2-50-shadow_h)
+          .attr("x2", (width+ margin.left + margin.right)/2-90-shadow_h)
+          .attr("y1", y-3+drop_shadow)
+          .attr("y2", y-3+drop_shadow)
+          .style("text-anchor", "middle")
+          .attr("stroke", 'grey')
+          .attr('opacity',"0.3")
+          .attr('stroke-width', 3)
+          .attr('stroke-dasharray','5,2');
+
+      //add the drop shadow
+      svg2.append("line")
+          .attr("x1", (width+ margin.left + margin.right)/2-50)
+          .attr("x2", (width+ margin.left + margin.right)/2-90)
+          .attr("y1", y-3)
+          .attr("y2", y-3)
+          .style("text-anchor", "middle")
+          .attr("stroke", colour)
+          .attr('stroke-width', 3)
+          .attr('stroke-dasharray','5,2');
+
+    //add the text
+    svg2.append("text")
+        .attr("dy", y)
+        .attr("dx",(width+ margin.left + margin.right)/2)
+        .style("text-anchor", "middle")
+        .style("font-size","10")
+        .text(text);
+
+    }
+
+  //call add legend line
+  //pass the svg, the y position, colour, text and drop shadow position value.
+  add_legend_line(svg2,30,'gold','National Average',drop_shadow)
+  add_legend_line(svg2,45,'grey','State Average',drop_shadow)
+
+
+   function get_data(root){
+
+     //multiple pies need complex data structure
+
+     var my_data = [],
+     labels = [],
+     national=0,
+     state=0;
+     //first find and set tne national and state average
+     for (r in root){
+       if (root[r].label =='National Average'){
+         national = root[r].value
+       } else if (root[r].label == 'State Average') {
+         state = root[r].value
+
+       } else{
+         //for the rest of the data store the label and value
+         label = root[r].label
+         value = root[r].value
+
+        //append two 'dictionary' objects as a list to my_data
+        //object 1: the actual value, label,name, value
+        //object 2: the difference (100-actual value) - label, name, value
+        var values = [{label: label,name: 'color', number: value},{label: label,name: 'white', number: 100-value}]
+        my_data.push(values);
+       }
+
+     }
+
+     return [my_data,national,state];
+
+    };
+
+  });
+
+</script>
+{% endblock %}

@@ -1,0 +1,22 @@
+{
+  "ID:1": {
+    "label": "Data Point 1",
+    "value": 68
+  },
+  "ID:2": {
+    "label": "Data Point 2",
+    "value": 50
+  },
+  "ID:3": {
+    "label": "Data Point 3",
+    "value": 40
+  },
+  "national": {
+    "label": "National Average",
+    "value": 60
+  },
+  "state": {
+    "label": "State Average",
+    "value": 64
+  }
+}

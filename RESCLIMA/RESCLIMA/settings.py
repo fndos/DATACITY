@@ -50,6 +50,18 @@ INSTALLED_APPS = (
 	'main',
 	'visualization',
 	'rest_framework',
+	'dash',
+    'dash.contrib.layouts.android',
+    'dash.contrib.layouts.bootstrap2',
+    'dash.contrib.layouts.windows8',
+    'dash.contrib.plugins.dummy',
+    'dash.contrib.plugins.image',
+    'dash.contrib.plugins.memo',
+    'dash.contrib.plugins.rss_feed',
+    'dash.contrib.plugins.url',
+    'dash.contrib.plugins.video',
+    'dash.contrib.plugins.weather',
+    'd3',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -64,7 +76,6 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'RESCLIMA.urls'
-
 TEMPLATES = [
 	{
 		'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -86,12 +97,12 @@ WSGI_APPLICATION = 'RESCLIMA.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-DB_PARAMS = "/home/fernando/Documentos/GitHub/RESCLIMA/dbparams.json"
+DB_PARAMS = "/home/carlos/Desktop/MateriaIntegradora/DATACITY/dbparams.json"
 
 dbParams = None
 with open(DB_PARAMS) as data_file:
         dbParams = json.load(data_file)
-print dbParams
+#print dbParams
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.contrib.gis.db.backends.postgis',
@@ -132,8 +143,8 @@ CELERY_RESULT_BACKEND = 'amqp://resclima:resclima@localhost:5672/resclima'
 CELERY_RESULT_SERIALIZER = 'json'
 
 # paths for user data
-STYLE_FILES_PATH = "/home/fernando/styles/"
-RASTER_FILES_PATH = "/home/fernando/rasters/"
-TEMPORARY_FILES_PATH = "/home/fernando/tmp/"
+STYLE_FILES_PATH = "/home/manager/styles/"
+RASTER_FILES_PATH = "/home/manager/rasters/"
+TEMPORARY_FILES_PATH = "/home/manager/tmp/"
 
 AUTH_USER_MODEL = 'main.User'

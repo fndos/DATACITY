@@ -43,6 +43,7 @@ urlpatterns = [
 	url(r'^raster/', include("rasterLayers.urls")),
 	url(r'^tms/', include("tms.urls")),
     url(r'^visualization/', include("visualization.urls")),
+    url(r'^dashboard/', include('dash.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

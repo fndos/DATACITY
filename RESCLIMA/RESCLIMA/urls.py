@@ -25,6 +25,7 @@ urlpatterns = [
 	url(r'^$', home, name="home"),
 	url(r'^login/$', login, name="login"),
 	url(r'^logout/$', logout, {'next_page': '/'}, name='logout'),
+    url(r'^auth_logout/$', logout, {'next_page': '/'}, name='auth_logout'),
 	url(r'^noAccess/$', noAccess, name="noAccess"),
 	url(r'^get-task-info/',get_task_info,name="taskInfo"),
     url(r'^profile/$', profile, name='profile'),
@@ -44,6 +45,7 @@ urlpatterns = [
 	url(r'^tms/', include("tms.urls")),
     url(r'^visualization/', include("visualization.urls")),
     url(r'^dashboard/', include('dash.urls')),
+    url(r'^dashboard/', include('dash.contrib.apps.public_dashboard.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

@@ -1,0 +1,5 @@
+Se ha cambiado en la libreria dash, un campo en el modelo worspace settings
+ahora se llama shared_with en models.py
+
+Se ha agregado este modelo en el admin.py de la app para que pueda aparecer
+en el admin

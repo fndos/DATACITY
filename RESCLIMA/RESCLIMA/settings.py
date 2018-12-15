@@ -51,6 +51,7 @@ INSTALLED_APPS = (
 	'visualization',
 	'rest_framework',
 	'dash',
+	'dash.contrib.apps.public_dashboard',
     'dash.contrib.layouts.android',
     'dash.contrib.layouts.bootstrap2',
     'dash.contrib.layouts.windows8',

@@ -11,7 +11,7 @@
 			<div class="row">
 				<div class="col s12 m12 l6">
 					<div class="row">
-						<a class="btn waves-effect waves-light" href="{{request.META.HTTP_REFERER|escape }}"><i class="material-icons left">keyboard_backspace</i> Atrás</a>
+						<button class="btn waves-effect waves-light" type="button" onClick="window.history.back();"><i class="material-icons left">keyboard_backspace</i>Atrás</button>
 						<div class="card-panel">
 							<form method="post">
 								{% csrf_token %}
@@ -20,7 +20,7 @@
 								<p>Si eliminas este registro, no podrás recuperarlo.</p>
 								<br>
 								<button class="btn waves-effect waves-light red accent-2" type="submit" ><i class="material-icons left">delete</i>Eliminar</button>
-								<a class="btn waves-effect waves-light" href="{{request.META.HTTP_REFERER|escape }}"><i class="material-icons left">cancel</i> Cancelar</a>
+								<button class="btn waves-effect waves-light" type="button" onClick="window.history.back();"><i class="material-icons left">cancel</i>Cancelar</button>
 							</form>
 						</div>
 					</div>

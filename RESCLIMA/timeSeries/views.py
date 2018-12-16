@@ -15,8 +15,8 @@ import shutil
 import tempfile
 
 '''
-Vista  que  retorna una  Pagina home 
-de las series de tiempo, se muestran 
+Vista  que  retorna una  Pagina home
+de las series de tiempo, se muestran
 las opciones disponibles
 '''
 @login_required(login_url='noAccess')
@@ -100,7 +100,7 @@ def createFileName(prefix,extension):
 '''
 Funcion auxiliar para guardar un archivo
 Recibe un objeto UploadedFile de  django
-y  guarda  el  archivo  en un directorio 
+y  guarda  el  archivo  en un directorio
 temporal. Retorna la ruta del archivo.
 '''
 def saveFile(ftemp):
@@ -108,7 +108,7 @@ def saveFile(ftemp):
 	temp_dir = settings.TEMPORARY_FILES_PATH
 	fileName = createFileName("timeseries-",".csv")
 	fullName = os.path.join(temp_dir,fileName)
-	# si el objeto ftemp tiene el atributo 
+	# si el objeto ftemp tiene el atributo
 	# temporary_file_path ya esta en el disco duro
 	if (hasattr(ftemp,'temporary_file_path')):
 		print "en el disco duro, serie de tiempo",fullName
@@ -117,7 +117,7 @@ def saveFile(ftemp):
 		shutil.move(ftemp_path,fullName)
 	else:
 		print "en la memoria, serie de tiempo",fullName
-		# el archivo esta en memoria y se debe 
+		# el archivo esta en memoria y se debe
 		# escribir en el disco
 		f = open(fullName,'w')
 		for chunk in ftemp.chunks():
@@ -145,7 +145,7 @@ def import_file(request):
 		stationType_str = str(stationType)
 		file_ptr = request.FILES['file']
 		result = {}
-		# dependiendo  del  tipo  de estacion  se 
+		# dependiendo  del  tipo  de estacion  se
 		# procede con el adptador correspondiente
 		if stationType_str == "HOBO-MX2300":
 			# guarda el archivo
@@ -190,9 +190,9 @@ def get_variable_info(request,variable_id):
 
 """
 Crea un query para recuperar de la
-base de datos, las mediciones de 
-una estacion de una variable, en 
-un rango de fechas. Retorna el 
+base de datos, las mediciones de
+una estacion de una variable, en
+un rango de fechas. Retorna el
 resultado del query
 """
 def query_measurements(variable_id,station_id,
@@ -209,7 +209,7 @@ def query_measurements(variable_id,station_id,
 	# del json se obtiene la variable_id (readings[variable_id])
 	select_stm = 'SELECT readings::json->%s as measurements, ts, count(*) OVER() AS full_count '
 	from_stm = 'FROM "timeSeries_measurement" as m '
-	# se recuperan los measurements de la estacion 
+	# se recuperan los measurements de la estacion
 	# cuyo readings contenga el id de la variable (variable_id)
 	# readings={"variable_id":valor_variable}
 	where_stm = 'WHERE "idStation_id"=%s and readings like \'%%"'+variable_id+'":%%\''
@@ -220,7 +220,7 @@ def query_measurements(variable_id,station_id,
 	if(ini_date):
 		where_stm = where_stm + ' and ts>=%s'
 		params.append(ini_date)
-	
+
 	if(end_date):
 		where_stm = where_stm + ' and ts<=%s'
 		params.append(end_date)
@@ -295,12 +295,12 @@ def get_measurements_csv(variable,station,
 	header_variable = "Variable:%s,Unit:%s\n"%(variable.name,variable.unit)
 	header_variable=header_variable.encode("utf-8")
 	f.write(header_variable)
-	
+
 	station_attr = (station.serialNum,station.location.x,station.location.y)
 	header_station = "Station:%s,lon:%s,lat%s\n"%station_attr
 	header_station = header_station.encode("utf-8")
 	f.write(header_station)
-	
+
 	columns = "timestamp UTC-0\tvalue\n"
 	f.write(columns)
 
@@ -311,7 +311,7 @@ def get_measurements_csv(variable,station,
 
 """
 Vista que retorna las mediciones
-de una estacion de una variable, 
+de una estacion de una variable,
 en un rango de fechas
 """
 def get_measurements(request):
@@ -343,9 +343,9 @@ def get_measurements(request):
 	return JsonResponse(data)
 
 """
-Vista que recupera las mediciones de 
+Vista que recupera las mediciones de
 una variable de todas las estaciones
-que  se  envien en  el  request. Las 
+que  se  envien en  el  request. Las
 mediciones se  guardan  en  archivos
 csv y se crea un zip con todo
 """
@@ -391,6 +391,5 @@ def download_measurements(request):
 	prefix = "variable_"+variable_id+"_"
 	fileName = createFileName(prefix,".zip")
 	response['Content-Disposition'] = "attachment; filename=" + fileName
-	
-	return response
 
+	return response

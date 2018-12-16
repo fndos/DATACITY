@@ -33,7 +33,7 @@
 								{% endif %}
 							</div>
 						</div>
-						<!-- File chooser --> 
+						<!-- File chooser -->
 						<div class="row">
 							<label for="id_import_files">Importar archivo CSV</label>
 							<div class="file-field input-field">
@@ -50,7 +50,7 @@
 						<div class="row">
 							<div style="height:30px;"></div>
 						</div>
-						
+
 						<!--Botones-->
 						<div class="row">
 							<button type="submit" id="Upload" name="action" class="btn waves-effect waves-light">
@@ -86,7 +86,7 @@
 			url: '/get-task-info/',
 			data: {'task_id': task_id},
 			success: function (data) {
-				// recibe un objeto 
+				// recibe un objeto
 				// data{"result":{"percent":porcentaje,"error":"mensaje de error"}
 				// ,"state":estado del task}
 
@@ -113,13 +113,13 @@
 					uploadPercent.style.width = percentComplete_str;
 					uploadPercentLabel.innerText = "Procesando "+percentComplete_str;
 				}
-				
+
 				// Si el estado es SUCCESS, se redirije a /vector/
 				if(data.state == 'SUCCESS'){
 					document.location.href = "/series/"
 				}
 				// si el estado es diferente de SUCCESS
-				// se vuelve  a pedir informacion de la tarea de Celery 
+				// se vuelve  a pedir informacion de la tarea de Celery
 				if (data.state != 'SUCCESS') {
 					setTimeout(function () {
 						renderProcess(task_id)
@@ -145,11 +145,11 @@
 		cancelButton.disabled = false;
 	}
 
-	// crea un objeto xmlhttprequest 
+	// crea un objeto xmlhttprequest
 	// con el evento upload.progress
 	function createXHR(){
 		var xhr = new window.XMLHttpRequest();
-		
+
 		// este evento mostrara el progreso de la subida
 		// de los datos
 		xhr.upload.addEventListener("progress",function(evt){
@@ -174,7 +174,7 @@
 	// se ejecuta cuando la subida de los datos
 	// es exitosa
 	function successHandler(data){
-		// recibe un objeto 
+		// recibe un objeto
 		//data{"error":"mensaje de error","task_id":id del task}
 
 		// si no hay error se muestra el
@@ -199,7 +199,7 @@
 	// al form
 	function formSubmit(e){
 		e.preventDefault(e);
-		
+
 		var formImport = $("#importForm");
 		// se obtiene los datos del formulario
 		var data = new FormData(formImport.get(0));
@@ -228,4 +228,3 @@
 	});
 </script>
 {% endblock %}
-

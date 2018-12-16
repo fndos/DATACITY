@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from main.views import *
-from main.views import customer, researcher, manager
+from main.views import manager
 from django.contrib.auth.views import logout
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 

@@ -31,15 +31,15 @@ class UserForm(forms.ModelForm):
 			'user_type': 'Tipo de usuario',
 		}
 		widgets = {
-			'identity_card': forms.TextInput(attrs={'class':'form-control'}),
-			'first_name': forms.TextInput(attrs={'class':'form-control'}),
-			'last_name': forms.TextInput(attrs={'class':'form-control'}),
-			'username': forms.TextInput(attrs={'class':'form-control'}),
-			'password': forms.PasswordInput(attrs={'class':'form-control'}),
-			'email': forms.TextInput(attrs={'class':'form-control'}),
-			'institution': forms.TextInput(attrs={'class':'form-control'}),
-			'phone_number': forms.TextInput(attrs={'class':'form-control'}),
-			'user_type': forms.Select(attrs={'class':'form-control'}),
+			'identity_card': forms.TextInput(),
+			'first_name': forms.TextInput(),
+			'last_name': forms.TextInput(),
+			'username': forms.TextInput(),
+			'password': forms.PasswordInput(),
+			'email': forms.TextInput(),
+			'institution': forms.TextInput(),
+			'phone_number': forms.TextInput(),
+			'user_type': forms.NumberInput(attrs={'min':'1', 'max':'3'}),
 		}
 
 	def __init__(self, *args, **kwargs):

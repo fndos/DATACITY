@@ -8,7 +8,7 @@
 <div class="section">
 	<div class="row">
 		<div class="col s12 m12 l6">
-			<a class="btn waves-effect waves-light" href="{{request.META.HTTP_REFERER|escape }}"><i class="material-icons left">keyboard_backspace</i> Atrás</a>
+			<button class="btn waves-effect waves-light" type="button" onClick="window.history.back();"><i class="material-icons left">keyboard_backspace</i>Atrás</button>
 			<div class="card-panel">
 				{% ifequal form.instance.pk None %}
 					<!--Create-->
@@ -21,7 +21,56 @@
 					<!-- User Form -->
 					<form method="post">
 						{% csrf_token %}
-						{{ form.as_p }}
+
+						<div class="row">
+							<!-- Identity Card -->
+							<div class="input-field col s12 m6 l6">
+								<label for="{{ form.identity_card.id_for_label }}">Cédula/Pasaporte</label>
+								{{ form.identity_card }}
+							</div>
+							<!-- First Name -->
+							<div class="input-field col s12 m6 l6">
+								<label for="{{ form.first_name.id_for_label }}">Nombre</label>
+								{{ form.first_name }}
+							</div>
+							<!-- Last Name -->
+							<div class="input-field col s12 m6 l6">
+								<label for="{{ form.last_name.id_for_label }}">Apellido</label>
+								{{ form.last_name }}
+							</div>
+							<!-- Username -->
+							<div class="input-field col s12 m6 l6">
+								<label for="{{ form.username.id_for_label }}">Usuario</label>
+								{{ form.username }}
+							</div>
+							<!-- Password -->
+							<div class="input-field col s12 m6 l6">
+								<label for="{{ form.password.id_for_label }}">Contraseña</label>
+								{{ form.password }}
+							</div>
+							<!-- Email -->
+							<div class="input-field col s12 m6 l6">
+								<label for="{{ form.email.id_for_label }}">Correo electrónico</label>
+								{{ form.email }}
+							</div>
+							<!-- Institución -->
+							<div class="input-field col s12 m6 l6">
+								<label for="{{ form.institution.id_for_label }}">Institución</label>
+								{{ form.institution }}
+							</div>
+							<!-- Phonenumber -->
+							<div class="input-field col s12 m6 l6">
+								<label for="{{ form.phone_number.id_for_label }}">Teléfono</label>
+								{{ form.phone_number }}
+							</div>
+							<!-- Tipo de Usuario -->
+							<div class="input-field col s12 m6 l6">
+								<label for="{{ form.user_type.id_for_label }}">Tipo de Usuario</label>
+								<!-- FIX SELECT IS NOT DISPLAYING OK -->
+								{{ form.user_type }}
+							</div>
+						</div>
+
 						{% ifequal form.instance.pk None %}
 							<!--Create-->
 							<button class="btn waves-effect waves-light green accent-6" type="submit" ><i class="material-icons left">cloud_done</i>Guardar y salir</button>

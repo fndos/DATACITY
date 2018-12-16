@@ -52,17 +52,17 @@ INSTALLED_APPS = (
 	'rest_framework',
 	'dash',
 	'dash.contrib.apps.public_dashboard',
-    'dash.contrib.layouts.android',
-    'dash.contrib.layouts.bootstrap2',
-    'dash.contrib.layouts.windows8',
-    'dash.contrib.plugins.dummy',
-    'dash.contrib.plugins.image',
-    'dash.contrib.plugins.memo',
-    'dash.contrib.plugins.rss_feed',
-    'dash.contrib.plugins.url',
-    'dash.contrib.plugins.video',
-    'dash.contrib.plugins.weather',
-    'd3',
+	'dash.contrib.layouts.android',
+	'dash.contrib.layouts.bootstrap2',
+	'dash.contrib.layouts.windows8',
+	'dash.contrib.plugins.dummy',
+	'dash.contrib.plugins.image',
+	'dash.contrib.plugins.memo',
+	'dash.contrib.plugins.rss_feed',
+	'dash.contrib.plugins.url',
+	'dash.contrib.plugins.video',
+	'dash.contrib.plugins.weather',
+	'd3',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -98,11 +98,12 @@ WSGI_APPLICATION = 'RESCLIMA.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-DB_PARAMS = "/home/carlos/Desktop/MateriaIntegradora/DATACITY/dbparams.json"
+# DB_PARAMS = "/home/carlos/Desktop/MateriaIntegradora/DATACITY/dbparams.json"
+DB_PARAMS = "/home/fernando/Documentos/GIT/DATACITY/dbparams.json"
 
 dbParams = None
 with open(DB_PARAMS) as data_file:
-        dbParams = json.load(data_file)
+		dbParams = json.load(data_file)
 #print dbParams
 DATABASES = {
 	'default': {

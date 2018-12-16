@@ -5,13 +5,12 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.hashers import make_password
 
 class User(AbstractUser):
-	# Type Choices: User, Customer, Guest, Manager
+	# Type Choices: User, Customer, Manager
 	USER_TYPE_CHOICES = (
 	  (None, 'Seleccione una opción'),
-	  (1, 'Investigador'),
-	  (2, 'Cliente'),
-	  (3, 'Invitado'),
-	  (4, 'Administrador'),
+	  (1, 'Administrador'),
+	  (2, 'Investigador'),
+	  (3, 'Cliente'),
 	)
 	# Información General
 	identity_card =models.CharField(max_length=10, unique=False) # Must be unique=True
@@ -29,16 +28,14 @@ class User(AbstractUser):
 
 	def get_user_type(self):
 		if self.user_type == 1:
-			return "Investigador"
-		elif self.user_type == 2:
-			return "Cliente"
-		elif self.user_type == 3:
-			return "Invitado"
-		elif self.user_type == 4:
 			return "Administrador"
+		elif self.user_type == 2:
+			return "Investigador"
+		elif self.user_type == 3:
+			return "Cliente"
 
 	def __unicode__(self):
-		return "%s %s" % (self.first_name,self.last_name)
+		return "%s %s" % (self.first_name, self.last_name)
 
 	def __str__(self):
 		return "%s %s" % (self.first_name, self.last_name)

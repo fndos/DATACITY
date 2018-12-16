@@ -13,7 +13,6 @@ from .. decorators import *
 from .. forms import *
 from .. models import *
 
-@method_decorator([login_required(login_url='noAccess'), manager_required], name='dispatch')
 class UserCreate(CreateView):
 	model = User
 	template_name = 'main/user/form.html'
@@ -24,12 +23,10 @@ class UserCreate(CreateView):
 		form.instance.created_by =  str(self.request.user)
 		return super(UserCreate, self).form_valid(form)
 
-@method_decorator([login_required(login_url='noAccess'), manager_required], name='dispatch')
 class UserList(ListView):
 	queryset = User.objects.order_by('id')
 	template_name = 'main/user/list.html'
 
-@method_decorator([login_required(login_url='noAccess'), manager_required], name='dispatch')
 class UserUpdate(UpdateView):
 	model = User
 	form_class = UserForm
@@ -40,13 +37,11 @@ class UserUpdate(UpdateView):
 		form.instance.updated_by = str(self.request.user)
 		return super(UserUpdate, self).form_valid(form)
 
-@method_decorator([login_required(login_url='noAccess'), manager_required], name='dispatch')
 class UserDelete(DeleteView):
 	model = User
 	template_name = 'main/user/delete.html'
 	success_url = reverse_lazy('user_list')
 
-@method_decorator([login_required(login_url='noAccess'), manager_required], name='dispatch')
 class UserShow(DetailView):
 	model = User
 	template_name = 'main/user/show.html'

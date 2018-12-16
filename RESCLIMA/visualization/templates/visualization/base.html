@@ -75,29 +75,29 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">RESCLIMA</a>
+        <a class="navbar-brand" href="{% url 'home' %}">RESCLIMA</a>
       </div>
 			<!-- Start Menu -->
       <div class="collapse navbar-collapse" id="myNavbar">
         {% if user.user_type == 1 %}
-        <!-- Researcher -->
+				<!-- Manager -->
+				<ul class="nav navbar-nav">
+          <li class="{% if request.resolver_match.url_name == 'user_list' %}active{% endif %}"><a href="{% url 'user_list' %}"><span class="glyphicon glyphicon-user"></span> &nbsp Usuarios</a></li>
+          <li><a href="{% url 'admin:index'%}"><span class="glyphicon glyphicon-cog"></span> &nbsp Administrador de Django</a></li>
+				{% elif user.user_type == 2 %}
+				<!-- Researcher -->
 				<ul class="nav navbar-nav">
           <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}"><a class="tag" href="{% url 'home' %}"><span class="glyphicon glyphicon-stats"></span> &nbsp Mis Visualizaciones</a></li>
 					<li><a class="tag" href="#"><span class="glyphicon glyphicon-cloud-download"></span> &nbsp Mis datos</a></li>
 					<li><a class="tag" href="#"><span class="glyphicon glyphicon-sd-video"></span> &nbsp Mis Simulaciones</a></li>
-				{% elif user.user_type == 2 %}
-        <!-- Customer -->
+        {% elif user.user_type == 3 %}
+				<!-- Customer -->
 				<ul class="nav navbar-nav">
           <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}"><a class="tag" href="{% url 'home' %}"><span class="glyphicon glyphicon-stats"></span> &nbsp Mis Visualizaciones</a></li>
 					<li><a class="tag" href="#"><span class="glyphicon glyphicon-cloud-download"></span> &nbsp Mis datos</a></li>
-        {% elif user.user_type == 4 %}
-        <!-- Manager -->
-				<ul class="nav navbar-nav">
-          <li class="{% if request.resolver_match.url_name == 'user_list' %}active{% endif %}"><a href="{% url 'user_list' %}"><span class="glyphicon glyphicon-user"></span> &nbsp Usuarios</a></li>
-          <li><a href="{% url 'admin:index'%}"><span class="glyphicon glyphicon-cog"></span> &nbsp Administrador de Django</a></li>
 				{% endif %}
 				<!-- Profile, Search and Session data -->
-					<li><a href="{% url 'home'%}"><span class="glyphicon glyphicon-search"></span> &nbsp Buscar</a></li>
+					<li><a href="/"><span class="glyphicon glyphicon-search"></span> &nbsp Buscar</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="{% url 'profile' %}"><span class="glyphicon glyphicon-user"></span> &nbsp {{ request.user.first_name }} {{ request.user.last_name }}</a></li>

@@ -18,10 +18,7 @@ def login(request):
 		user = authenticate(username=username, password=password)
 		if user is not None:
 			auth_login(request, user)
-			if user.user_type != 3:
-				return HttpResponseRedirect('/profile/')
-			else:
-				return HttpResponseRedirect('/')
+			return HttpResponseRedirect('/profile/')
 		else:
 			print("ERROR DE AUTENTICACION...")
 			return render(request,'main/login.html', {'error':True})

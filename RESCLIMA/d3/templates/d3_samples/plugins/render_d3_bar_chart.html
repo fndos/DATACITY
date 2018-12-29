@@ -1,0 +1,22 @@
+
+<p>
+    <strong>{{ plugin.data.title }}</strong>
+    <span id="chart-{{ plugin.html_id }}" ></span>
+    <script type="text/javascript">
+        // *****************************************************************
+        // ************************* Initialisation ************************
+        // *****************************************************************
+        $(document).ready(function(){
+
+            d3BarChartSample(
+                '#chart-{{ plugin.html_id }}',
+                '{{ plugin.data.selected_table }}',
+                '{{ plugin.data.selected_domain }}',
+                '{{ plugin.data.selected_range }}',
+                '{{ plugin.data.selected_label }}',
+                '{{ plugin.data.selected_color }}'
+            );
+
+        });
+    </script>
+</p>

@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- encoding: utf-8 -*-
 import time
-import urllib2 
+import urllib2
 import json
 import time
 from datetime import datetime
@@ -14,13 +14,13 @@ reload(sys)
 sys.setdefaultencoding("utf-8")
 
 # Script que descarga los datos
-# de las estaciones SKY2 y las guarda en 
+# de las estaciones SKY2 y las guarda en
 # la base de datos
 
 # archivos de configuracion, log y backup
-configFileName = "/home/manager/RESCLIMA/dbparams.json";
-logFileName = "/home/manager/RESCLIMA/StationScripts/Sky2/log.txt"
-backupFileName = "/home/manager/RESCLIMA/StationScripts/Sky2/backup.txt";
+configFileName = "/home/fernando/Documentos/GIT/DATACITY/dbparams.json";
+logFileName = "/home/fernando/Documentos/GIT/DATACITY/StationScripts/Sky2/log.txt"
+backupFileName = "/home/fernando/Documentos/GIT/DATACITY/StationScripts/Sky2/backup.txt";
 
 # variable de condicion
 # para dormir el main
@@ -73,7 +73,7 @@ def getVariablesByNames(dbParams,variable_names):
 		if conn:
 			conn.close()
 
-	return variables,None 
+	return variables,None
 
 def getStations(dbParams):
 	stations = []
@@ -88,15 +88,15 @@ def getStations(dbParams):
 
 		query = """
 				SELECT s.id,s.token,s.frequency
-                FROM "timeSeries_station" as s,   
-                "timeSeries_stationtype" as st 
-                WHERE st.brand='BloomSky' and st.model='SKY2' 
+                FROM "timeSeries_station" as s,
+                "timeSeries_stationtype" as st
+                WHERE st.brand='BloomSky' and st.model='SKY2'
                 and s."stationType_id"=st.id
                 """
-		
+
 		cursor.execute(query);
 		results = cursor.fetchall();
-		for row in results:	
+		for row in results:
 			station = {}
 			station["id"] = row[0];
 			station["token"] = row[1];
@@ -110,7 +110,7 @@ def getStations(dbParams):
 		if conn:
 			conn.close()
 
-	return stations,None 
+	return stations,None
 
 def getSKY2Data(token):
 	try:
@@ -127,7 +127,7 @@ def parseMeasurements(idStation,data,variables):
 	source = json.loads(data)[0]
 	readings = source['Data']
 	timestamp = readings['TS']
-	dt = datetime.utcfromtimestamp(timestamp)	
+	dt = datetime.utcfromtimestamp(timestamp)
 	timestamp_str = dt.strftime("%Y-%m-%d %H:%M:%S")
 
 
@@ -166,7 +166,7 @@ def insertMeasures(dbParams,measurements):
 		if conn:
 			conn.close()
 
-	return None 
+	return None
 
 def dataExtraction_thread(dbParams,station,variables):
 	idStation = station["id"]
@@ -184,7 +184,7 @@ def dataExtraction_thread(dbParams,station,variables):
 			logging.error(error)
 			continue
 
-		error = insertMeasures(dbParams,measurements) 
+		error = insertMeasures(dbParams,measurements)
 		if(error):
 			logging.error(error)
 			# intenta guardar en el backup
@@ -193,14 +193,14 @@ def dataExtraction_thread(dbParams,station,variables):
 
 
 if __name__ == "__main__":
-	
+
 	# se inicializa el logger
 	logging.basicConfig(filename=logFileName,
 						format='%(asctime)s %(message)s')
 	logging.debug('Adaptador SKY2 inicializado')
 
-	
-	# Se otienen las credenciales de 
+
+	# Se otienen las credenciales de
 	# la base de datos
 	dbParams = None
 	with open(configFileName) as f:
@@ -235,7 +235,7 @@ if __name__ == "__main__":
 	if(error):
 		logging.error(error)
 		exit(-1);
-	
+
 	stations,error = getStations(dbParams);
 
 	if(error):
@@ -249,5 +249,3 @@ if __name__ == "__main__":
 
 	cv.acquire()
 	cv.wait()
-
-

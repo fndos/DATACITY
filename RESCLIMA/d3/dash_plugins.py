@@ -7,8 +7,9 @@ from .dash_widgets import (
     BaseBubbleChartWidget,
     BaseStackedToGroupedBarsChartWidget,
     BaseSunburstPartitionChartWidget,
+    BaseBarChartWidget,
 )
-from .forms import ChartForm
+from .forms import *
 
 __author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
 __copyright__ = '2014-2018 Artur Barseghyan'
@@ -47,6 +48,13 @@ class BaseSunburstPartitionChartPlugin(BaseChartPlugin):
     name = _("Sunburst partition chart")
     html_classes = ['chartonic', 'd3-sunburst-partition-chart-plugin']
 
+class BaseBarChartPlugin(BaseChartPlugin):
+    """Base sunburst partition chart plugin."""
+
+    name = _("Bar chart")
+    form = BarChartForm
+    html_classes = ['chartonic', 'd3-bar-chart-plugin']
+
 # *****************************************************************************
 # ********** Generating and registering the plugins using factory *************
 # *****************************************************************************
@@ -67,6 +75,9 @@ plugin_factory(BaseStackedToGroupedBarsChartPlugin,
                sizes)
 plugin_factory(BaseSunburstPartitionChartPlugin,
                'd3_sunburst_partition_chart',
+               sizes)
+plugin_factory(BaseBarChartPlugin,
+               'd3_bar_chart',
                sizes)
 
 # *****************************************************************************
@@ -124,4 +135,21 @@ plugin_widget_factory(BaseSunburstPartitionChartWidget,
                       'bootstrap2_fluid',
                       'main',
                       'd3_sunburst_partition_chart',
+                      sizes)
+
+# Bar Chart
+plugin_widget_factory(BaseBarChartWidget,
+                      'android',
+                      'main',
+                      'd3_bar_chart',
+                      sizes)
+plugin_widget_factory(BaseBarChartWidget,
+                      'windows8',
+                      'main',
+                      'd3_bar_chart',
+                      sizes)
+plugin_widget_factory(BaseBarChartWidget,
+                      'bootstrap2_fluid',
+                      'main',
+                      'd3_bar_chart',
                       sizes)

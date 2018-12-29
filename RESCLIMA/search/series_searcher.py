@@ -9,13 +9,13 @@ def getTsTextQuery(query_object):
 	# sql statements
 	select_stm = 'SELECT v."id", v."name", array_agg(s.id) as stations, count(*) OVER() AS full_count '
 	from_stm = 'FROM "timeSeries_variable" as v, "timeSeries_stationtype" as st, "timeSeries_station" as s, "timeSeries_stationtype_variables" as st_v '
-	# JOIN entre station y stationType 
+	# JOIN entre station y stationType
 	where_stm = 'WHERE s."stationType_id" = st."id" AND '
 	# JOIN entre stationType y la tabla intermedia (station_type_variables)
 	where_stm = where_stm + 'st."id" = st_v."stationtype_id" AND '
 	# JOIN entre tabla intermedia (station_type_variables) y variable
 	where_stm = where_stm + 'st_v."variable_id" = v."id" '
-	
+
 	# si hay bbox
 	if(query_object.has_key("bbox")):
 		bbox_str = create_str_polygon_postgis(query_object["bbox"])
@@ -47,14 +47,14 @@ def getTsTextQuery(query_object):
 			ts_query_str = parseUserTextInput(text,categories);
 			where_stm = where_stm + 'AND v."ts_index" @@ to_tsquery(\'spanish\', %s) '
 			params.append(ts_query_str)
-	
+
 	qs = select_stm + from_stm + where_stm
 	qs = qs + 'GROUP BY  v.id '
 
 
 	limit = query_object.get("limit",None)
 	offset = query_object.get("offset",None)
-	
+
 	if(limit!=None and offset!=None):
 		qs = qs + " LIMIT %s OFFSET %s"
 		params.append(limit)
@@ -62,7 +62,3 @@ def getTsTextQuery(query_object):
 
 	print("EL QUERY DE BUSQUEDA  "+ qs)
 	return qs, params
-
-
-
-

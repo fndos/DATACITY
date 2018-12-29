@@ -20,5 +20,4 @@ class Graph(models.Model):
     style = JSONField() # Almacenar aqui un JSON para definir el estilo del grafico
     data = JSONField() # Almacenar aqui un JSON donde estaran definidos los datos del grafico (ESTO HACE ESTATICO EL GRAFICO)
     clients = models.ForeignKey(User, on_delete=models.CASCADE, related_name='pertenece_a')
-
     created_by = models.IntegerField()

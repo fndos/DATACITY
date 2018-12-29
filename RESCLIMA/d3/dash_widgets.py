@@ -69,3 +69,17 @@ class BaseSunburstPartitionChartWidget(BaseChartWidget):
     )
 
     _template = 'd3_samples/plugins/render_d3_sunburst_partition_chart.html'
+
+class BaseBarChartWidget(BaseChartWidget):
+    """Bar partition chart widget."""
+
+    media_js = (
+        'js/d3.v3.min.js',  # Main D3 script
+        'js/d3_bar_chart.js',  # Helper script
+    )
+
+    media_css = (
+        'css/d3_bar_chart.css',  # Specific styles
+    )
+
+    _template = 'd3_samples/plugins/render_d3_bar_chart.html'

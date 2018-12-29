@@ -5,31 +5,69 @@
 
 {% block content %}
 <div class="section">
-	<!--start container-->
-	<div class="container">
-		<div id="horizontal-card" class="section">
-			<div class="row">
-				<div class="col s12 m12 l6">
+	<div class="row">
+		<div class="col s12 m12 l6">
+			<div class="card-panel">
+				<div class="row">
+					<!-- User Form -->
 					<div class="row">
-						<button class="btn waves-effect waves-light" type="button" onClick="window.history.back();"><i class="material-icons left">keyboard_backspace</i>Atrás</button>
-						<div class="card-panel">
-							<h4>Información General</h4>
-							<p><b>Cédula/Pasaporte: </b>{{ object.identity_card }}</p>
-							<p><b>Nombre: </b>{{ object.first_name }}</p>
-							<p><b>Apellido: </b>{{ object.last_name }}</p>
-							<p><b>Usuario: </b>{{ object.username }}</p>
-							<p><b>Correo electr&oacute;nico: </b>{{ object.email }}</p>
-							<p><b>Institución: </b>{{ object.institution }}</p>
-							<p><b>Teléfono: </b>{{ object.phone_number }}</p>
-							<p><b>Tipo de usuario: </b>{{ object.get_user_type }}</p>
+						<!-- HEADER -->
+						<div class="input-field col s12 m12 l12">
+							<p style="font-family:monospace; font-weight: bold; margin-bottom: 15px;">INFORMACIÓN GENERAL</p>
 						</div>
-
+						<!-- Identity Card -->
+						<div class="input-field col s12 m6 l6">
+							<label for="{{ form.identity_card.id_for_label }}">Cédula/Pasaporte</label>
+							<input type="text" value="{{ object.identity_card }}" readonly>
+						</div>
+						<!-- First Name -->
+						<div class="input-field col s12 m6 l6">
+							<label for="{{ form.first_name.id_for_label }}">Nombre</label>
+							<input type="text" value="{{ object.first_name }}" readonly>
+						</div>
+						<!-- Last Name -->
+						<div class="input-field col s12 m6 l6">
+							<label for="{{ form.last_name.id_for_label }}">Apellido</label>
+							<input type="text" value="{{ object.last_name }}" readonly>
+						</div>
+						<!-- Username -->
+						<div class="input-field col s12 m6 l6">
+							<label for="{{ form.username.id_for_label }}">Usuario</label>
+							<input type="text" value="{{ object.username }}" readonly>
+						</div>
+						<!-- Password -->
+						<div class="input-field col s12 m6 l6">
+							<label for="{{ form.password.id_for_label }}">Contraseña</label>
+							<input type="password" value="------------" readonly>
+						</div>
+						<!-- Email -->
+						<div class="input-field col s12 m6 l6">
+							<label for="{{ form.email.id_for_label }}">Correo electrónico</label>
+							<input type="email" value="{{ object.email }}" readonly>
+						</div>
+						<!-- Institución -->
+						<div class="input-field col s12 m6 l6">
+							<label for="{{ form.institution.id_for_label }}">Institución</label>
+							<input type="text" value="{{ object.institution }}" readonly>
+						</div>
+						<!-- Phonenumber -->
+						<div class="input-field col s12 m6 l6">
+							<label for="{{ form.phone_number.id_for_label }}">Teléfono</label>
+							<input type="text" value="{{ object.phone_number }}" readonly>
+						</div>
+						<!-- Tipo de Usuario -->
+						<div class="input-field col s12 m6 l6">
+							<label for="{{ form.user_type.id_for_label }}">Tipo de Usuario</label>
+							<!-- FIX SELECT IS NOT DISPLAYING OK -->
+							<input type="number" value="{{ object.user_type }}" readonly>
+						</div>
 					</div>
+					<!-- End User Form -->
+					<button class="btn waves-effect waves-light" type="button" onClick="window.history.back();"><i class="material-icons left">keyboard_backspace</i>Atrás</button>
 				</div>
 			</div>
 		</div>
-
 	</div>
-	<!--end container-->
 </div>
+
 {% endblock content %}

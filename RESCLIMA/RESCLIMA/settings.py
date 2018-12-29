@@ -145,8 +145,8 @@ CELERY_RESULT_BACKEND = 'amqp://resclima:resclima@localhost:5672/resclima'
 CELERY_RESULT_SERIALIZER = 'json'
 
 # paths for user data
-STYLE_FILES_PATH = "/home/manager/styles/"
-RASTER_FILES_PATH = "/home/manager/rasters/"
-TEMPORARY_FILES_PATH = "/home/manager/tmp/"
+STYLE_FILES_PATH = "/home/fernando/Documentos/styles/"
+RASTER_FILES_PATH = "/home/fernando/Documentos/rasters/"
+TEMPORARY_FILES_PATH = "/home/fernando/Documentos/tmp/"
 
 AUTH_USER_MODEL = 'main.User'

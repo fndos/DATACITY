@@ -20,6 +20,8 @@ from main.views import manager
 from django.contrib.auth.views import logout
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
+from .api import router
+
 urlpatterns = [
     ############################# LOGIN REDIRECT ###############################
 	url(r'^$', home, name="home"),
@@ -37,6 +39,7 @@ urlpatterns = [
     url(r'^user/show/(?P<pk>\d+)/$', manager.UserShow.as_view(), name='user_show'),
     ################################# RESCLIMA #################################
 	url(r'^admin/', include(admin.site.urls)),
+    url(r'^api/', include(router.urls)),
 	url(r'^search/', include("search.urls")),
 	url(r'^layer/', include("layer.urls")),
 	url(r'^vector/', include("vectorLayers.urls")),
@@ -44,6 +47,7 @@ urlpatterns = [
 	url(r'^raster/', include("rasterLayers.urls")),
 	url(r'^tms/', include("tms.urls")),
     url(r'^visualization/', include("visualization.urls")),
+    url(r'^d3/', include('d3.urls')),
     url(r'^dashboard/', include('dash.urls')),
     url(r'^dashboard/', include('dash.contrib.apps.public_dashboard.urls')),
 ]

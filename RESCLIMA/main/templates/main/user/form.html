@@ -8,21 +8,23 @@
 <div class="section">
 	<div class="row">
 		<div class="col s12 m12 l6">
-			<button class="btn waves-effect waves-light" type="button" onClick="window.history.back();"><i class="material-icons left">keyboard_backspace</i>Atrás</button>
 			<div class="card-panel">
-				{% ifequal form.instance.pk None %}
-					<!--Create-->
-					<h4>Nuevo usuario</h4>
-				{% else %}
-					<!--Update-->
-					<h4>Editar usuario</h4>
-				{% endifequal %}
+
 				<div class="row">
 					<!-- User Form -->
 					<form method="post">
 						{% csrf_token %}
-
 						<div class="row">
+							<!-- HEADER -->
+							<div class="input-field col s12 m12 l12">
+							{% ifequal form.instance.pk None %}
+								<!--Create-->
+								<p style="font-family:monospace; font-weight: bold; margin-bottom: 15px;">NUEVO USUARIO</p>
+							{% else %}
+								<!--Update-->
+								<p style="font-family:monospace; font-weight: bold; margin-bottom: 15px;">EDITAR USUARIO</p>
+							{% endifequal %}
+							</div>
 							<!-- Identity Card -->
 							<div class="input-field col s12 m6 l6">
 								<label for="{{ form.identity_card.id_for_label }}">Cédula/Pasaporte</label>
@@ -70,7 +72,6 @@
 								{{ form.user_type }}
 							</div>
 						</div>
-
 						{% ifequal form.instance.pk None %}
 							<!--Create-->
 							<button class="btn waves-effect waves-light green accent-6" type="submit" ><i class="material-icons left">cloud_done</i>Guardar y salir</button>
@@ -78,6 +79,7 @@
 							<!--Update-->
 							<button class="btn waves-effect waves-light" type="submit"><i class="material-icons left">check_circle</i> Guardar cambios y salir</button>
 						{% endifequal %}
+							<button class="btn waves-effect waves-light red accent-2" type="button" onClick="window.history.back();"><i class="material-icons left">cancel</i>Cancelar</button>
 					</form>
 				</div>
 			</div>

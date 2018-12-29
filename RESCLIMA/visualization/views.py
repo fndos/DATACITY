@@ -20,7 +20,6 @@ def sample_count_by_month(request):
         .extra(select={'month': connections[Sample.objects.db].ops.date_trunc_sql('month', 'date')}) \
         .values('month') \
         .annotate(count_items=Count('id'))
-    print(type(data))
     return JsonResponse(list(data), safe=False)
 
 # Funcion retorna un JSON con la data que corresponde al tipo de grafico

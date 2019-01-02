@@ -18,30 +18,75 @@ TABLE_TYPE_CHOICES = (
   ('stations', 'Station'),
 )
 
+API_TYPE_CHOICES = (
+  (None, 'Choose an option'),
+  ('bubble', 'Station'),
+  ('mixed', 'Variable, Station'),
+  ('sunburst', 'Mixed Sources'),
+)
+
+TREE_MAP_TYPE_CHOICES = (
+  (None, 'Choose an option'),
+  ('treemap', 'Tree Map: Censo Mundial'),
+)
+
+# Formulario para Bar Chart
 class BarChartForm(forms.Form, DashboardPluginFormBase):
-    """Chart form for `ChartBasePlugin` plugin."""
 
     plugin_data_fields = [
         ("title", ""),
         ("selected_label", ""),
-        ("selected_table", ""),
+        ("selected_source", ""),
         ("selected_domain", ""),
         ("selected_range", ""),
         ("selected_color", ""),
     ]
 
-    title = forms.CharField(label=_("Title"), required=True)
-    selected_label = forms.CharField(label=_("Label"), required=True)
-    selected_table = forms.ChoiceField(label=_("Table"), choices=TABLE_TYPE_CHOICES, required=True)
-    selected_domain = forms.CharField(label=_("Domain"), required=True)
-    selected_range = forms.CharField(label=_("Range"), required=True)
+    title = forms.CharField(label=_("Titulo"), required=True)
+    selected_label = forms.CharField(label=_("Etiqueta"), required=True)
+    selected_source = forms.ChoiceField(label=_("Tabla/API"), choices=TABLE_TYPE_CHOICES, required=True)
+    selected_domain = forms.CharField(label=_("Dominio"), required=True)
+    selected_range = forms.CharField(label=_("Rango"), required=True)
     selected_color = forms.CharField(label=_("Color"), required=True, widget=forms.TextInput(attrs={'type':'color'}))
 
+# Formulario para Bubble Chart
+class BubbleChartForm(forms.Form, DashboardPluginFormBase):
+
+    plugin_data_fields = [
+        ("title", ""),
+        ("selected_source", ""),
+    ]
+
+    title = forms.CharField(label=_("Titulo"), required=True)
+    selected_source = forms.ChoiceField(label=_("Tabla/API"), choices=API_TYPE_CHOICES, required=True)
+
+# Formulario para Sunburst Partition Chart
+class SunburstPartitionChartForm(forms.Form, DashboardPluginFormBase):
+
+    plugin_data_fields = [
+        ("title", ""),
+        ("selected_source", ""),
+    ]
+
+    title = forms.CharField(label=_("Titulo"), required=True)
+    selected_source = forms.ChoiceField(label=_("Tabla/API"), choices=API_TYPE_CHOICES, required=True)
+
+# Formulario para Tree Map
+class TreeMapForm(forms.Form, DashboardPluginFormBase):
+
+    plugin_data_fields = [
+        ("title", ""),
+        ("selected_source", ""),
+    ]
+
+    title = forms.CharField(label=_("Titulo"), required=True)
+    selected_source = forms.ChoiceField(label=_("Tabla/API"), choices=TREE_MAP_TYPE_CHOICES, required=True)
+
+# Clase base de la cual heredan todos los charts
 class ChartForm(forms.Form, DashboardPluginFormBase):
-    """Chart form for `ChartBasePlugin` plugin."""
 
     plugin_data_fields = [
         ("title", ""),
     ]
 
-    title = forms.CharField(label=_("Title"), required=True)
+    title = forms.CharField(label=_("Titulo"), required=True)

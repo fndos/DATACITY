@@ -8,7 +8,7 @@ function toTitleCase(str) {
     });
 }
 
-function d3BarChartSample(bubbleContainer, selected_table, selected_domain, selected_range, selected_label, selected_color) {
+function d3BarChartSample(bubbleContainer, selected_source, selected_domain, selected_range, selected_label, selected_color) {
   // set the dimensions of the canvas
   var margin = {top: 20, right: 20, bottom: 70, left: 40},
       width = 600 - margin.left - margin.right,
@@ -36,10 +36,10 @@ function d3BarChartSample(bubbleContainer, selected_table, selected_domain, sele
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  d3.json("http://127.0.0.1:8000/api/" + selected_table + "/", function(error, data) {
-    // get data from table
+  d3.json("http://127.0.0.1:8000/api/" + selected_source + "/", function(error, data) {
     console.log(data)
-
+    
+    // get data from table
     data.forEach(function(d) {
       d[selected_domain] = d[selected_domain];
       d[selected_range] = +d[selected_range];

@@ -8,13 +8,9 @@
         // *****************************************************************
         $(document).ready(function(){
 
-            d3BubbleChartSample(
+            d3TreeMapSample(
                 '#chart-{{ plugin.html_id }}',
-                {{ width }},
-                '{{ plugin.data.selected_source }}',
-                1.5,
-                '.3em',
-                'middle'
+                '{{ plugin.data.selected_source }}'
             );
 
         });

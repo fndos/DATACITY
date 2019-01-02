@@ -83,3 +83,17 @@ class BaseBarChartWidget(BaseChartWidget):
     )
 
     _template = 'd3_samples/plugins/render_d3_bar_chart.html'
+
+class BaseTreeMapWidget(BaseChartWidget):
+    """Bar partition chart widget."""
+
+    media_js = (
+        'js/d3.v3.min.js',  # Main D3 script
+        'js/d3_tree_map.js',  # Helper script
+    )
+
+    media_css = (
+        'css/d3_tree_map.css',  # Specific styles
+    )
+
+    _template = 'd3_samples/plugins/render_d3_tree_map.html'

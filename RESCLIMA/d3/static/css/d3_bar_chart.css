@@ -1,9 +1,9 @@
-.bar{
+.bar {
   /*fill: steelblue;*/
 }
 
-.bar:hover{
-  /*fill: brown;*/
+.bar:hover {
+  fill: brown !important;
 }
 
 .axis {

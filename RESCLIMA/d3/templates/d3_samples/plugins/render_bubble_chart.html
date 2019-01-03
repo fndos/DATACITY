@@ -11,10 +11,13 @@
             d3BubbleChartSample(
                 '#chart-{{ plugin.html_id }}',
                 {{ width }},
-                '{{ plugin.data.selected_source }}',
+                '{{ plugin.data.source }}',
                 1.5,
                 '.3em',
-                'middle'
+                'middle',
+                '{{ plugin.uid }}',
+                '{{ plugin.data.key }}',
+                '{{ plugin.data.value }}'
             );
 
         });

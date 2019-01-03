@@ -22,6 +22,7 @@ API_TYPE_CHOICES = (
   (None, 'Choose an option'),
   ('bubble', 'Station'),
   ('mixed', 'Variable, Station'),
+  ('sample', 'Bubble Sample (name, size)'),
   ('sunburst', 'Mixed Sources'),
 )
 
@@ -35,41 +36,49 @@ class BarChartForm(forms.Form, DashboardPluginFormBase):
 
     plugin_data_fields = [
         ("title", ""),
-        ("selected_label", ""),
-        ("selected_source", ""),
-        ("selected_domain", ""),
-        ("selected_range", ""),
-        ("selected_color", ""),
+        ("domainLabel", ""),
+        ("rangeLabel", ""),
+        ("source", ""),
+        ("domain", ""),
+        ("range", ""),
+        ("color", ""),
+        ("hover", ""),
     ]
 
     title = forms.CharField(label=_("Titulo"), required=True)
-    selected_label = forms.CharField(label=_("Etiqueta"), required=True)
-    selected_source = forms.ChoiceField(label=_("Tabla/API"), choices=TABLE_TYPE_CHOICES, required=True)
-    selected_domain = forms.CharField(label=_("Dominio"), required=True)
-    selected_range = forms.CharField(label=_("Rango"), required=True)
-    selected_color = forms.CharField(label=_("Color"), required=True, widget=forms.TextInput(attrs={'type':'color'}))
+    domainLabel = forms.CharField(label=_("Etiqueta del eje X"), required=True)
+    rangeLabel = forms.CharField(label=_("Etiqueta del eje Y"), required=True)
+    source = forms.ChoiceField(label=_("Tabla/API"), choices=TABLE_TYPE_CHOICES, required=True)
+    domain = forms.CharField(label=_("Dominio"), required=True)
+    range = forms.CharField(label=_("Rango"), required=True)
+    color = forms.CharField(label=_("Color principal"), required=True, widget=forms.TextInput(attrs={'type':'color'}))
+    hover = forms.CharField(label=_("Color secundario"), required=True, widget=forms.TextInput(attrs={'type':'color'}))
 
 # Formulario para Bubble Chart
 class BubbleChartForm(forms.Form, DashboardPluginFormBase):
 
     plugin_data_fields = [
         ("title", ""),
-        ("selected_source", ""),
+        ("source", ""),
+        ("key", ""),
+        ("value", ""),
     ]
 
     title = forms.CharField(label=_("Titulo"), required=True)
-    selected_source = forms.ChoiceField(label=_("Tabla/API"), choices=API_TYPE_CHOICES, required=True)
+    source = forms.ChoiceField(label=_("Tabla/API"), choices=API_TYPE_CHOICES, required=True)
+    key = forms.CharField(label=_("Key"), required=False, strip=True)
+    value = forms.CharField(label=_("Value"), required=False, strip=True)
 
 # Formulario para Sunburst Partition Chart
 class SunburstPartitionChartForm(forms.Form, DashboardPluginFormBase):
 
     plugin_data_fields = [
         ("title", ""),
-        ("selected_source", ""),
+        ("source", ""),
     ]
 
     title = forms.CharField(label=_("Titulo"), required=True)
-    selected_source = forms.ChoiceField(label=_("Tabla/API"), choices=API_TYPE_CHOICES, required=True)
+    source = forms.ChoiceField(label=_("Tabla/API"), choices=API_TYPE_CHOICES, required=True)
 
 # Formulario para Tree Map
 class TreeMapForm(forms.Form, DashboardPluginFormBase):

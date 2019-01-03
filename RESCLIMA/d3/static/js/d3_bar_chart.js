@@ -8,7 +8,7 @@ function toTitleCase(str) {
     });
 }
 
-function d3BarChartSample(bubbleContainer, selected_source, selected_domain, selected_range, selected_label, selected_color) {
+function d3BarChartSample(container, source, domain, range, domainLabel, rangeLabel, color, hover) {
   // set the dimensions of the canvas
   var margin = {top: 20, right: 20, bottom: 70, left: 40},
       width = 600 - margin.left - margin.right,
@@ -30,24 +30,36 @@ function d3BarChartSample(bubbleContainer, selected_source, selected_domain, sel
       .ticks(10);
 
   // add the SVG element
-  var svg = d3.select(bubbleContainer).append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
+  var svg = d3.select(container).append("svg")
+      // .attr("width", width + margin.left + margin.right)
+      // .attr("height", height + margin.top + margin.bottom)
+      .attr("preserveAspectRatio", "xMinYMin meet")
+      .attr("viewBox", "0 0 600 600")
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  d3.json("http://127.0.0.1:8000/api/" + selected_source + "/", function(error, data) {
+  var tip = d3.tip()
+    .attr('class', 'd3-tip')
+    .offset([-10, 0])
+    .html(function(d) {
+      return "<div><span>" + toTitleCase(domainLabel) + ":</span> <span style='color:white'>" + d[domain] + "</span></div>" +
+             "<div><span>" + toTitleCase(rangeLabel) + ":</span> <span style='color:white'>" + d[range] + "</span></div>";
+    })
+
+  svg.call(tip);
+
+  d3.json("http://127.0.0.1:8000/api/" + source + "/", function(error, data) {
     console.log(data)
-    
+
     // get data from table
     data.forEach(function(d) {
-      d[selected_domain] = d[selected_domain];
-      d[selected_range] = +d[selected_range];
+      d[domain] = d[domain];
+      d[range] = +d[range];
     });
 
     // scale the range of the data
-    x.domain(data.map(function(d) { return d[selected_domain]; }));
-    y.domain([0, d3.max(data, function(d) { return d.id; })]);
+    x.domain(data.map(function(d) { return d[domain]; }));
+    y.domain([0, d3.max(data, function(d) { return d[range]; })]);
 
     // add axis
     svg.append("g")
@@ -68,7 +80,7 @@ function d3BarChartSample(bubbleContainer, selected_source, selected_domain, sel
         .attr("y", 5)
         .attr("dy", ".71em")
         .style("text-anchor", "end")
-        .text(toTitleCase(selected_label));
+        .text(toTitleCase(rangeLabel));
 
     // Add bar chart
     svg.selectAll("bar")
@@ -76,11 +88,19 @@ function d3BarChartSample(bubbleContainer, selected_source, selected_domain, sel
         .enter()
         .append("rect")
         .attr("class", "bar")
-        .attr("x", function(d) { return x(d[selected_domain]); })
+        .attr("x", function(d) { return x(d[domain]); })
         .attr("width", x.rangeBand())
-        .attr("y", function(d) { return y(d[selected_range]); })
-        .attr("height", function(d) { return height - y(d[selected_range]); })
-        .attr("fill", function(d) { return selected_color });
+        .attr("y", function(d) { return y(d[range]); })
+        .attr("height", function(d) { return height - y(d[range]); })
+        .attr("fill", function(d) { return color })
+        .on("mouseover", function(d) {
+          d3.select(this).style("fill", hover);
+          tip.show(d);
+        })
+        .on("mouseout", function(d) {
+          d3.select(this).style("fill", color);
+          tip.hide(d);
+        })
 
   });
 

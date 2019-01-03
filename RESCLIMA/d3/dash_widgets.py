@@ -75,6 +75,7 @@ class BaseBarChartWidget(BaseChartWidget):
 
     media_js = (
         'js/d3.v3.min.js',  # Main D3 script
+        'js/d3.tip.min.js', # D3 Tip Script
         'js/d3_bar_chart.js',  # Helper script
     )
 

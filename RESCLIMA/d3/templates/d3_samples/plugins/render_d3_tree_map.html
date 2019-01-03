@@ -10,7 +10,8 @@
 
             d3TreeMapSample(
                 '#chart-{{ plugin.html_id }}',
-                '{{ plugin.data.selected_source }}'
+                '{{ plugin.data.source }}',
+                '{{ plugin.uid }}'
             );
 
         });

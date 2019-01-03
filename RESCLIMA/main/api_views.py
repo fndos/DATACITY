@@ -144,12 +144,6 @@ class TreeMapViewSet(viewsets.ViewSet):
 		    "key": "Algeria"
 		  },
 		  {
-		    "region": "Oceania",
-		    "subregion": "Polynesia",
-		    "value": 55519,
-		    "key": "American Samoa"
-		  },
-		  {
 		    "region": "Europe",
 		    "subregion": "Southern Europe",
 		    "value": 76246,
@@ -196,12 +190,6 @@ class TreeMapViewSet(viewsets.ViewSet):
 		    "subregion": "Caribbean",
 		    "value": 101484,
 		    "key": "Aruba"
-		  },
-		  {
-		    "region": "Oceania",
-		    "subregion": "Australia and New Zealand",
-		    "value": 23254142,
-		    "key": "Australia"
 		  },
 		  {
 		    "region": "Europe",
@@ -402,18 +390,6 @@ class TreeMapViewSet(viewsets.ViewSet):
 		    "key": "China"
 		  },
 		  {
-		    "region": "Oceania",
-		    "subregion": "Australia and New Zealand",
-		    "value": 2072,
-		    "key": "Christmas Island"
-		  },
-		  {
-		    "region": "Oceania",
-		    "subregion": "Australia and New Zealand",
-		    "value": 550,
-		    "key": "Cocos (Keeling) Islands"
-		  },
-		  {
 		    "region": "Americas",
 		    "subregion": "South America",
 		    "value": 47330000,
@@ -436,12 +412,6 @@ class TreeMapViewSet(viewsets.ViewSet):
 		    "subregion": "Middle Africa",
 		    "value": 67514000,
 		    "key": "Democratic Republic of the Congo"
-		  },
-		  {
-		    "region": "Oceania",
-		    "subregion": "Polynesia",
-		    "value": 14974,
-		    "key": "Cook Islands"
 		  },
 		  {
 		    "region": "Americas",
@@ -564,12 +534,6 @@ class TreeMapViewSet(viewsets.ViewSet):
 		    "key": "Faroe Islands"
 		  },
 		  {
-		    "region": "Oceania",
-		    "subregion": "Melanesia",
-		    "value": 858038,
-		    "key": "Fiji"
-		  },
-		  {
 		    "region": "Europe",
 		    "subregion": "Northern Europe",
 		    "value": 5445883,
@@ -586,12 +550,6 @@ class TreeMapViewSet(viewsets.ViewSet):
 		    "subregion": "South America",
 		    "value": 229040,
 		    "key": "French Guiana"
-		  },
-		  {
-		    "region": "Oceania",
-		    "subregion": "Polynesia",
-		    "value": 268270,
-		    "key": "French Polynesia"
 		  },
 		  {
 		    "region": "",
@@ -658,12 +616,6 @@ class TreeMapViewSet(viewsets.ViewSet):
 		    "subregion": "Caribbean",
 		    "value": 403355,
 		    "key": "Guadeloupe"
-		  },
-		  {
-		    "region": "Oceania",
-		    "subregion": "Micronesia",
-		    "value": 159358,
-		    "key": "Guam"
 		  },
 		  {
 		    "region": "Americas",
@@ -822,12 +774,6 @@ class TreeMapViewSet(viewsets.ViewSet):
 		    "key": "Kenya"
 		  },
 		  {
-		    "region": "Oceania",
-		    "subregion": "Micronesia",
-		    "value": 106461,
-		    "key": "Kiribati"
-		  },
-		  {
 		    "region": "Asia",
 		    "subregion": "Western Asia",
 		    "value": 3582054,
@@ -942,12 +888,6 @@ class TreeMapViewSet(viewsets.ViewSet):
 		    "key": "Malta"
 		  },
 		  {
-		    "region": "Oceania",
-		    "subregion": "Micronesia",
-		    "value": 56086,
-		    "key": "Marshall Islands"
-		  },
-		  {
 		    "region": "Americas",
 		    "subregion": "Caribbean",
 		    "value": 394173,
@@ -976,12 +916,6 @@ class TreeMapViewSet(viewsets.ViewSet):
 		    "subregion": "Central America",
 		    "value": 118395054,
 		    "key": "Mexico"
-		  },
-		  {
-		    "region": "Oceania",
-		    "subregion": "Micronesia",
-		    "value": -1,
-		    "key": "Micronesia"
 		  },
 		  {
 		    "region": "Europe",
@@ -1038,12 +972,6 @@ class TreeMapViewSet(viewsets.ViewSet):
 		    "key": "Namibia"
 		  },
 		  {
-		    "region": "Oceania",
-		    "subregion": "Micronesia",
-		    "value": 9945,
-		    "key": "Nauru"
-		  },
-		  {
 		    "region": "Asia",
 		    "subregion": "Southern Asia",
 		    "value": 26494504,
@@ -1054,18 +982,6 @@ class TreeMapViewSet(viewsets.ViewSet):
 		    "subregion": "Western Europe",
 		    "value": 16807300,
 		    "key": "Netherlands"
-		  },
-		  {
-		    "region": "Oceania",
-		    "subregion": "Melanesia",
-		    "value": 258958,
-		    "key": "New Caledonia"
-		  },
-		  {
-		    "region": "Oceania",
-		    "subregion": "Australia and New Zealand",
-		    "value": 4478810,
-		    "key": "New Zealand"
 		  },
 		  {
 		    "region": "Americas",
@@ -1086,28 +1002,10 @@ class TreeMapViewSet(viewsets.ViewSet):
 		    "key": "Nigeria"
 		  },
 		  {
-		    "region": "Oceania",
-		    "subregion": "Polynesia",
-		    "value": 1613,
-		    "key": "Niue"
-		  },
-		  {
-		    "region": "Oceania",
-		    "subregion": "Australia and New Zealand",
-		    "value": 2302,
-		    "key": "Norfolk Island"
-		  },
-		  {
 		    "region": "Asia",
 		    "subregion": "Eastern Asia",
 		    "value": 24895000,
 		    "key": "North Korea"
-		  },
-		  {
-		    "region": "Oceania",
-		    "subregion": "Micronesia",
-		    "value": 53883,
-		    "key": "Northern Mariana Islands"
 		  },
 		  {
 		    "region": "Europe",
@@ -1128,12 +1026,6 @@ class TreeMapViewSet(viewsets.ViewSet):
 		    "key": "Pakistan"
 		  },
 		  {
-		    "region": "Oceania",
-		    "subregion": "Micronesia",
-		    "value": 20901,
-		    "key": "Palau"
-		  },
-		  {
 		    "region": "Asia",
 		    "subregion": "Western Asia",
 		    "value": -1,
@@ -1144,12 +1036,6 @@ class TreeMapViewSet(viewsets.ViewSet):
 		    "subregion": "Central America",
 		    "value": 3405813,
 		    "key": "Panama"
-		  },
-		  {
-		    "region": "Oceania",
-		    "subregion": "Melanesia",
-		    "value": 7059653,
-		    "key": "Papua New Guinea"
 		  },
 		  {
 		    "region": "Americas",
@@ -1168,12 +1054,6 @@ class TreeMapViewSet(viewsets.ViewSet):
 		    "subregion": "South-Eastern Asia",
 		    "value": 98678000,
 		    "key": "Philippines"
-		  },
-		  {
-		    "region": "Oceania",
-		    "subregion": "Polynesia",
-		    "value": 56,
-		    "key": "Pitcairn Islands"
 		  },
 		  {
 		    "region": "Europe",
@@ -1272,12 +1152,6 @@ class TreeMapViewSet(viewsets.ViewSet):
 		    "key": "Saint Vincent and the Grenadines"
 		  },
 		  {
-		    "region": "Oceania",
-		    "subregion": "Polynesia",
-		    "value": 187820,
-		    "key": "Samoa"
-		  },
-		  {
 		    "region": "Europe",
 		    "subregion": "Southern Europe",
 		    "value": 32509,
@@ -1342,12 +1216,6 @@ class TreeMapViewSet(viewsets.ViewSet):
 		    "subregion": "Southern Europe",
 		    "value": 2061405,
 		    "key": "Slovenia"
-		  },
-		  {
-		    "region": "Oceania",
-		    "subregion": "Melanesia",
-		    "value": 561000,
-		    "key": "Solomon Islands"
 		  },
 		  {
 		    "region": "Africa",
@@ -1470,18 +1338,6 @@ class TreeMapViewSet(viewsets.ViewSet):
 		    "key": "Togo"
 		  },
 		  {
-		    "region": "Oceania",
-		    "subregion": "Polynesia",
-		    "value": 1411,
-		    "key": "Tokelau"
-		  },
-		  {
-		    "region": "Oceania",
-		    "subregion": "Polynesia",
-		    "value": 103036,
-		    "key": "Tonga"
-		  },
-		  {
 		    "region": "Americas",
 		    "subregion": "Caribbean",
 		    "value": 1328019,
@@ -1510,12 +1366,6 @@ class TreeMapViewSet(viewsets.ViewSet):
 		    "subregion": "Caribbean",
 		    "value": 31458,
 		    "key": "Turks and Caicos Islands"
-		  },
-		  {
-		    "region": "Oceania",
-		    "subregion": "Polynesia",
-		    "value": 11323,
-		    "key": "Tuvalu"
 		  },
 		  {
 		    "region": "Africa",
@@ -1572,12 +1422,6 @@ class TreeMapViewSet(viewsets.ViewSet):
 		    "key": "Uzbekistan"
 		  },
 		  {
-		    "region": "Oceania",
-		    "subregion": "Melanesia",
-		    "value": 264652,
-		    "key": "Vanuatu"
-		  },
-		  {
 		    "region": "Americas",
 		    "subregion": "South America",
 		    "value": 28946101,
@@ -1588,12 +1432,6 @@ class TreeMapViewSet(viewsets.ViewSet):
 		    "subregion": "South-Eastern Asia",
 		    "value": 90388000,
 		    "key": "Vietnam"
-		  },
-		  {
-		    "region": "Oceania",
-		    "subregion": "Polynesia",
-		    "value": 13135,
-		    "key": "Wallis and Futuna"
 		  },
 		  {
 		    "region": "Africa",

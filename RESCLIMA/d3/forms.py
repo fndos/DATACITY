@@ -85,11 +85,11 @@ class TreeMapForm(forms.Form, DashboardPluginFormBase):
 
     plugin_data_fields = [
         ("title", ""),
-        ("selected_source", ""),
+        ("source", ""),
     ]
 
     title = forms.CharField(label=_("Titulo"), required=True)
-    selected_source = forms.ChoiceField(label=_("Tabla/API"), choices=TREE_MAP_TYPE_CHOICES, required=True)
+    source = forms.ChoiceField(label=_("Tabla/API"), choices=TREE_MAP_TYPE_CHOICES, required=True)
 
 # Clase base de la cual heredan todos los charts
 class ChartForm(forms.Form, DashboardPluginFormBase):

@@ -2,7 +2,21 @@
 // ************************* Simple function ************************
 // ******************************************************************
 
-function d3TreeMapSample(bubbleContainer, selected_source) {
+function getPluginSize(str) {
+  return parseInt(str[str.length-1]);
+}
+
+function getViewBox(size) {
+	if (size == 4) { return "772 0 1355 1355" }
+	else if (size == 5) { return "604 0 1055 1055" }
+	else if (size == 6) { return "499 0 879 879" }
+	else { return "425 0 745 745" }
+}
+
+function d3TreeMapSample(container, source, size) {
+  console.log(getViewBox(size));
+
+
   window.addEventListener('message', function(e) {
     var opts = e.data.opts,
         data = e.data.data;
@@ -26,7 +40,7 @@ function d3TreeMapSample(bubbleContainer, selected_source) {
         margin = opts.margin,
         theight = 36 + 16;
 
-    $(bubbleContainer).width(opts.width).height(opts.height);
+    $(container).width(opts.width).height(opts.height);
     var width = opts.width - margin.left - margin.right,
         height = opts.height - margin.top - margin.bottom - theight,
         transitioning;
@@ -47,7 +61,9 @@ function d3TreeMapSample(bubbleContainer, selected_source) {
         .ratio(height / width * 0.5 * (1 + Math.sqrt(5)))
         .round(false);
 
-    var svg = d3.select(bubbleContainer).append("svg")
+    var svg = d3.select(container).append("svg")
+        .attr("viewBox", getViewBox(getPluginSize(size)))
+        .attr("perserveAspectRatio", "xMinYMid")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.bottom + margin.top)
         .style("margin-left", -margin.left + "px")
@@ -70,7 +86,7 @@ function d3TreeMapSample(bubbleContainer, selected_source) {
         .attr("dy", ".75em");
 
     if (opts.title) {
-      $(bubbleContainer).prepend("<p class='title'>" + opts.title + "</p>");
+      $(container).prepend("<p class='title'>" + opts.title + "</p>");
     }
     if (data instanceof Array) {
       root = { key: rname, values: data };
@@ -81,7 +97,7 @@ function d3TreeMapSample(bubbleContainer, selected_source) {
     initialize(root);
     accumulate(root);
     layout(root);
-    console.log(root);
+    //console.log(root);
     display(root);
 
     if (window.parent !== window) {
@@ -246,9 +262,9 @@ function d3TreeMapSample(bubbleContainer, selected_source) {
   }
 
   if (window.location.hash === "") {
-    d3.json("http://127.0.0.1:8000/api/" + selected_source + "/", function(err, res) {
+    d3.json("http://127.0.0.1:8000/api/" + source + "/", function(err, res) {
       if (!err) {
-        console.log(res);
+        //console.log(res);
         var data = d3.nest().key(function(d) { return d.region; }).key(function(d) { return d.subregion; }).entries(res);
         main({title: ""}, {key: "Mundo", values: data});
       }

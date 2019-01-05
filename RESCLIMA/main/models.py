@@ -3,6 +3,7 @@ from django.db import models
 
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.hashers import make_password
+from django.core.validators import FileExtensionValidator
 
 class User(AbstractUser):
 	# Type Choices: User, Customer, Manager
@@ -43,3 +44,11 @@ class User(AbstractUser):
 	class Meta:
 		verbose_name = "User"
 		verbose_name_plural = "Users"
+class Simulador_Sumo(models.model):
+	###Entradas######
+	configuracion_xml = models.FileField( validators=[FileExtensionValidator(allowed_extensions=['xml'])])
+	net_xml = models.FileField( validators=[FileExtensionValidator(allowed_extensions=['xml'])])
+	rutas_xml = models.FileField( validators=[FileExtensionValidator(allowed_extensions=['xml'])])
+	adicional_xml = models.FileField( validators=[FileExtensionValidator(allowed_extensions=['xml'])])
+	pesos_xml = models.FileField( validators=[FileExtensionValidator(allowed_extensions=['xml'])])
+	#######Salidas#####

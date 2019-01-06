@@ -30,6 +30,7 @@ function d3BarChartSample(container, source, domain, range, domainLabel, rangeLa
       .ticks(10);
 
   // add the SVG element
+  console.log(container)
   var svg = d3.select(container).append("svg")
       // .attr("width", width + margin.left + margin.right)
       // .attr("height", height + margin.top + margin.bottom)
@@ -49,7 +50,7 @@ function d3BarChartSample(container, source, domain, range, domainLabel, rangeLa
   svg.call(tip);
 
   d3.json("http://127.0.0.1:8000/api/" + source + "/", function(error, data) {
-    console.log(data)
+    //console.log(data)
 
     // get data from table
     data.forEach(function(d) {

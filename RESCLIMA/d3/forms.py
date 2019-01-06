@@ -91,6 +91,15 @@ class TreeMapForm(forms.Form, DashboardPluginFormBase):
     title = forms.CharField(label=_("Titulo"), required=True)
     source = forms.ChoiceField(label=_("Tabla/API"), choices=TREE_MAP_TYPE_CHOICES, required=True)
 
+# Formulario para Tree Map
+class TimeSeriesForm(forms.Form, DashboardPluginFormBase):
+
+    plugin_data_fields = [
+        ("title", ""),
+    ]
+
+    title = forms.CharField(label=_("Titulo"), required=True)
+
 # Clase base de la cual heredan todos los charts
 class ChartForm(forms.Form, DashboardPluginFormBase):
 

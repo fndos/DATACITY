@@ -10,6 +10,7 @@ from .dash_widgets import (
     #BaseStackedToGroupedBarsChartWidget,
     BaseBarChartWidget,
     BaseTreeMapWidget,
+    BaseTimeSeriesWidget,
 )
 
 from .forms import *
@@ -67,6 +68,13 @@ class BaseTreeMapPlugin(BaseChartPlugin):
     form = TreeMapForm
     html_classes = ['chartonic', 'd3-tree-map-plugin']
 
+class BaseTimeSeriesPlugin(BaseChartPlugin):
+    """Base sunburst partition chart plugin."""
+
+    name = _("Time Series")
+    form = TimeSeriesForm
+    html_classes = ['chartonic', 'd3-time-series-plugin']
+
 # *****************************************************************************
 # ********** Generating and registering the plugins using factory *************
 # *****************************************************************************
@@ -93,6 +101,9 @@ plugin_factory(BaseBarChartPlugin,
                sizes)
 plugin_factory(BaseTreeMapPlugin,
                'd3_tree_map',
+               sizes)
+plugin_factory(BaseTimeSeriesPlugin,
+               'd3_time_series',
                sizes)
 
 # *****************************************************************************
@@ -184,4 +195,21 @@ plugin_widget_factory(BaseTreeMapWidget,
                       'bootstrap2_fluid',
                       'main',
                       'd3_tree_map',
+                      sizes)
+
+# Time Series
+plugin_widget_factory(BaseTimeSeriesWidget,
+                      'android',
+                      'main',
+                      'd3_time_series',
+                      sizes)
+plugin_widget_factory(BaseTimeSeriesWidget,
+                      'windows8',
+                      'main',
+                      'd3_time_series',
+                      sizes)
+plugin_widget_factory(BaseTimeSeriesWidget,
+                      'bootstrap2_fluid',
+                      'main',
+                      'd3_time_series',
                       sizes)

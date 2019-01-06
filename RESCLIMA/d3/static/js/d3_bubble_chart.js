@@ -2,11 +2,11 @@
 // ************************* Simple function ************************
 // ******************************************************************
 
-function getPluginSize(str) {
+function getBubbleChartPluginSize(str) {
   return parseInt(str[str.length-1]);
 }
 
-function getViewBox(size) {
+function getBubbleChartViewBox(size) {
 	if (size == 4) { return "0 0 325 575" }
 	else if (size == 5) { return "0 0 425 775" }
 	else if (size == 6) { return "0 0 525 875" }
@@ -41,7 +41,7 @@ function d3BubbleChartSample(container, diameter, source, padding, nodeDy, nodeT
 	// add the SVG element
 	var svg = d3.select(container)
 		.append("svg")
-		.attr("viewBox", getViewBox(getPluginSize(size)))
+		.attr("viewBox", getBubbleChartViewBox(getBubbleChartPluginSize(size)))
 	  .attr("perserveAspectRatio", "xMinYMid")
 	  .attr("width", diameter)
 	  .attr("height", diameter)

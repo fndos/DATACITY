@@ -2,25 +2,25 @@
 // ************************* Simple function ************************
 // ******************************************************************
 
-function getPluginSize(str) {
+function getSunburstPluginSize(str) {
   return parseInt(str[str.length-1]);
 }
 
-function getViewBox(size) {
+function getSunburstViewBox(size) {
 	if (size == 4) { return "0 0 425 245" }
 	else if (size == 5) { return "0 0 525 325" }
 	else if (size == 6) { return "0 0 525 365" }
 	else { return "0 0 625 425" }
 }
 
-function d3SunburstPartitionChartSample(bubbleContainer, iWidth, iHeight, source, size) {
+function d3SunburstPartitionChartSample(container, iWidth, iHeight, source, size) {
   var width = iWidth,
     height = iHeight,
     radius = Math.min(width, height) / 2,
     color = d3.scale.category20c();
 
-  var svg = d3.select(bubbleContainer).append("svg")
-    .attr("viewBox", getViewBox(getPluginSize(size)))
+  var svg = d3.select(container).append("svg")
+    .attr("viewBox", getSunburstViewBox(getSunburstPluginSize(size)))
     .attr("perserveAspectRatio", "xMinYMid")
     .attr("width", width)
     .attr("height", height)
@@ -39,7 +39,7 @@ function d3SunburstPartitionChartSample(bubbleContainer, iWidth, iHeight, source
     .outerRadius(function(d) { return Math.sqrt(d.y + d.dy); });
 
   d3.json("http://127.0.0.1:8000/api/" + source + "/", function(error, root) {
-    console.log(root)
+    //console.log(root)
     var path = svg.datum(root).selectAll("path")
       .data(partition.nodes)
       .enter().append("path")

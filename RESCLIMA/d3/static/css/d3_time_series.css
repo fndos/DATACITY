@@ -1,0 +1,42 @@
+body {
+  font: 14px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  stroke-width: 1.5px;
+  shape-rendering: crispEdges;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 3.5px;
+}
+
+.dot {
+  stroke: #000;
+}
+
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  width: 80px;
+  height: 55px;
+  padding: 4px;
+  font: 16px sans-serif;
+  color: white;
+  font-weight: 500;
+  background: black;
+  border: 0px;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+/* http://www.d3noob.org/2013/01/adding-grid-lines-to-d3js-graph.html */
+.grid .tick {
+    stroke: lightgrey;
+    opacity: 0.7;
+}

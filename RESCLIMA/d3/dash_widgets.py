@@ -38,7 +38,7 @@ class BaseBubbleChartWidget(BaseChartWidget):
         'js/d3.v3.min.js',  # Main D3 script
         'js/d3_bubble_chart.js',  # Helper script
     )
-    _template = 'd3_samples/plugins/render_bubble_chart.html'
+    _template = 'd3_samples/plugins/render_d3_bubble_chart.html'
 
 
 class BaseStackedToGroupedBarsChartWidget(BaseChartWidget):
@@ -98,3 +98,17 @@ class BaseTreeMapWidget(BaseChartWidget):
     )
 
     _template = 'd3_samples/plugins/render_d3_tree_map.html'
+
+class BaseTimeSeriesWidget(BaseChartWidget):
+    """Bar partition chart widget."""
+
+    media_js = (
+        'js/d3.v3.min.js',  # Main D3 script
+        'js/d3_time_series.js',  # Helper script
+    )
+
+    media_css = (
+        'css/d3_time_series.css',  # Specific styles
+    )
+
+    _template = 'd3_samples/plugins/render_d3_time_series.html'

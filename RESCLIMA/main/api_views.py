@@ -1460,3 +1460,18 @@ class TreeMapViewSet(viewsets.ViewSet):
 		]
 
 		return Response(content)
+
+class APITestViewSet(viewsets.ViewSet):
+	renderer_classes = (JSONRenderer, )
+
+	def list(self, request, format=None):
+		#import pdb
+		#pdb.set_trace()
+		measurement = models.Measurement.objects.extra(select={'readings':'readings'}).values('readings', 'readings')
+		variable = models.Variable.objects.extra()
+		listadem = list(measurement)
+		print measurement
+		print listadem
+		content = {}
+
+		return Response(content)

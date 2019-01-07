@@ -35,7 +35,7 @@ function d3BarChartSample(container, source, domain, range, domainLabel, rangeLa
       // .attr("width", width + margin.left + margin.right)
       // .attr("height", height + margin.top + margin.bottom)
       .attr("preserveAspectRatio", "xMinYMin meet")
-      .attr("viewBox", "0 0 600 600")
+      .attr("viewBox", "0 -25 600 600")
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 

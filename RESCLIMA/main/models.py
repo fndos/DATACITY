@@ -44,7 +44,8 @@ class User(AbstractUser):
 	class Meta:
 		verbose_name = "User"
 		verbose_name_plural = "Users"
-class Simulador_Sumo(models.model):
+
+class Simulador_Sumo(models.Model):
 	###Entradas######
 	configuracion_xml = models.FileField( validators=[FileExtensionValidator(allowed_extensions=['xml'])])
 	net_xml = models.FileField( validators=[FileExtensionValidator(allowed_extensions=['xml'])])

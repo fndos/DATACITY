@@ -6064,7 +6064,7 @@ li.home:before {
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
-  src: local("Material Icons"), local("MaterialIcons-Regular"), url("../fonts/material-design-icons/MaterialIcons-Regular.ttf") format("truetype"), url("../fonts/material-design-icons/MaterialIcons-Regular.woff2") format("woff2"), url("../fonts/material-design-icons/MaterialIcons-Regular.woff") format("woff"), url("/fonts/material-design-icons/MaterialIcons-Regular.eot");
+  src: local("Material Icons"), local("MaterialIcons-Regular"), url("/fonts/material-design-icons/MaterialIcons-Regular.ttf") format("truetype"), url("/fonts/material-design-icons/MaterialIcons-Regular.woff2") format("woff2"), url("/fonts/material-design-icons/MaterialIcons-Regular.woff") format("woff"), url("/fonts/material-design-icons/MaterialIcons-Regular.eot");
 }
 
 .material-icons {
@@ -8503,6 +8503,7 @@ tr.group:hover {
 
 .page-footer .container {
   padding: 0 15px;
+  width: auto;
 }
 
 #world-map-markers {

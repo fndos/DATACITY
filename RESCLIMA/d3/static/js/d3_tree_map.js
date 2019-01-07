@@ -7,10 +7,10 @@ function getTreeMapPluginSize(str) {
 }
 
 function getTreeMapViewBox(size) {
-	if (size == 4) { return "772 0 1355 1355" }
-	else if (size == 5) { return "604 0 1055 1055" }
-	else if (size == 6) { return "499 0 879 879" }
-	else { return "425 0 745 745" }
+	if (size == 4) { return "772 -25 1355 1355" }
+	else if (size == 5) { return "604 -25 1055 1055" }
+	else if (size == 6) { return "499 -25 879 879" }
+	else { return "425 -25 745 745" }
 }
 
 function d3TreeMapSample(container, source, size) {

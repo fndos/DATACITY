@@ -88,16 +88,15 @@
 					{% elif user.user_type == 2 %}
 					<!-- Researcher -->
 					<ul class="nav navbar-nav">
-	          <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}"><a class="tag" href="{% url 'home' %}"><span class="glyphicon glyphicon-stats"></span> &nbsp Mis Visualizaciones</a></li>
 						<li><a class="tag" href="#"><span class="glyphicon glyphicon-cloud-download"></span> &nbsp Mis datos</a></li>
 						<li><a class="tag" href="#"><span class="glyphicon glyphicon-sd-video"></span> &nbsp Mis Simulaciones</a></li>
 	        {% elif user.user_type == 3 %}
 					<!-- Customer -->
 					<ul class="nav navbar-nav">
-	          <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}"><a class="tag" href="{% url 'home' %}"><span class="glyphicon glyphicon-stats"></span> &nbsp Mis Visualizaciones</a></li>
 						<li><a class="tag" href="#"><span class="glyphicon glyphicon-cloud-download"></span> &nbsp Mis datos</a></li>
 					{% endif %}
 					<!-- Profile, Search and Session data -->
+						<li><a href="/dashboard"><span class="glyphicon glyphicon-stats"></span> &nbsp Dashboard</a></li>
 						<li><a href="/"><span class="glyphicon glyphicon-search"></span> &nbsp Buscar</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">

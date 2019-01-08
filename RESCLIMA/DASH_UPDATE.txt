@@ -1,0 +1,5 @@
+Cambios en Dash
+Se cambió un campo en el modelo Dashboard Workspace, ahora se llama shared_with en models.py
+Se ha agregado este modelo en el admin.py de la app para que aparezca en la interfaz del administrador
+Se actualizó en bootstrap2 la versión de bootstrap.js por la más reciente 3.3.7
+Se realizó la traducción respectiva para los formularios y opciones del menú más importantes

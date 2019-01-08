@@ -50,14 +50,14 @@ class BaseStackedToGroupedBarsChartPlugin(BaseChartPlugin):
 class BaseSunburstPartitionChartPlugin(BaseChartPlugin):
     """Base sunburst partition chart plugin."""
 
-    name = _("Sunburst partition chart")
+    name = _("Sunburst Partition Chart")
     form = SunburstPartitionChartForm
     html_classes = ['chartonic', 'd3-sunburst-partition-chart-plugin']
 
 class BaseBarChartPlugin(BaseChartPlugin):
     """Base sunburst partition chart plugin."""
 
-    name = _("Bar chart")
+    name = _("Bar Chart")
     form = BarChartForm
     html_classes = ['chartonic', 'd3-bar-chart-plugin']
 

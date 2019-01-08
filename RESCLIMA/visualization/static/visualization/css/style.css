@@ -2,7 +2,7 @@
 
 body {
   position: relative;
-  background-color: #fff;
+  /* background-color: white !important; */
 }
 
 nav {
@@ -14,13 +14,39 @@ nav {
   text-align: left !important;
 }
 
+header + .container-fluid {
+  margin-top: 20px !important;
+  margin-bottom: 30px !important;
+}
+
+nav > .container-fluid {
+  height: 100% !important;
+}
+
+nav >.container-fluid div {
+  height: 100% !important;
+  margin-top: 0px !important;
+}
+
+body > div.wrapper > div.container-fluid > div.span3 > div > ul {
+  padding-right: 0px !important;
+}
+.navbar-header > a {
+  padding: 20px !important;
+  height: 100% !important;
+}
+
+#myNavbar > ul {
+  height: 100% !important;
+}
+
+.nav.navbar-nav > li {
+  height: 100% !important;
+}
+
 .sub-header {
   text-align: left !important;
   font-size: 18px !important;
-}
-
-.navbar-header, #myNavbar {
-  margin-top: 5px !important;
 }
 
 .navbar-brand {
@@ -31,18 +57,27 @@ nav {
 
 .nav.navbar-nav > li > a {
   color: #fff !important;
+  height: 64px !important;
+  padding-top: 20px !important;
+  padding-bottom: 20px !important;
 }
 
 .nav.navbar-nav > li > a:focus, .nav.navbar-nav > li > a:hover{
     background-color: #185f7f !important;
     color: #fff !important;
     border-color: #185f7f !important;
+    height: 64px !important;
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
 }
 
 .nav.navbar-nav > .active > a, .nav.navbar-nav > .active > a:focus,
 .nav.navbar-nav > .active > a:active, .nav.navbar-nav > .active > a:target,
 .nav.navbar-nav > .active > a:active:focus {
     background-color: #185f7f !important;
+    height: 64px !important;
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
 }
 
 .navbar-inverse .navbar-toggle {
@@ -65,6 +100,10 @@ button:active, button:target,
 button:active:focus {
   color: white !important;
   border: 0 !important;
+}
+
+.span1, .plugin {
+  border-radius: 4px !important;
 }
 
 /*-------------------------- Sidebar Navigation ------------------------------*/

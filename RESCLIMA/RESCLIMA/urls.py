@@ -46,7 +46,7 @@ urlpatterns = [
 	url(r'^series/', include("timeSeries.urls")),
 	url(r'^raster/', include("rasterLayers.urls")),
 	url(r'^tms/', include("tms.urls")),
-    url(r'^visualization/', include("visualization.urls")),
+    url(r'^simulation/', include("simulation.urls")),
     url(r'^d3/', include('d3.urls')),
     url(r'^dashboard/', include('dash.urls')),
     url(r'^dashboard/', include('dash.contrib.apps.public_dashboard.urls')),

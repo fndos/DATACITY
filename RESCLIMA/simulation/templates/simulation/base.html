@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>{% block title %}RESCLIMA | VISUALIZACIÓN{% endblock %}</title>
+	<meta charset="UTF-8">
+	<meta name="description" content="Plataforma para buscar, visualizar y descargar datos geograficos y seies de tiempo">
+	<meta name="keywords" content="Capa, Shapefile, Raster, Serie de tiempo">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Estilos de DATACITY -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{% static 'simulation/css/style.css' %}" type="text/css">
+  <!-- Estilos de RESCLIMA -->
+	<link rel="stylesheet" href="{% static 'main/css/materialize.css' %}" type="text/css">
+	<link rel="stylesheet" href="{% static 'main/css/style.css' %}" type="text/css">
+	<link rel="stylesheet" href="{% static 'main/css/style-horizontal.min.css' %}" type="text/css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="{% static 'main/css/custom.css' %}" type="text/css">
+	<link rel=icon href="{% static 'main/images/favicon.png' %}" sizes="16x16" type="image/png">
+	<style>
+		.preloader-background{
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background-color: #eee;
+
+			position: fixed;
+			z-index: 100;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+		}
+		h1.logo-wrapper > a {
+			margin-top: 10px;
+			margin-bottom: 10px;
+			padding-top: 20px;
+			padding-bottom: 20px;
+		}
+	</style>
+	{% block styles %}
+	{% endblock %}
+
+	<!-- jQuery Library -->
+	<script src="{% static 'main/js/jquery-3.2.1.min.js' %}" type= "text/javascript"></script>
+	<!-- Materialize JS -->
+	<script src="{% static 'main/js/materialize.min.js' %}" type= "text/javascript"></script>
+	<script src="{% static 'main/js/plugins.min.js' %}" type= "text/javascript"></script>
+	<script src="{% static 'main/js/perfect-scrollbar.min.js' %}" type="text/javascript"></script>
+  <!-- JavaScript de DATACITY -->
+  <!--<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>-->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="{% static 'simulation/js/sidebarNavigation.js' %}"></script>
+	{% block scripts %}
+	{% endblock %}
+
+</head>
+
+<body>
+
+	<!-- Preloader -->
+	<div id="loader-wrapper">
+		<div id="loader"></div>
+		<div class="loader-section section-left"></div>
+		<div class="loader-section section-right"></div>
+	</div>
+
+  <!-- SidebarNavigation -->
+	<header id="header" class="page-topbar">
+	  <nav class="navbar-fixed navbar-inverse sidebarNavigation navbar-color gradient-45deg-light-blue-cyan" data-sidebarClass="navbar-inverse">
+	    <div class="container-fluid">
+	      <div class="navbar-header">
+	        <button type="button" class="navbar-toggle left-navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+	          <span class="icon-bar"></span>
+	          <span class="icon-bar"></span>
+	          <span class="icon-bar"></span>
+	        </button>
+	        <a class="navbar-brand" href="{% url 'home' %}">RESCLIMA</a>
+	      </div>
+				<!-- Start Menu -->
+	      <div class="collapse navbar-collapse" id="myNavbar">
+					{% if user.user_type != 3 %}
+					<!-- Manager, Researcher -->
+					<ul class="nav navbar-nav">
+						<li><a class="tag" href="#"><span class="glyphicon glyphicon-cloud-download"></span> &nbsp Mis datos</a></li>
+						<li><a class="tag" href="#"><span class="glyphicon glyphicon-sd-video"></span> &nbsp Mis Simulaciones</a></li>
+					{% endif %}
+						<li><a href="/"><span class="glyphicon glyphicon-search"></span> &nbsp Buscar</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="{% url 'profile' %}"><span class="glyphicon glyphicon-user"></span> &nbsp {{ request.user.first_name }} {{ request.user.last_name }}</a></li>
+						<li><a href="{% url 'logout' %}?next=/"><span class="glyphicon glyphicon-log-out"></span> &nbsp Cerrar Sesión</a></li>
+					</ul>
+	      </div>
+				<!-- End Menu -->
+	    </div>
+	  </nav>
+	</header>
+
+	<!-- Contenido -->
+	<div class="main">
+		{% block content %}
+		{% endblock %}
+	</div>
+
+  <!-- Start Footer -->
+    <footer class="page-footer">
+		<div class="footer-copyright">
+			<div class="container">
+				<span>Copyright ©
+					<script type="text/javascript">
+						document.write(new Date().getFullYear());
+					</script>
+					<a class="grey-text text-darken-2" href="http://themeforest.net/user/pixinvent/portfolio?ref=pixinvent" target="_blank">PIXINVENT</a>All rights reserved.
+				</span>
+				<span class="right hide-on-small-only"> Design and Developed by <a class="grey-text text-darken-2" href="https://www.fiec.espol.edu.ec/es/cvr-robotica/">Centro de Visi&oacute;n y Rob&oacute;tica - ESPOL</a>
+				</span>
+			</div>
+		</div>
+	</footer>
+	<!-- End Footer -->
+
+  {% block scripts_body %}
+	{% endblock %}
+
+</body>
+
+</html>

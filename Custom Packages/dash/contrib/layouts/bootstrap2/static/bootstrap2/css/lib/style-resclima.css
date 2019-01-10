@@ -1,0 +1,251 @@
+/*-------------------------------- RESCLIMA ----------------------------------*/
+
+body {
+  position: relative;
+  background-color: white !important;
+}
+
+nav {
+  border-radius: 0 !important;
+  border-color: #2aace7 !important;
+}
+
+.header {
+  text-align: left !important;
+}
+
+.sub-header {
+  text-align: left !important;
+  font-size: 18px !important;
+}
+
+.navbar-brand {
+  color: #fff !important;
+  font-size: 26px !important;
+  font-family: "Montserrat", sans-serif !important;
+}
+
+.nav.navbar-nav > li > a {
+  color: #fff !important;
+  height: 64px !important;
+  padding-top: 20px !important;
+  padding-bottom: 20px !important;
+}
+
+.nav.navbar-nav > li > a:focus, .nav.navbar-nav > li > a:hover{
+    background-color: #185f7f !important;
+    color: #fff !important;
+    border-color: #185f7f !important;
+    height: 64px !important;
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+}
+
+.nav.navbar-nav > .active > a, .nav.navbar-nav > .active > a:focus,
+.nav.navbar-nav > .active > a:active, .nav.navbar-nav > .active > a:target,
+.nav.navbar-nav > .active > a:active:focus {
+    background-color: #185f7f !important;
+    height: 64px !important;
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+}
+
+.navbar-inverse .navbar-toggle {
+  border-color: #2aace7 !important;
+}
+
+.navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
+  background-color: #2aace7 !important;
+  border-color: #2aace7 !important;
+}
+
+.sideMenu.navbar-inverse.open {
+  background: #0288d1;
+  background: -webkit-linear-gradient(45deg, #0288d1 0%, #26c6da 100%);
+  background: linear-gradient(45deg, #0288d1 0%, #26c6da 100%);
+}
+
+button, button:focus,
+button:active, button:target,
+button:active:focus {
+  color: white !important;
+  border: 0 !important;
+}
+
+.span1, .plugin {
+  border-radius: 4px !important;
+}
+
+/*----------------------------- Dash Updates ---------------------------------*/
+
+header + .container-fluid {
+  margin-top: 20px !important;
+  margin-bottom: 30px !important;
+}
+
+nav > .container-fluid {
+  height: 100% !important;
+}
+
+nav >.container-fluid div {
+  height: 100% !important;
+  margin-top: 0px !important;
+}
+
+body > div.wrapper > div.container-fluid > div.span3 > div > ul {
+  padding-right: 0px !important;
+}
+.navbar-header > a {
+  padding: 20px !important;
+  height: 100% !important;
+}
+
+#myNavbar > ul {
+  height: 100% !important;
+}
+
+#myNavbar {
+  margin-left: 176px !important;
+}
+
+#cboxLoadedContent > div > div.content-body > form > ul > li:nth-child(1) > p {
+  margin-bottom: 15px !important;
+}
+
+.nav.navbar-nav > li {
+  height: 100% !important;
+}
+
+/*------------------------------ Form Style ----------------------------------*/
+
+p.content-title {
+  font-family:monospace !important;
+  font-weight: bold !important;
+  margin-bottom: 0px !important;
+}
+
+.control-label {
+  color: #9e9e9e;
+  font-size: 1rem;
+}
+
+.controls {
+	margin-left: 10px !important;
+}
+.control-label {
+	width: auto !important;
+  margin-left: 10px !important;
+}
+
+.controls > input {
+  margin-bottom: 0px !important;
+}
+
+.controls > select {
+  padding-left: 0px !important;
+}
+
+input[type="checkbox"] {
+  margin-top: 10px !important;
+  margin-left: 15px !important;
+}
+
+input[type="radio"] {
+  margin-top: 0px !important;
+}
+
+.controls > ul > li > label {
+  width: 100% !important;
+}
+
+input[type="color"] {
+  margin-top: 5px !important;
+  margin-left: 15px !important;
+  height: 25px !important;
+}
+
+/*-------------------------- Sidebar Navigation ------------------------------*/
+
+.overlay,.sideMenu {
+  position: fixed;
+  bottom: 0;
+}
+
+.overlay {
+  top: 0;
+  left: -100%;
+  right: 100%;
+  margin: auto;
+  background-color: rgba(0,0,0,.4);
+  z-index: 998;
+  transition: all ease 20ms;
+}
+
+.sideMenu,.sidebarNavigation {
+  z-index: 999;
+  margin-bottom: 0;
+}
+
+.overlay.open {
+  left: 0;
+  right: 0;
+}
+
+.sidebarNavigation .left-navbar-toggle {
+  float: left;
+  margin-right: 0;
+  margin-left: 15px;
+}
+
+.sideMenu {
+  left: -100%;
+  top: 52px;
+  transition: all ease-in-out .4s;
+  overflow: hidden;
+  width: 100%;
+  max-width: 50%;
+}
+
+.sideMenu.open {
+  left: 0;
+  display: block;
+  overflow-y: auto;
+}
+
+.sideMenu ul {
+  margin: 0;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0px;
+}
+
+/*--------------------------------- lg ---------------------------------------*/
+
+@media (min-width: 1200px) {
+
+}
+
+/*--------------------------------- md ---------------------------------------*/
+
+@media (min-width: 992px) and (max-width: 1199px) {
+
+}
+
+/*--------------------------------- sm ---------------------------------------*/
+@media (min-width: 768px) and (max-width: 991px) {
+
+}
+
+/*--------------------------------- xs ---------------------------------------*/
+
+@media (min-width: 321px) and (max-width: 767px) {
+
+}
+
+/*--------------------------------- xxs --------------------------------------*/
+
+@media (max-width: 320px) {
+
+}

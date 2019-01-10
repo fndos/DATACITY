@@ -114,102 +114,43 @@ plugin_factory(BaseTimeSeriesPlugin,
 
 # Bubble Chart
 plugin_widget_factory(BaseBubbleChartWidget,
-                      'android',
-                      'main',
-                      'd3_bubble_chart',
-                      sizes)
-plugin_widget_factory(BaseBubbleChartWidget,
-                      'windows8',
-                      'main',
-                      'd3_bubble_chart',
-                      sizes)
-plugin_widget_factory(BaseBubbleChartWidget,
-                      'bootstrap2_fluid',
+                      'bootstrap_materialize',
                       'main',
                       'd3_bubble_chart',
                       sizes)
 
 # Stacked-to-grouped bars chart
 # plugin_widget_factory(BaseStackedToGroupedBarsChartWidget,
-#                       'android',
-#                       'main',
-#                       'd3_stacked_to_grouped_bars_chart',
-#                       sizes)
-# plugin_widget_factory(BaseStackedToGroupedBarsChartWidget,
-#                       'windows8',
-#                       'main',
-#                       'd3_stacked_to_grouped_bars_chart',
-#                       sizes)
-# plugin_widget_factory(BaseStackedToGroupedBarsChartWidget,
-#                       'bootstrap2_fluid',
+#                       'bootstrap_materialize',
 #                       'main',
 #                       'd3_stacked_to_grouped_bars_chart',
 #                       sizes)
 
 # Sunburst Partition
 plugin_widget_factory(BaseSunburstPartitionChartWidget,
-                      'android',
-                      'main',
-                      'd3_sunburst_partition_chart',
-                      sizes)
-plugin_widget_factory(BaseSunburstPartitionChartWidget,
-                      'windows8',
-                      'main',
-                      'd3_sunburst_partition_chart',
-                      sizes)
-plugin_widget_factory(BaseSunburstPartitionChartWidget,
-                      'bootstrap2_fluid',
+                      'bootstrap_materialize',
                       'main',
                       'd3_sunburst_partition_chart',
                       sizes)
 
 # Bar Chart
 plugin_widget_factory(BaseBarChartWidget,
-                      'android',
-                      'main',
-                      'd3_bar_chart',
-                      sizes)
-plugin_widget_factory(BaseBarChartWidget,
-                      'windows8',
-                      'main',
-                      'd3_bar_chart',
-                      sizes)
-plugin_widget_factory(BaseBarChartWidget,
-                      'bootstrap2_fluid',
+                      'bootstrap_materialize',
                       'main',
                       'd3_bar_chart',
                       sizes)
 
 # Tree Map
 plugin_widget_factory(BaseTreeMapWidget,
-                      'android',
-                      'main',
-                      'd3_tree_map',
-                      sizes)
-plugin_widget_factory(BaseTreeMapWidget,
-                      'windows8',
-                      'main',
-                      'd3_tree_map',
-                      sizes)
-plugin_widget_factory(BaseTreeMapWidget,
-                      'bootstrap2_fluid',
+                      'bootstrap_materialize',
                       'main',
                       'd3_tree_map',
                       sizes)
 
 # Time Series
+
 plugin_widget_factory(BaseTimeSeriesWidget,
-                      'android',
-                      'main',
-                      'd3_time_series',
-                      sizes)
-plugin_widget_factory(BaseTimeSeriesWidget,
-                      'windows8',
-                      'main',
-                      'd3_time_series',
-                      sizes)
-plugin_widget_factory(BaseTimeSeriesWidget,
-                      'bootstrap2_fluid',
+                      'bootstrap_materialize',
                       'main',
                       'd3_time_series',
                       sizes)

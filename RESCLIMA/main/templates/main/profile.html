@@ -65,10 +65,28 @@
               <!-- Visualización de datos -->
 	            <li class="collection-item">
 	              <div class="row">
-	                <div class="col s5"><i class="material-icons left">equalizer</i> Visualización de datos</div>
-	                <div class="col s7 right-align"><button class="btn waves-effect waves-light col s12" type="button" onClick="{% if request.user.user_type == 1 %}window.location='/user';{% else %}window.location='/visualization';{% endif %}">Ver</button><br></div>
+	                <div class="col s5"><i class="material-icons left">dashboard</i> Dashboard</div>
+	                <div class="col s7 right-align"><button class="btn waves-effect waves-light col s12" type="button" onClick="window.location='/dashboard';">Ver</button><br></div>
 	              </div>
 	            </li>
+              {% if request.user.user_type != 3 %}
+              <!-- Simulaciones -->
+	            <li class="collection-item">
+	              <div class="row">
+	                <div class="col s5"><i class="material-icons left">video_label</i> Simulaciones</div>
+	                <div class="col s7 right-align"><button class="btn waves-effect waves-light col s12" type="button" onClick="window.location='/simulation';">Ver</button><br></div>
+	              </div>
+	            </li>
+              {% endif %}
+              {% if request.user.user_type == 1 %}
+              <!-- Configuración de RESCLIMA -->
+	            <li class="collection-item">
+	              <div class="row">
+	                <div class="col s5"><i class="material-icons left">settings</i> Configuración</div>
+	                <div class="col s7 right-align"><button class="btn waves-effect waves-light red accent-2 col s12" type="button" onClick="window.location='/user';">Ver</button><br></div>
+	              </div>
+	            </li>
+              {% endif %}
 	          </ul>
 	        </div>
         </div>

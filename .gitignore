@@ -175,5 +175,5 @@ DATACITY/RESCLIMA/RESCLIMA/settings.py
 migrations/
 migrations/*
 RESCLIMA/static/*
-*settings.py
-settings.py
+# *settings.py
+# settings.py

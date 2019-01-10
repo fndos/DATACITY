@@ -11,7 +11,7 @@ __copyright__ = '2013-2018 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
 
 TABLE_TYPE_CHOICES = (
-  (None, 'Choose an option'),
+  (None, 'Selecciona una opción'),
   ('variables', 'Variable'),
   ('measurements', 'Measurement'),
   ('station_types', 'StationType'),
@@ -19,7 +19,7 @@ TABLE_TYPE_CHOICES = (
 )
 
 API_TYPE_CHOICES = (
-  (None, 'Choose an option'),
+  (None, 'Selecciona una opción'),
   ('bubble', 'Station'),
   ('mixed', 'Variable, Station'),
   ('sample', 'Bubble Sample (name, size)'),
@@ -27,7 +27,7 @@ API_TYPE_CHOICES = (
 )
 
 TREE_MAP_TYPE_CHOICES = (
-  (None, 'Choose an option'),
+  (None, 'Selecciona una opción'),
   ('treemap', 'Tree Map: Censo Mundial'),
 )
 

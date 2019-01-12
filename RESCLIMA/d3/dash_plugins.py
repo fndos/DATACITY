@@ -11,6 +11,8 @@ from .dash_widgets import (
     BaseBarChartWidget,
     BaseTreeMapWidget,
     BaseTimeSeriesWidget,
+    BasePieChartWidget,
+    BaseLineChartWidget,
 )
 
 from .forms import *
@@ -75,6 +77,21 @@ class BaseTimeSeriesPlugin(BaseChartPlugin):
     form = TimeSeriesForm
     html_classes = ['chartonic', 'd3-time-series-plugin']
 
+class BasePieChartPlugin(BaseChartPlugin):
+    """Base sunburst partition chart plugin."""
+
+    name = _("Pie Chart")
+    form = PieChartForm
+    html_classes = ['chartonic', 'd3-pie-chart-plugin']
+
+class BaseLineChartPlugin(BaseChartPlugin):
+    """Base sunburst partition chart plugin."""
+
+    name = _("Line Chart")
+    form = PieChartForm
+    html_classes = ['chartonic', 'd3-line-chart-plugin']
+
+
 # *****************************************************************************
 # ********** Generating and registering the plugins using factory *************
 # *****************************************************************************
@@ -104,6 +121,12 @@ plugin_factory(BaseTreeMapPlugin,
                sizes)
 plugin_factory(BaseTimeSeriesPlugin,
                'd3_time_series',
+               sizes)
+plugin_factory(BasePieChartPlugin,
+               'd3_pie_chart',
+               sizes)
+plugin_factory(BaseLineChartPlugin,
+               'd3_line_chart',
                sizes)
 
 # *****************************************************************************
@@ -148,9 +171,22 @@ plugin_widget_factory(BaseTreeMapWidget,
                       sizes)
 
 # Time Series
-
 plugin_widget_factory(BaseTimeSeriesWidget,
                       'bootstrap_materialize',
                       'main',
                       'd3_time_series',
+                      sizes)
+
+# Pie Chart
+plugin_widget_factory(BasePieChartWidget,
+                      'bootstrap_materialize',
+                      'main',
+                      'd3_pie_chart',
+                      sizes)
+
+# Line Chart
+plugin_widget_factory(BaseLineChartWidget,
+                      'bootstrap_materialize',
+                      'main',
+                      'd3_line_chart',
                       sizes)

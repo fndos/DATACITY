@@ -1,4 +1,5 @@
 from rest_framework import routers
+from django.conf.urls import include, url
 from main import api_views
 
 router = routers.DefaultRouter()
@@ -12,4 +13,14 @@ router.register(r'mixed', api_views.BubbleChartMixedViewSet, base_name='mixed')
 router.register(r'sample', api_views.BubbleChartSampleViewSet, base_name='sample')
 router.register(r'sunburst', api_views.SunburstPartitionChartViewSet, base_name='sunburst')
 router.register(r'treemap', api_views.TreeMapViewSet, base_name='treemap')
-router.register(r'apitest', api_views.APITestViewSet, base_name='apitest')
+router.register(r'average', api_views.APIAverageMeasurementViewSet, base_name='average')
+router.register(r'lon/(?P<date>[-\w]+)', api_views.APILightONViewSet, base_name='lon')
+router.register(r'loe/(?P<date>[-\w]+)', api_views.APILightOEViewSet, base_name='loe')
+router.register(r'lne/(?P<date>[-\w]+)', api_views.APILightNEViewSet, base_name='lne')
+router.register(r'won/(?P<date>[-\w]+)', api_views.APILightOEViewSet, base_name='won')
+router.register(r'woe/(?P<date>[-\w]+)', api_views.APILightOEViewSet, base_name='woe')
+router.register(r'wne/(?P<date>[-\w]+)', api_views.APILightOEViewSet, base_name='wne')
+router.register(r'd3_pie_chart_composition_ON/(?P<date>[-\w]+)', api_views.APICompositionONViewSet, base_name='d3_pie_chart_composition_ON')
+router.register(r'd3_pie_chart_composition_OE/(?P<date>[-\w]+)', api_views.APICompositionOEViewSet, base_name='d3_pie_chart_composition_OE')
+router.register(r'd3_pie_chart_composition_NE/(?P<date>[-\w]+)', api_views.APICompositionNEViewSet, base_name='d3_pie_chart_composition_NE')
+router.register(r'd3_pie_chart_composition/(?P<date>[-\w]+)', api_views.APICompositionViewSet, base_name='d3_pie_chart_composition')

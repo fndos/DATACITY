@@ -2,15 +2,17 @@
 <p>
     <strong>{{ plugin.data.title }}</strong>
     <span id="chart-{{ plugin.html_id }}" ></span>
+
     <script type="text/javascript">
         // *****************************************************************
         // ************************* Initialisation ************************
         // *****************************************************************
         $(document).ready(function(){
 
-            d3TimeSeriesSample(
+            d3PieChartSample(
                 '#chart-{{ plugin.html_id }}',
-                '{{ STATIC_URL }}',
+                '{{ plugin.data.source }}',
+                '{{ plugin.data.date }}',
                 '{{ plugin.uid }}',
             );
 

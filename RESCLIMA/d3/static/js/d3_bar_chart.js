@@ -8,7 +8,7 @@ function toTitleCase(str) {
     });
 }
 
-function d3BarChartSample(container, source, domain, range, domainLabel, rangeLabel, color, hover) {
+function d3BarChartSample(container, source, date, domainLabel, rangeLabel, color, hover) {
   // set the dimensions of the canvas
   var margin = {top: 20, right: 20, bottom: 70, left: 40},
       width = 600 - margin.left - margin.right,
@@ -32,8 +32,6 @@ function d3BarChartSample(container, source, domain, range, domainLabel, rangeLa
   // add the SVG element
   console.log(container)
   var svg = d3.select(container).append("svg")
-      // .attr("width", width + margin.left + margin.right)
-      // .attr("height", height + margin.top + margin.bottom)
       .attr("preserveAspectRatio", "xMinYMin meet")
       .attr("viewBox", "0 -25 600 600")
       .append("g")
@@ -43,24 +41,23 @@ function d3BarChartSample(container, source, domain, range, domainLabel, rangeLa
     .attr('class', 'd3-tip')
     .offset([-10, 0])
     .html(function(d) {
-      return "<div><span>" + toTitleCase(domainLabel) + ":</span> <span style='color:white'>" + d[domain] + "</span></div>" +
-             "<div><span>" + toTitleCase(rangeLabel) + ":</span> <span style='color:white'>" + d[range] + "</span></div>";
+      return "<div><span>" + toTitleCase(domainLabel) + ":</span> <span style='color:white'>" + d['key'] + "</span></div>" +
+             "<div><span>" + toTitleCase(rangeLabel) + ":</span> <span style='color:white'>" + d['value'] + "</span></div>";
     })
 
   svg.call(tip);
-
-  d3.json("http://127.0.0.1:8000/api/" + source + "/", function(error, data) {
+  d3.json("http://127.0.0.1:8000/api/" + source + "/" + date + "/" , function(error, data) {
     //console.log(data)
 
     // get data from table
     data.forEach(function(d) {
-      d[domain] = d[domain];
-      d[range] = +d[range];
+      d['key'] = d['key'];
+      d['value'] = +d['value'];
     });
 
     // scale the range of the data
-    x.domain(data.map(function(d) { return d[domain]; }));
-    y.domain([0, d3.max(data, function(d) { return d[range]; })]);
+    x.domain(data.map(function(d) { return d['key']; }));
+    y.domain([0, d3.max(data, function(d) { return d['value']; })]);
 
     // add axis
     svg.append("g")
@@ -89,10 +86,10 @@ function d3BarChartSample(container, source, domain, range, domainLabel, rangeLa
         .enter()
         .append("rect")
         .attr("class", "bar")
-        .attr("x", function(d) { return x(d[domain]); })
+        .attr("x", function(d) { return x(d['key']); })
         .attr("width", x.rangeBand())
-        .attr("y", function(d) { return y(d[range]); })
-        .attr("height", function(d) { return height - y(d[range]); })
+        .attr("y", function(d) { return y(d['value']); })
+        .attr("height", function(d) { return height - y(d['value']); })
         .attr("fill", function(d) { return color })
         .on("mouseover", function(d) {
           d3.select(this).style("fill", hover);

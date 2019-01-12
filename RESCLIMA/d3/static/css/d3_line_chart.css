@@ -1,0 +1,17 @@
+.bar {
+  fill: steelblue;
+}
+.bar:hover {
+  fill: brown;
+}
+.axis--x path {
+  display: none;
+}
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 3px;
+}
+.circle {
+  fill: steelblue;
+}

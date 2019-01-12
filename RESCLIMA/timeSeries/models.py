@@ -50,8 +50,8 @@ class Station(models.Model):
 		return "%s %s %s %s" % (self.serialNum,self.location,self.active,self.stationType)
 
 	class Meta:
-		verbose_name = "Estation"
-		verbose_name_plural = "Estationes"
+		verbose_name = "Estacion"
+		verbose_name_plural = "Estaciones"
 
 
 class Provider(models.Model):
@@ -85,5 +85,3 @@ class Measurement(models.Model):
 	class Meta:
 		verbose_name = "Measurement"
 		verbose_name_plural = "Measurements"
-
-

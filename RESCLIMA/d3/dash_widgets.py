@@ -112,3 +112,32 @@ class BaseTimeSeriesWidget(BaseChartWidget):
     )
 
     _template = 'd3_samples/plugins/render_d3_time_series.html'
+
+class BasePieChartWidget(BaseChartWidget):
+    """Pie chart widget."""
+
+    media_js = (
+        'js/d3.v3.min.js',  # Main D3 script
+        'js/d3.tip.min.js', # D3 Tip Script
+        'js/d3_pie_chart.js',  # Helper script
+    )
+
+    media_css = (
+        'css/d3_pie_chart.css',  # Specific styles
+    )
+
+    _template = 'd3_samples/plugins/render_d3_pie_chart.html'
+
+class BaseLineChartWidget(BaseChartWidget):
+    """Line chart widget."""
+
+    media_js = (
+        'js/d3.v3.min.js',  # Main D3 script
+        'js/d3_line_chart.js',  # Helper script
+    )
+
+    media_css = (
+        'css/d3_line_chart.css',  # Specific styles
+    )
+
+    _template = 'd3_samples/plugins/render_d3_line_chart.html'

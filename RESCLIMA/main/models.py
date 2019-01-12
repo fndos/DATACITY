@@ -45,12 +45,3 @@ class User(AbstractUser):
 	class Meta:
 		verbose_name = "User"
 		verbose_name_plural = "Users"
-
-class Simulador_Sumo(models.Model):
-	###Entradas######
-	configuracion_xml = models.FileField( validators=[FileExtensionValidator(allowed_extensions=['xml'])])
-	net_xml = models.FileField( validators=[FileExtensionValidator(allowed_extensions=['xml'])])
-	rutas_xml = models.FileField( validators=[FileExtensionValidator(allowed_extensions=['xml'])])
-	adicional_xml = models.FileField( validators=[FileExtensionValidator(allowed_extensions=['xml'])])
-	pesos_xml = models.FileField( validators=[FileExtensionValidator(allowed_extensions=['xml'])])
-	#######Salidas#####

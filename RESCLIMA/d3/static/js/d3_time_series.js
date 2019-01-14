@@ -7,9 +7,9 @@ function getTimeSeriesPluginSize(str) {
 }
 
 function getTimeSeriesViewBox(size) {
-	if (size == 4) { return "185 40 780 780" }
-	else if (size == 5) { return "150 40 600 600" }
-	else if (size == 6) { return "120 30 500 500" }
+	if (size == 4) { return "195 40 812 812" }
+	else if (size == 5) { return "150 40 625 625" }
+	else if (size == 6) { return "120 30 525 525" }
 	else { return "120 25 450 450" }
 }
 
@@ -76,13 +76,9 @@ function d3TimeSeriesSample(container, staticURL, size) {
 
   //reading in CSV which contains data
   d3.csv(staticURL + "sample/d3_time_series_flare.csv", function(error, data) {
-    console.log(data)
     data.forEach(function(d) {
-      //console.log(d.date_time)
       d.date = parseDate.parse(d.date_time);
-	    console.log(d.date);
       d.total_km = +d.total_km;
-      console.log(d.total_km);
   });
 
   //using imported data to define extent of x and y domains
@@ -98,7 +94,7 @@ function d3TimeSeriesSample(container, staticURL, size) {
 
   svg.append("path")
      .datum(data)
-     .attr("class", "line")
+     .attr("class", "ts_line")
      .attr("d", line);
 
   //taken from http://bl.ocks.org/mbostock/3887118
@@ -122,9 +118,6 @@ function d3TimeSeriesSample(container, staticURL, size) {
        .style("opacity", 0)
        .attr("x1", function(d) { return x(d.date); })
        .attr("y1", function(d) { return y(d.total_km); })
- 	     //d3.min gets the min date from the date x-axis scale
- 	     //.attr("x2", function(d) { return x(d3.min(x)); })
-       //.attr("y2", function(d) { return y(d.total_km); });
 
   //The vertical dashed line that appears when a circle marker is moused over
 	g.append("line")
@@ -178,55 +171,25 @@ function d3TimeSeriesSample(container, staticURL, size) {
 	    .selectAll(".tick text")
       .call(wrap, 35);
 
-  svg.append("g")
-      .attr("class","xMinorAxis")
-      .attr("transform", "translate(0," + height + ")")
-      .style({ 'stroke': 'Black', 'fill': 'none', 'stroke-width': '1px'})
-      .call(xMinorAxis)
-      .selectAll("text").remove();
-
   //http://www.d3noob.org/2012/12/adding-axis-labels-to-d3js-graph.html
   svg.append("text")      // text label for the x-axis
           .attr("x", width / 2 )
-          .attr("y",  height + margin.bottom)
+          .attr("y",  height + 35)
           .style("text-anchor", "middle")
-          .text("Date");
+          .style("font-size", "10px")
+          .text("Fecha");
 
   svg.append("text")      // text label for the y-axis
-          .attr("y",30 - margin.left)
-          .attr("x",50 - (height / 2))
+          .attr("y",48 - margin.left)
+          .attr("x",32 - (height / 2))
           .attr("transform", "rotate(-90)")
           .style("text-anchor", "end")
-          .style("font-size", "16px")
-          .text("road length (km)");
-
-  //http://www.d3noob.org/2013/01/adding-title-to-your-d3js-graph.html
-  // text label for chart Title
-  /*
-  svg.append("text")
-          .attr("x", width / 2 )
-          .attr("y", 0 - (margin.top/2))
-          .style("text-anchor", "middle")
-  		    .style("font-size", "16px")
-          .style("text-decoration", "underline")
-          .text("Pandora Road Construction");
-  */
+          .style("font-size", "10px")
+          .text("Frecuencia");
 
   svg.append("g")
         .attr("class", "y axis")
         .call(yAxis)
-
-  //text label for the y-axis inside chart
-  /*
-  .append("text")
-    .attr("transform", "rotate(-90)")
-    .attr("y", 6)
-    .attr("dy", ".71em")
-    .style("text-anchor", "end")
-    .style("font-size", "16px")
-    .style("background-color","red")
-    .text("road length (km)");
-  */
 
   //http://bl.ocks.org/mbostock/7555321
   //This code wraps label text if it has too much text

@@ -10,17 +10,18 @@ __author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
 __copyright__ = '2013-2018 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
 
-TABLE_TYPE_CHOICES = (
+KEY_VALUE_CHOICES = (
   (None, 'Selecciona una opción'),
-  ('lon', 'Vehiculos | Liviano | GD O-N'),
-  ('loe', 'Vehiculos | Liviano | FR O-E'),
-  ('lne', 'Vehiculos | Liviano | GD N-E'),
-  ('won', 'Vehiculos | Pesado | GD O-N'),
-  ('woe', 'Vehiculos | Pesado | FR O-E'),
-  ('wne', 'Vehiculos | Pesado | GD O-N'),
+  ('db_resclima_average_measurement', 'Promedio | Variable | Estacion'),
+  ('d3_bar_chart_L_ON', 'Vehiculos | Liviano | GD O-N'),
+  ('d3_bar_chart_L_OE', 'Vehiculos | Liviano | FR O-E'),
+  ('d3_bar_chart_L_NE', 'Vehiculos | Liviano | GD N-E'),
+  ('d3_bar_chart_W_ON', 'Vehiculos | Pesado | GD O-N'),
+  ('d3_bar_chart_W_OE', 'Vehiculos | Pesado | FR O-E'),
+  ('d3_bar_chart_W_NE', 'Vehiculos | Pesado | GD N-E'),
 )
 
-PIE_TYPE_CHOICES = (
+PIE_CHART_CHOICES = (
   (None, 'Selecciona una opción'),
   ('d3_pie_chart_composition_ON', 'Composicion Vehicular | GD O-N'),
   ('d3_pie_chart_composition_OE', 'Composicion Vehicular | FR O-E'),
@@ -28,17 +29,14 @@ PIE_TYPE_CHOICES = (
   ('d3_pie_chart_composition', 'Composicion Vehicular | TODAS'),
 )
 
-API_TYPE_CHOICES = (
+BUBBLE_CHART_CHOICES = (
   (None, 'Selecciona una opción'),
-  ('bubble', 'Station'),
-  ('mixed', 'Variable, Station'),
-  ('sample', 'Bubble Sample (name, size)'),
-  ('sunburst', 'Mixed Sources'),
+  ('d3_bubble_chart_sample', 'Bubble Chart Sample (name, size)'),
 )
 
-TREE_MAP_TYPE_CHOICES = (
+TREE_MAP_CHOICES = (
   (None, 'Selecciona una opción'),
-  ('treemap', 'Tree Map: Censo Mundial'),
+  ('d3_tree_map_sample', 'Tree Map: Censo Mundial'),
 )
 
 # Formulario para Bar Chart
@@ -46,7 +44,8 @@ class BarChartForm(forms.Form, DashboardPluginFormBase):
 
     plugin_data_fields = [
         ("title", ""),
-        ("date", ""),
+        ("start_date", ""),
+        ("end_date", ""),
         ("domainLabel", ""),
         ("rangeLabel", ""),
         ("source", ""),
@@ -57,8 +56,9 @@ class BarChartForm(forms.Form, DashboardPluginFormBase):
     title = forms.CharField(label=_("Titulo"), required=True)
     domainLabel = forms.CharField(label=_("Etiqueta del eje X"), required=True)
     rangeLabel = forms.CharField(label=_("Etiqueta del eje Y"), required=True)
-    date = forms.CharField(label=_("Fecha"), required=True, widget=forms.TextInput(attrs={'type':'date'}))
-    source = forms.ChoiceField(label=_("Tabla/API"), choices=TABLE_TYPE_CHOICES, required=True)
+    start_date = forms.CharField(label=_("Fecha de inicio"), required=True, widget=forms.TextInput(attrs={'type':'date'}))
+    end_date = forms.CharField(label=_("Fecha de finalizacion"), required=True, widget=forms.TextInput(attrs={'type':'date'}))
+    source = forms.ChoiceField(label=_("Tabla/API"), choices=KEY_VALUE_CHOICES, required=True)
     color = forms.CharField(label=_("Color principal"), required=True, widget=forms.TextInput(attrs={'type':'color'}))
     hover = forms.CharField(label=_("Color secundario"), required=True, widget=forms.TextInput(attrs={'type':'color'}))
 
@@ -73,20 +73,9 @@ class BubbleChartForm(forms.Form, DashboardPluginFormBase):
     ]
 
     title = forms.CharField(label=_("Titulo"), required=True)
-    source = forms.ChoiceField(label=_("Tabla/API"), choices=API_TYPE_CHOICES, required=True)
+    source = forms.ChoiceField(label=_("Tabla/API"), choices=BUBBLE_CHART_CHOICES, required=True)
     key = forms.CharField(label=_("Key"), required=False, strip=True)
     value = forms.CharField(label=_("Value"), required=False, strip=True)
-
-# Formulario para Sunburst Partition Chart
-class SunburstPartitionChartForm(forms.Form, DashboardPluginFormBase):
-
-    plugin_data_fields = [
-        ("title", ""),
-        ("source", ""),
-    ]
-
-    title = forms.CharField(label=_("Titulo"), required=True)
-    source = forms.ChoiceField(label=_("Tabla/API"), choices=API_TYPE_CHOICES, required=True)
 
 # Formulario para Tree Map
 class TreeMapForm(forms.Form, DashboardPluginFormBase):
@@ -97,9 +86,9 @@ class TreeMapForm(forms.Form, DashboardPluginFormBase):
     ]
 
     title = forms.CharField(label=_("Titulo"), required=True)
-    source = forms.ChoiceField(label=_("Tabla/API"), choices=TREE_MAP_TYPE_CHOICES, required=True)
+    source = forms.ChoiceField(label=_("Tabla/API"), choices=TREE_MAP_CHOICES, required=True)
 
-# Formulario para Tree Map
+# Formulario para Time Series
 class TimeSeriesForm(forms.Form, DashboardPluginFormBase):
 
     plugin_data_fields = [
@@ -118,20 +107,29 @@ class PieChartForm(forms.Form, DashboardPluginFormBase):
     ]
 
     title = forms.CharField(label=_("Titulo"), required=True)
-    source = forms.ChoiceField(label=_("Tabla/API"), choices=PIE_TYPE_CHOICES, required=True)
+    source = forms.ChoiceField(label=_("Tabla/API"), choices=PIE_CHART_CHOICES, required=True)
     date = forms.CharField(label=_("Fecha"), required=True, widget=forms.TextInput(attrs={'type':'date'}))
 
+# Formulario para Line Chart
 class LineChartForm(forms.Form, DashboardPluginFormBase):
 
     plugin_data_fields = [
         ("title", ""),
+        ("domainLabel", ""),
+        ("rangeLabel", ""),
+        ("start_date", ""),
+        ("end_date", ""),
         ("source", ""),
-        ("date", ""),
+        ("origin", ""),
     ]
 
     title = forms.CharField(label=_("Titulo"), required=True)
-    source = forms.ChoiceField(label=_("Tabla/API"), choices=TABLE_TYPE_CHOICES, required=True)
-    date = forms.CharField(label=_("Fecha"), required=True, widget=forms.TextInput(attrs={'type':'date'}))
+    domainLabel = forms.CharField(label=_("Etiqueta del eje X"), required=True)
+    rangeLabel = forms.CharField(label=_("Etiqueta del eje Y"), required=True)
+    start_date = forms.CharField(label=_("Fecha de inicio"), required=True, widget=forms.TextInput(attrs={'type':'date'}))
+    end_date = forms.CharField(label=_("Fecha de finalizacion"), required=True, widget=forms.TextInput(attrs={'type':'date'}))
+    source = forms.ChoiceField(label=_("Tabla/API"), choices=KEY_VALUE_CHOICES, required=True)
+    origin = forms.ChoiceField(label=_("Tabla/API"), choices=KEY_VALUE_CHOICES, required=True)
 
 # Clase base de la cual heredan todos los charts
 class ChartForm(forms.Form, DashboardPluginFormBase):

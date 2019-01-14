@@ -1,10 +1,11 @@
 .tooltip {
-	background: #eee;
+	background: rgba(0, 0, 0, 0.8) !important;
 	box-shadow: 0 0 5px #999999;
-	color: #333;
-	font-size: 12px;
+	color: rgb(185, 185, 185);
+  border-radius: 2px;
+	font-size: 12px !important;
 	left: 130px;
-	padding: 10px;
+	padding: 8px !important;
 	position: absolute;
 	text-align: center;
 	top: 95px;
@@ -14,7 +15,7 @@
 	opacity: 0;
 }
 .legend {
-	font-size: 12px;
+	font-size: 10px;
 }
 rect {
 	cursor: pointer;                                              /* NEW */
@@ -22,4 +23,7 @@ rect {
 }
 rect.disabled {                                                 /* NEW */
 	fill: transparent !important;                                 /* NEW */
+}
+.tooltip > .count, .tooltip > .percent {
+	color: white !important;
 }

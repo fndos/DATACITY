@@ -164,6 +164,21 @@ input[type="color"] {
   height: 25px !important;
 }
 
+strong {
+  font-family:"Helvetica Neue",Helvetica,Arial,sans-serif !important;
+  font-weight: bold !important;
+  margin-bottom: 0px !important;
+}
+
+input[type=date]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    display: none;
+}
+input[type=date]::-webkit-calendar-picker-indicator {
+    -webkit-appearance: none;
+    width: 6px;
+    height: 7px;
+}
 /*-------------------------- Sidebar Navigation ------------------------------*/
 
 .overlay,.sideMenu {

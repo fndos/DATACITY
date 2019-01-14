@@ -6,8 +6,6 @@ from dash.factory import plugin_factory, plugin_widget_factory
 
 from .dash_widgets import (
     BaseBubbleChartWidget,
-    BaseSunburstPartitionChartWidget,
-    #BaseStackedToGroupedBarsChartWidget,
     BaseBarChartWidget,
     BaseTreeMapWidget,
     BaseTimeSeriesWidget,
@@ -33,28 +31,12 @@ class BaseChartPlugin(BaseDashboardPlugin):
     form = ChartForm
     html_classes = ['chartonic']
 
-
 class BaseBubbleChartPlugin(BaseChartPlugin):
     """Base bubble chart plugin."""
 
     name = _("Bubble Chart")
     form = BubbleChartForm
     html_classes = ['chartonic', 'd3-bubble-chart-plugin']
-
-# No se esta usando esta clase por el momento
-class BaseStackedToGroupedBarsChartPlugin(BaseChartPlugin):
-    """Base stacked-to-grouped bars chart plugin."""
-
-    name = _("Stacked-to-grouped bars chart")
-    html_classes = ['chartonic', 'd3-stacked-to-grouped-bars-chart-plugin']
-
-
-class BaseSunburstPartitionChartPlugin(BaseChartPlugin):
-    """Base sunburst partition chart plugin."""
-
-    name = _("Sunburst Partition Chart")
-    form = SunburstPartitionChartForm
-    html_classes = ['chartonic', 'd3-sunburst-partition-chart-plugin']
 
 class BaseBarChartPlugin(BaseChartPlugin):
     """Base sunburst partition chart plugin."""
@@ -88,7 +70,7 @@ class BaseLineChartPlugin(BaseChartPlugin):
     """Base sunburst partition chart plugin."""
 
     name = _("Line Chart")
-    form = PieChartForm
+    form = LineChartForm
     html_classes = ['chartonic', 'd3-line-chart-plugin']
 
 
@@ -106,12 +88,6 @@ sizes = (
 
 plugin_factory(BaseBubbleChartPlugin,
                'd3_bubble_chart',
-               sizes)
-# plugin_factory(BaseStackedToGroupedBarsChartPlugin,
-#                'd3_stacked_to_grouped_bars_chart',
-#                sizes)
-plugin_factory(BaseSunburstPartitionChartPlugin,
-               'd3_sunburst_partition_chart',
                sizes)
 plugin_factory(BaseBarChartPlugin,
                'd3_bar_chart',
@@ -140,20 +116,6 @@ plugin_widget_factory(BaseBubbleChartWidget,
                       'bootstrap_materialize',
                       'main',
                       'd3_bubble_chart',
-                      sizes)
-
-# Stacked-to-grouped bars chart
-# plugin_widget_factory(BaseStackedToGroupedBarsChartWidget,
-#                       'bootstrap_materialize',
-#                       'main',
-#                       'd3_stacked_to_grouped_bars_chart',
-#                       sizes)
-
-# Sunburst Partition
-plugin_widget_factory(BaseSunburstPartitionChartWidget,
-                      'bootstrap_materialize',
-                      'main',
-                      'd3_sunburst_partition_chart',
                       sizes)
 
 # Bar Chart

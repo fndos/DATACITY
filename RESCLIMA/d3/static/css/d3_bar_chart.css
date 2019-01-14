@@ -4,9 +4,10 @@
 
 .axis path,
 .axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
+	fill: none;
+	stroke: grey;
+	stroke-width: 1;
+	shape-rendering: crispEdges;
 }
 
 .d3-tip {

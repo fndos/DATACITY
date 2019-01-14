@@ -20,12 +20,12 @@ function getPieChartViewBox(size) {
 }
 
 function d3PieChartSample(container, source, date, size) {
-  var colorScheme = ["#7986CB", "#4DB6AC","#BA68C8","#A1887F","#90A4AE","#AED581","#9575CD","#FF8A65","#E57373","#FFF176","#64B5F6","#00E676"];
+  var colorScheme = ["#7986CB", "#90A4AE","#BA68C8","#A1887F","#4DB6AC","#AED581","#9575CD","#FF8A65","#E57373","#FFF176","#64B5F6","#00E676"];
 
   var margin = {top:50,bottom:50,left:50,right:50};
 	var width = 500 - margin.left - margin.right, height = width, radius = Math.min(width, height) / 2;
 	var donutWidth = 75;
-	var legendRectSize = 18;
+	var legendRectSize = 16;
 	var legendSpacing = 4;
 
   d3.json("http://127.0.0.1:8000/api/" + source + "/" + date + "/" , function(error, data) {
@@ -55,7 +55,7 @@ function d3PieChartSample(container, source, date, size) {
   		.attr('class', 'tooltip');
 
   	tooltip.append('div')
-  		.attr('class', 'label');
+  		.attr('class', 'tip-label');
 
   	tooltip.append('div')
   		.attr('class', 'count');
@@ -78,7 +78,7 @@ function d3PieChartSample(container, source, date, size) {
   			return (d.enabled) ? d.value : 0;
   		}));
 
-			tooltip.select('.label').html(d.data.key.toUpperCase());
+			tooltip.select('.tip-label').html(d.data.key);
 			tooltip.select('.count').html(d.data.data);
 			tooltip.select('.percent').html(d.data.value + '%');
 
@@ -153,7 +153,7 @@ function d3PieChartSample(container, source, date, size) {
   	.attr('x', legendRectSize + legendSpacing)
   	.attr('y', legendRectSize - legendSpacing)
   	.text(function(d) { return d; })
-    
+
   });
 
 }

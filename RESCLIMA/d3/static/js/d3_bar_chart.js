@@ -8,7 +8,7 @@ function toTitleCase(str) {
     });
 }
 
-function d3BarChartSample(container, source, date, domainLabel, rangeLabel, color, hover) {
+function d3BarChartSample(container, source, start_date, end_date, domainLabel, rangeLabel, color, hover) {
   // set the dimensions of the canvas
   var margin = {top: 20, right: 20, bottom: 70, left: 40},
       width = 600 - margin.left - margin.right,
@@ -16,7 +16,6 @@ function d3BarChartSample(container, source, date, domainLabel, rangeLabel, colo
 
   // set the ranges
   var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
-
   var y = d3.scale.linear().range([height, 0]);
 
   // define the axis
@@ -30,7 +29,6 @@ function d3BarChartSample(container, source, date, domainLabel, rangeLabel, colo
       .ticks(10);
 
   // add the SVG element
-  console.log(container)
   var svg = d3.select(container).append("svg")
       .attr("preserveAspectRatio", "xMinYMin meet")
       .attr("viewBox", "0 -25 600 600")
@@ -46,9 +44,7 @@ function d3BarChartSample(container, source, date, domainLabel, rangeLabel, colo
     })
 
   svg.call(tip);
-  d3.json("http://127.0.0.1:8000/api/" + source + "/" + date + "/" , function(error, data) {
-    //console.log(data)
-
+  d3.json("http://127.0.0.1:8000/api/" + source + "/" + start_date + "/" + end_date + "/" , function(error, data) {
     // get data from table
     data.forEach(function(d) {
       d['key'] = d['key'];
@@ -64,19 +60,20 @@ function d3BarChartSample(container, source, date, domainLabel, rangeLabel, colo
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
         .call(xAxis)
-        .selectAll("text")
+        .append("text")
+        .attr("x", width / 2)
+        .attr("y",  31)
+        .attr("dx", ".75em")
         .style("text-anchor", "end")
-        .attr("dx", "-.8em")
-        .attr("dy", "-.55em")
-        .attr("transform", "rotate(-90)" );
+        .text(toTitleCase(domainLabel));
 
     svg.append("g")
         .attr("class", "y axis")
         .call(yAxis)
         .append("text")
+        .attr("y", -31)
+        .attr("x", -(height)/ 2 + margin.top)
         .attr("transform", "rotate(-90)")
-        .attr("y", 5)
-        .attr("dy", ".71em")
         .style("text-anchor", "end")
         .text(toTitleCase(rangeLabel));
 

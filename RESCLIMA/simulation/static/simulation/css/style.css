@@ -106,6 +106,23 @@ button:active:focus {
   border-radius: 4px !important;
 }
 
+/*---------------------------- RESCLIMA Tables -------------------------------*/
+.td-resclima-user {
+  width: 200px;
+}
+
+.td-resclima-user-type {
+  width: 677px;
+}
+
+.td-resclima-action {
+  width: 115px;
+}
+
+.td-resclima-view {
+  width: 91px;
+}
+
 /*-------------------------- Sidebar Navigation ------------------------------*/
 
 .overlay,.sideMenu {

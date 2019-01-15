@@ -5,3 +5,5 @@ Se actualizó en bootstrap2 la versión de bootstrap.js por la más reciente 3.3
 Se cambió el uid de la app bootstrap2 por bootstrap_materialize visible solo en el fronend
 Para hacer referencia a esta app desde settings se debe usar el nombre del app bootstrap2
 Se realizó la traducción respectiva para los formularios y opciones del menú más importantes
+Se agrego la librería easy-thumbnail y se modificó el render de las imagenes
+https://github.com/SmileyChris/easy-thumbnails

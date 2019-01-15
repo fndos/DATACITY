@@ -22,6 +22,9 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from .api import router
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     ############################# LOGIN REDIRECT ###############################
 	url(r'^$', home, name="home"),
@@ -52,4 +55,4 @@ urlpatterns = [
     url(r'^dashboard/', include('dash.contrib.apps.public_dashboard.urls')),
 ]
 
-urlpatterns += staticfiles_urlpatterns()
+urlpatterns += staticfiles_urlpatterns() + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

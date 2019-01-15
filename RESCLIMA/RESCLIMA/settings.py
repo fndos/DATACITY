@@ -50,6 +50,7 @@ INSTALLED_APPS = (
 	'main',
 	'simulation',
 	'rest_framework',
+	'easy_thumbnails',
 	'dash',
 	'dash.contrib.apps.public_dashboard',
 	'dash.contrib.layouts.bootstrap2',

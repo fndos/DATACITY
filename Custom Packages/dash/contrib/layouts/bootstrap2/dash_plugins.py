@@ -3,6 +3,7 @@ from ....factory import plugin_widget_factory
 
 from ....contrib.plugins.dummy.dash_widgets import BaseDummyWidget
 from ....contrib.plugins.image.dash_widgets import BaseImageWidget
+from ....contrib.plugins.file.dash_widgets import BaseFileWidget
 from ....contrib.plugins.memo.dash_widgets import (
     BaseMemoWidget,
     BaseTinyMCEMemoWidget
@@ -174,4 +175,27 @@ plugin_widget_factory(BaseBookmarkBootstrapTwoWidget,
                       'bootstrap_materialize',
                       'main',
                       'bookmark',
+                      main_sizes)
+
+# **************************************************************************
+# ******************* Registering widgets for File plugin *****************
+# **************************************************************************
+
+
+main_sizes = (
+    (1, 1),
+    (2, 2),
+    (2, 3),
+    (3, 2),
+    (3, 3),
+    (3, 4),
+    (4, 4),
+    (4, 5),
+    (5, 4),
+    (5, 5),
+)
+plugin_widget_factory(BaseFileWidget,
+                      'bootstrap_materialize',
+                      'main',
+                      'file',
                       main_sizes)

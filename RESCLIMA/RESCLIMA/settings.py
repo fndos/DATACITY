@@ -56,6 +56,7 @@ INSTALLED_APPS = (
 	'dash.contrib.layouts.bootstrap2',
 	'dash.contrib.plugins.dummy',
 	'dash.contrib.plugins.image',
+	'dash.contrib.plugins.file',
 	'dash.contrib.plugins.memo',
 	'dash.contrib.plugins.rss_feed',
 	'dash.contrib.plugins.url',

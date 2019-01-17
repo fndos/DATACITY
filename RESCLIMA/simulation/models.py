@@ -76,26 +76,27 @@ class Vehicle(models.Model):
 	class Meta:
 		verbose_name = "Vehiculo"
 		verbose_name_plural = "Vehiculos"
+
 def user_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
     return 'user_{0}/{1}'.format(instance.user.id, filename)
 class Simulation(models.Model):
-# 	osm.motorcycle.rou.xml 
-# 	osm.passenger.trips.xml
-# osm_bbox.osm.xml           
-# osm.motorcycle.trips.xml   
-# osm.polycfg
-# osm.bus.rou.alt.xml         
-# osm.netccfg                
-# osm.poly.xml
-# osm.bus.rou.xml             
-# osm.net.xml                
-# osm.sumocfg
-# osm.bus.trips.xml           
-# osm.passenger.rou.alt.xml  
-# osm.view.xml
-# osm.motorcycle.rou.alt.xml  
-# osm.passenger.rou.xml 
+	# osm.motorcycle.rou.xml
+	# osm.passenger.trips.xml
+	# osm_bbox.osm.xml
+	# osm.motorcycle.trips.xml
+	# osm.polycfg
+	# osm.bus.rou.alt.xml
+	# osm.netccfg
+	# osm.poly.xml
+	# osm.bus.rou.xml
+	# osm.net.xml
+	# osm.sumocfg
+	# osm.bus.trips.xml
+	# osm.passenger.rou.alt.xml
+	# osm.view.xml
+	# osm.motorcycle.rou.alt.xml
+	# osm.passenger.rou.xml
 	mapa_red=models.FileField(verbose_name="Mapa de la simulacion", upload_to=user_directory_path, validators=[validate_file_extension_xml])
 	# RUTAS y VIAJES POR TIPO DE VEHICULO
 	rutas_bus = models.FileField(verbose_name="Mapa de rutas de buses", upload_to=user_directory_path, validators=[validate_file_extension_xml])
@@ -114,7 +115,6 @@ class Simulation(models.Model):
 	config_red = models.FileField(verbose_name="Archivo netccfg", upload_to=user_directory_path, validators=[validate_file_extension_config])
 	config_poly = models.FileField(verbose_name="Archivo netccfg", upload_to=user_directory_path, validators=[validate_file_extension_config])
 	config_sumo = models.FileField(verbose_name="Archivo netccfg", upload_to=user_directory_path, validators=[validate_file_extension_config])
-
 
 	class Meta:
 		verbose_name="Simulacion"

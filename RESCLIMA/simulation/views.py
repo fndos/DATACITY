@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect
@@ -9,19 +9,9 @@ from django.urls import reverse_lazy
 from django.views.generic import *
 from . models import *
 from . forms import *
+from . tasks import *
 
 # Create your views here.
-
-# class SimulationCreate(FormView):
-#
-#     form_class = SimulationForm
-#     success_url = reverse_lazy('simulation_list')
-#     template_name = "simulation/form.html"
-#
-#     def form_valid(self, form):
-#         form.instance.user =  self.request.user
-#         form.save(commit=True)
-#         return super(SimulationCreate, self).form_valid(form)
 
 class SimulationCreate(CreateView):
 	template_name = 'simulation/form.html'
@@ -51,25 +41,17 @@ class SimulationDelete(DeleteView):
 	template_name = 'simulation/delete.html'
 	success_url = reverse_lazy('simulation_list')
 
-class SimulationBeforeRun(TemplateView):
-    template_name = 'simulation/before_run.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(SimulationBeforeRun, self).get_context_data(**kwargs)
-        try:
-            context['object_list'] = Simulation.objects.filter(id=self.kwargs['pk'])
-        except Simulation.DoesNotExist:
-            context['object_list'] = None
-        return context
-
-### Modificar para realizar la simulacin ###
+### Modificar para realizar la simulacion ###
 class SimulationRun(TemplateView):
-    template_name = 'simulation/run.html'
+	template_name = 'simulation/run.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(SimulationRun, self).get_context_data(**kwargs)
-        try:
-            context['object_list'] = Simulation.objects.filter(id=self.kwargs['pk'])
-        except Simulation.DoesNotExist:
-            context['object_list'] = None
-        return context
+	def get_context_data(self, **kwargs):
+		context = super(SimulationRun, self).get_context_data(**kwargs)
+		try:
+			result = simulation_task.delay()
+			context['object_list'] = Simulation.objects.filter(id=self.kwargs['pk'])
+			context['task_id'] = result.task_id
+
+		except Simulation.DoesNotExist:
+			context['object_list'] = None
+		return context

@@ -29,10 +29,10 @@ try:
 	import sumolib
 	from sumolib.miscutils import getFreeSocketPort
 	import traci
-	PORT = sumolib.miscutils.getFreeSocketPort()
+	# PORT = sumolib.miscutils.getFreeSocketPort()
 	sumoBinary = "/home/fernando/sumo-git/bin/sumo"
 	sumoCmd = [sumoBinary, "-c", "osm.sumocfg", "--fcd-output", "resclima_sumo_trace.xml"]
-	traci.start(sumoCmd, port=PORT)
+	traci.start(sumoCmd)
 	print("Realizando Simulacion")
 	step = 0
 	while step < 5:

@@ -54,6 +54,7 @@ urlpatterns = [
     url(r'^d3/', include('d3.urls')),
     url(r'^dashboard/', include('dash.urls')),
     url(r'^dashboard/', include('dash.contrib.apps.public_dashboard.urls')),
+    url(r'^celery-progress/', include('celery_progress.urls')), 
 ]
 
 urlpatterns += staticfiles_urlpatterns() + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

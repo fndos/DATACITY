@@ -4,11 +4,10 @@
 {% block title%}RESCLIMA | SIMULACIONES{% endblock %}
 
 {% block content %}
+
 <div class="container">
 	<div class="section">
 		<h4 class="header"><!-- The Title for Simulation --></h4>
-    <p>SIMULACION TERMINADA</p>
-		<button class="btn waves-effect waves-light green accent-6" type="button" onClick="window.location='/simulation/output/1';"><i class="material-icons left">play_circle_filled</i>Run Simulacion</button>
 		{% if object_list %}
 		<table class="bordered">
 			<tbody>
@@ -16,8 +15,16 @@
 					{% for simulation in object_list %}
 							<td class="td-resclima-user" style="font-family:monospace">{{ simulation.id }}</td>
 							<td class="td-resclima-user-type" style="font-family:monospace">{{ simulation.name }}</td>
+					    <!-- Progress bar display -->
+							<td>
+								<div class='progress-wrapper'>
+						      <div id='progress-bar' class='progress-bar' style="background-color: #68a9ef; width: 0%;">&nbsp;</div>
+						    </div>
+								<br>
+						    <div id="progress-bar-message" style="font-family:monospace">Esperando que la simulacion comience...</div>
+							</td>
 				</tr>
-				{% endfor %}
+					{% endfor %}
 			</tbody>
 		</table>
 		{% else %}
@@ -29,7 +36,17 @@
 		{% endif %}
 	</div>
 </div>
-	<div style="height:100px;"></div>
-
+<div style="height:100px;"></div>
 
 {% endblock content %}
+
+{% block scripts_body %}
+<script src="{% static 'celery_progress/celery_progress.js' %}"></script>
+<script type="text/javascript">
+  // JQuery
+var progressUrl = "{% url 'celery_progress:task_status' task_id %}";
+$(function () {
+  CeleryProgressBar.initProgressBar(progressUrl)
+});
+</script>
+{% endblock %}

@@ -7,16 +7,17 @@
 <div class="container">
 	<div class="section">
 		<h4 class="header"><!-- The Title for Simulation --></h4>
-		<button class="btn waves-effect waves-light green accent-6" type="button" onClick="window.location='/simulation/create';"><i class="material-icons left">person_add</i>Agregar Simulacion</button>
+		<button class="btn waves-effect waves-light green accent-6" type="button" onClick="window.location='/simulation/create';"><i class="material-icons left">add_circle</i>Agregar Simulacion</button>
 		{% if object_list %}
 		<table class="bordered">
 			<tbody>
 				<tr>
 					{% for simulation in object_list %}
+						{% if simulation.user.id == request.user.id	%}
 							<td class="td-resclima-user" style="font-family:monospace">{{ simulation.id }}</td>
 							<td class="td-resclima-user-type" style="font-family:monospace">{{ simulation.name }}</td>
 							<td class="td-resclima-view" style="font-family:monospace">
-									<a href="{% url 'simulation_before_run' simulation.id %}" style="color: green;"><i class="material-icons left">play_circle_outline</i>Run</a>
+									<a href="{% url 'simulation_run' simulation.id %}" style="color: green;"><i class="material-icons left">play_circle_outline</i>Run</a>
 							</td>
 							<td class="td-resclima-action" style="font-family:monospace">
 									<a href="{% url 'simulation_update' simulation.id %}"><i class="material-icons left">edit</i>Editar</a>
@@ -24,6 +25,13 @@
 							<td class="td-resclima-action" style="font-family:monospace">
 									<a href="{% url 'simulation_delete' simulation.id %}" style="color: #FF5252;" ><i class="material-icons left">delete_forever</i>Eliminar</a>
 							</td>
+						{% else %}
+						<div class="wrapper">
+							<div class="container">
+								<p>No hay simulaciones para mostrar</p>
+							</div>
+						</div>
+						{% endif %}
 				</tr>
 				{% endfor %}
 			</tbody>

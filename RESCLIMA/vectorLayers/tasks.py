@@ -32,11 +32,11 @@ def import_vector_layer(vectorlayer_params):
 	owner = User.objects.get(id=owner_id)
 	'''
 	Diccionario con el resultado de la operacion.
-	Este  diccionario  estara dentro de un objeto 
+	Este  diccionario  estara dentro de un objeto
 	celery.result.AsyncResult
 	result = {
-				"error": string  con  mensaje de error, 
-						 si no hay error, esta clave no 
+				"error": string  con  mensaje de error,
+						 si no hay error, esta clave no
 						 existira o sera None
 				"percent": porcentaje de progreso de la
 						   operacion
@@ -89,7 +89,7 @@ def import_vector_layer(vectorlayer_params):
 	layer_def = layer.GetLayerDefn()
 	num_fields = layer_def.GetFieldCount()
 	field_count = range(num_fields)
-	num_fields = float(num_fields)	
+	num_fields = float(num_fields)
 
 	for i in field_count:
 		field_def = layer_def.GetFieldDefn(i)
@@ -139,7 +139,7 @@ def import_vector_layer(vectorlayer_params):
 		maxYs.append(env[3])
 		geometry = GEOSGeometry(src_geometry.ExportToWkt())
 		geometry = utils.wrap_geos_geometry(geometry)
-		
+
 		geometry_field = utils.calc_geometry_field(geometry_name)
 		args = {}
 		args['vectorlayer'] = vectorlayer
@@ -188,5 +188,3 @@ def import_vector_layer(vectorlayer_params):
 
 	result["percent"]=100
 	return result
-
-

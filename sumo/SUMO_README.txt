@@ -32,3 +32,4 @@ python2 plot_trajectories.py resclima_sumo_trace.xml -t td -o plot.png -s
 
 INSTALACION DJANGO ADICIONAL
 django_cleanup
+https://github.com/czue/celery-progress

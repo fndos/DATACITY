@@ -1,0 +1,25 @@
+{% load i18n %}
+<div class="generic-content-wrapper">
+    <div class="wrapper-bg"></div>
+    <div class="hero-unit-small">
+        <p class="content-title">{% trans "ELIMINAR PRODUCTO" %}</p>
+    </div>
+
+    <div class="content-body">
+        <form method="post" action="{% url 'dash.delete_dashboard_workspace' workspace.pk %}" enctype="multipart/form-data" class="form-horizontal">
+            {% csrf_token %}
+            <ul class="content-listing generic-form">
+                <li>
+                    <p class="alert alert-error">{% blocktrans with workspace.name as workspace_name %}Esta seguro que desea eliminar el producto {{ workspace_name }}?{% endblocktrans%}</p>
+                </li>
+                <li class="buttons control-group">
+                    <div class="controls">
+                        <button type="submit" name="delete" class="btn btn-warning waves-effect waves-light red accent-2">{% trans "Eliminar" %}</button>
+                        <input type="hidden" name="next" value="{% url 'dash.edit_dashboard' workspace.slug %}" />
+                        <button type="submit" class="btn btn-primary waves-effect waves-light">{% trans "Cancelar" %}</button>
+                    </div>
+                </li>
+            </ul>
+        </form>
+    </div>
+</div>

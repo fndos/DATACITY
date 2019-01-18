@@ -34,6 +34,7 @@ urlpatterns = [
 	url(r'^noAccess/$', noAccess, name="noAccess"),
 	url(r'^get-task-info/',get_task_info,name="taskInfo"),
     url(r'^profile/$', profile, name='profile'),
+    url(r'^products/$', products, name='products'),
     ################################# MANAGER ##################################
     url(r'^user/create/$', manager.UserCreate.as_view(), name='user_create'),
     url(r'^user/$', manager.UserList.as_view(), name='user_list'),

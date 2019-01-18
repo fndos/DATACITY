@@ -19,4 +19,8 @@ urlpatterns = [
     url(r'^(?P<username>[\w_\-]+)/$',
         view=public_dashboard,
         name='dash.public_dashboard'),
+
+    url(r'^(?P<username>[\w_\-]+)/shared/(?P<shared_with>[\w_\-]+)/$',
+        view=public_dashboard,
+        name='dash.public_dashboard_shared'),
 ]

@@ -1,0 +1,214 @@
+{% extends "dash/base.html" %}
+
+{% load static i18n dash_tags %}
+
+{% block site-title %}{{ dashboard_settings.title }}{% endblock site-title %}
+
+{% block stylesheets %}
+<link href="{% static 'jquery-ui/css/smoothness/jquery-ui-1.10.3.custom.min.css' %}" rel="stylesheet" media="all" />
+<link href="{% static 'colorbox/colorbox.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'css/dash_core.css' %}" rel="stylesheet" media="all" />
+{% if css %}
+<style type="text/css">
+    {{ css|safe }}
+</style>
+{% endif %}
+{% endblock stylesheets %}
+
+{% block layout-stylesheets %}
+{% for css_file in layout.get_media_css %}
+<link href="{% static css_file %}" rel="stylesheet" media="all" />
+{% endfor %}
+<!-- Estilos de DATACITY -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="{% static 'bootstrap2/css/lib/style-resclima.css' %}" type="text/css">
+<!-- Estilos de RESCLIMA -->
+<link rel="stylesheet" href="{% static 'bootstrap2/css/lib/materialize.css' %}" type="text/css">
+<link rel="stylesheet" href="{% static 'bootstrap2/css/lib/style.css' %}" type="text/css">
+<link rel="stylesheet" href="{% static 'bootstrap2/css/lib/style-horizontal.min.css' %}" type="text/css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'bootstrap2/css/lib/custom.css' %}" type="text/css">
+<link rel=icon href="{% static 'bootstrap2/img/favicon.png' %}" sizes="16x16" type="image/png">
+{% endblock layout-stylesheets %}
+
+{% block layout-javascripts %}
+{% for js_file in layout.get_media_js %}
+<script src="{% static js_file %}"></script>
+{% endfor %}
+{% endblock layout-javascripts %}
+
+{% block content-before %}
+<!-- SidebarNavigation -->
+<header id="header" class="page-topbar">
+  <nav class="navbar-fixed-top navbar-inverse sidebarNavigation navbar-color gradient-45deg-light-blue-cyan" data-sidebarClass="navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle left-navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">RESCLIMA</a>
+      </div>
+			<!-- Start Menu -->
+      <div class="collapse navbar-collapse" id="myNavbar">
+
+				<ul class="nav navbar-nav">
+        {% has_edit_dashboard_permissions as has_edit_dashboard_permissions %}
+        {% if has_edit_dashboard_permissions %}
+        <li class="menu-item{% if edit_mode %} active{% endif %}">
+            <a href="{% if current_workspace %}{% url 'dash.edit_dashboard' current_workspace.slug %}{% else %}{% url 'dash.edit_dashboard' %}{% endif %}" class="menu-dashboard-edit" title="{% trans 'Edit dashboard' %}">
+                <span class="glyphicon glyphicon-edit"></span>&nbsp
+                <span>{% trans 'Editar Dashboard' %}</span>
+            </a>
+        </li>
+        {% endif %}
+        <li class="menu-item{% if not edit_mode %} active{% endif %}">
+            <a href="{% if current_workspace %}{% url 'dash.dashboard' current_workspace.slug %}{% else %}{% url 'dash.dashboard' %}{% endif %}" class="menu-dashboard-home" title="{% trans 'View Dashboard' %}">
+                <span class="glyphicon glyphicon-stats"></span>&nbsp
+                <span>{% trans 'Ver dashboard' %}</span>
+            </a>
+        </li>
+				<!-- Profile, Search and Session data -->
+					<li><a href="/"><span class="glyphicon glyphicon-search"></span> &nbsp Buscar</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="{% url 'profile' %}"><span class="glyphicon glyphicon-user"></span> &nbsp {{ request.user.first_name }} {{ request.user.last_name }}</a></li>
+					<li><a href="{% url 'logout' %}?next=/"><span class="glyphicon glyphicon-log-out"></span> &nbsp Cerrar Sesión</a></li>
+				</ul>
+      </div>
+			<!-- End Menu -->
+    </div>
+  </nav>
+</header>
+
+<div class="container-fluid">
+{% endblock content-before %}
+
+{% block workspaces-wrapper %}
+{% endblock workspaces-wrapper %}
+
+{% block top-nav-menu-wrapper %}
+{% endblock top-nav-menu-wrapper %}
+
+{% block content %}
+    {% block bootstrap2_sidebar_wrapper %}
+<div class="span3">
+    <div class="well sidebar-nav">
+        {% block bootstrap2_sidebar_nav_wrapper %}
+        <ul class="nav nav-list">
+            {% block bootstrap2_workspaces %}
+            <!-- {# if workspaces #} -->
+            <li class="nav-header">{% trans "Productos"%}</li>
+            <li class="{% if not current_workspace %} active {% endif %}">
+                <a href="{% if edit_mode %}{% url 'dash.edit_dashboard' %}{% else %}{% url 'dash.dashboard' %}{% endif %}" title="{% trans 'Predeterminado' %}">
+                    {% trans 'Predeterminado' %}
+                </a>
+            </li>
+            {% for ws in workspaces %}
+            <li class="{% if ws == current_workspace %} active{% endif %}">
+                <a href="{% if edit_mode %}{% url 'dash.edit_dashboard' ws.slug %}{% else %}{% url 'dash.dashboard' ws.slug %}{% endif %}" title="{{ ws.name }}">
+                    {{ ws.name }}
+                </a>
+            </li>
+            {% endfor %}
+            <!-- {# endif #} -->
+            {% endblock bootstrap2_workspaces %}
+
+            {% block bootstrap2_settings %}
+            <li class="nav-header">{% trans "Configuracion" %}</li>
+            {% if 'dash.add_dashboardworkspace' in perms %}
+            <li class="sub-menu-item">
+                <a href="{% url 'dash.create_dashboard_workspace' %}" class="menu-dashboard-create-workspace" title="{% trans 'Crear Producto' %}">
+                    <!-- <span class="iconic icon-plus-sign-alt"></span> -->
+                    <span class="glyphicon glyphicon-plus-sign"></span> &nbsp
+                    <span class="textonic">{% trans "Crear Producto" %}</span>
+                </a>
+            </li>
+            {% endif %}
+
+            {% if 'dash.change_dashboardsettings' in perms %}
+            <li class="sub-menu-item">
+                <a href="{% url 'dash.edit_dashboard_settings' %}" class="menu-dashboard-edit-settings" title="{% trans 'Configuración del Dashboard' %}">
+                    <!-- <span class="iconic icon-gears"></span> -->
+                    <span class="glyphicon glyphicon-cog"></span> &nbsp
+                    <span class="textonic">{% trans "Dashboard" %}</span>
+                </a>
+            </li>
+            {% endif %}
+
+            {% if current_workspace %}
+                {% if 'dash.change_dashboardworkspace' in perms %}
+            <li class="sub-menu-item">
+                <a href="{% url 'dash.edit_dashboard_workspace' current_workspace.pk %}" class="menu-dashboard-edit-workspace" title="{% trans 'Editar Producto' %}">
+                    <!-- <span class="iconic icon-edit"></span> -->
+                    <span class="glyphicon glyphicon-edit"></span> &nbsp
+                    <span class="textonic">{% trans "Editar Producto" %}</span>
+                </a>
+            </li>
+                {% endif %}
+
+                {% if 'dash.add_dashboardworkspace' in perms and 'dash.add_dashboardentry' in perms %}
+            <li class="sub-menu-item">
+                <a href="{% url 'dash.clone_dashboard_workspace' current_workspace.pk %}" class="menu-dashboard-clone-workspace" title="{% trans 'Clonar Producto' %}">
+                    <!-- <span class="iconic icon-copy"></span> -->
+                    <span class="glyphicon glyphicon-random"></span> &nbsp
+                    <span class="textonic">{% trans "Clonar Producto" %}</span>
+                </a>
+            </li>
+                {% endif %}
+
+                {% if 'dash.delete_dashboardworkspace' in perms %}
+            <li class="sub-menu-item">
+                <a href="{% url 'dash.delete_dashboard_workspace' current_workspace.pk %}" class="menu-dashboard-delete-workspace" title="{% trans 'Eliminar Producto' %}">
+                    <!-- <span class="iconic icon-trash"></span> -->
+                    <span class="glyphicon glyphicon-trash"></span> &nbsp
+                    <span class="textonic">{% trans "Eliminar Producto" %}</span>
+                </a>
+            </li>
+                {% endif %}
+            {% endif %}
+
+            {% block bootstrap2_public_dashboard_url %}
+            {% if public_dashboard_url %}
+            <li class="sub-menu-item">
+                <a href="{{ public_dashboard_url }}" class="menu-public-dashboard">
+                    <!-- <span class="iconic icon-male"></span> -->
+                    <span class="glyphicon glyphicon-user"></span> &nbsp
+                    <span class="textonic">{% trans "Dashboard Publico" %}</span>
+                </a>
+            </li>
+            {% endif %}
+            {% endblock bootstrap2_public_dashboard_url %}
+
+            {% block bootstrap2_auth_url %}
+            {% render_auth_link %}
+            {% endblock bootstrap2_auth_url %}
+
+            {% endblock bootstrap2_settings %}
+        </ul>
+        {% endblock bootstrap2_sidebar_nav_wrapper %}
+    </div>
+</div>
+    {% endblock bootstrap2_sidebar_wrapper %}
+{% endblock content %}
+
+{% block content-after %}
+</div>
+<!-- Start Footer -->
+    <footer class="navbar-fixed-bottom page-footer">
+		<div class="footer-copyright">
+			<div class="container">
+				<span>Copyright ©
+					<script type="text/javascript">
+						document.write(new Date().getFullYear());
+					</script>
+					<a class="grey-text text-darken-2" href="http://themeforest.net/user/pixinvent/portfolio?ref=pixinvent" target="_blank">PIXINVENT</a>All rights reserved.
+				</span>
+				<span class="right hide-on-small-only"> Design and Developed by <a class="grey-text text-darken-2" href="https://www.fiec.espol.edu.ec/es/cvr-robotica/">Centro de Visi&oacute;n y Rob&oacute;tica - ESPOL</a>
+				</span>
+			</div>
+		</div>
+	</footer>
+	<!-- End Footer -->
+{% endblock content-after %}

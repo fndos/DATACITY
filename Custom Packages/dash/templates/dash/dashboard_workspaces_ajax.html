@@ -21,6 +21,14 @@
                 </a>
             </li>
             {% endfor %}
+            {% for wsx in workspaces_compartidas %}
+            <li class="entry{% if wsx == current_workspace %} active{% endif %}">
+                <a href="{% url 'dash.public_dashboard' user.username wsx.slug %}" title="{{ ws.name }}">
+                    <span class="iconic {% if wsx == current_workspace %}icon-circle{% else %}icon-circle-blank{% endif %}"></span>
+                    <span class="textonic">{{ ws.name }}</span>
+                </a>
+            </li>
+            {% endfor %}
         </ul>
     </div>
 </div>

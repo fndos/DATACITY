@@ -1,0 +1,201 @@
+from ....base import plugin_registry, plugin_widget_registry
+from ....factory import plugin_widget_factory
+
+from ....contrib.plugins.dummy.dash_widgets import BaseDummyWidget
+from ....contrib.plugins.image.dash_widgets import BaseImageWidget
+from ....contrib.plugins.file.dash_widgets import BaseFileWidget
+from ....contrib.plugins.memo.dash_widgets import (
+    BaseMemoWidget,
+    BaseTinyMCEMemoWidget
+)
+# from ....contrib.plugins.rss_feed.dash_widgets import BaseReadRSSFeedWidget
+from ....contrib.plugins.video.dash_widgets import BaseVideoWidget
+# from ....contrib.plugins.weather.dash_widgets import BaseWeatherWidget
+from ....contrib.plugins.url.dash_plugins import BaseURLPlugin
+from .dash_widgets import (
+    BaseBookmarkBootstrapTwoWidget,
+    URLBootstrapTwo1x1Bootstrap2FluidMainWidget,
+    URLBootstrapTwo2x2Bootstrap2FluidMainWidget,
+)
+from .forms import URLBootstrapTwoForm
+
+__title__ = 'dash.contrib.layouts.bootstrap2.dash_plugins'
+__author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
+__copyright__ = '2013-2018 Artur Barseghyan'
+__license__ = 'GPL 2.0/LGPL 2.1'
+__all__ = (
+    'URLBootstrapTwo1x1Plugin',
+    'URLBootstrapTwo2x2Plugin',
+)
+
+# **************************************************************************
+# ****************************** Custom plugins ****************************
+# **************************************************************************
+
+
+class URLBootstrapTwo1x1Plugin(BaseURLPlugin):
+    """URL dashboard plugin.
+
+    The original `URLPlugin`, as well as the main dash.css, relies on
+    presence of wonderful "Font awesome". Although a lot of icon names are
+    common between Bootstrap 2 and Font awesome, there are some specific
+    icons, that are not present in both. Thus, the original ``URLPlugin`` is
+    extended to address those differences.
+    """
+
+    uid = 'url_bootstrap_two_1x1'
+    form = URLBootstrapTwoForm
+
+
+plugin_registry.register(URLBootstrapTwo1x1Plugin)
+
+
+class URLBootstrapTwo2x2Plugin(URLBootstrapTwo1x1Plugin):
+    """URL dashboard plugin."""
+
+    uid = 'url_bootstrap_two_2x2'
+
+
+plugin_registry.register(URLBootstrapTwo2x2Plugin)
+
+# **************************************************************************
+# **************************************************************************
+# ************************** Registering the widgets ***********************
+# **************************************************************************
+# **************************************************************************
+
+# **************************************************************************
+# ******************* Registering widgets for Dummy plugin *****************
+# **************************************************************************
+
+
+main_sizes = (
+    (1, 1),
+    (2, 2),
+)
+plugin_widget_factory(BaseDummyWidget,
+                      'bootstrap_materialize',
+                      'main',
+                      'dummy',
+                      main_sizes)
+
+# **************************************************************************
+# ******************* Registering widgets for Image plugin *****************
+# **************************************************************************
+
+
+main_sizes = (
+    (1, 1),
+    (2, 2),
+    (2, 3),
+    (3, 2),
+    (3, 3),
+    (3, 4),
+    (4, 4),
+    (4, 5),
+    (5, 4),
+    (5, 5),
+)
+plugin_widget_factory(BaseImageWidget,
+                      'bootstrap_materialize',
+                      'main',
+                      'image',
+                      main_sizes)
+
+# **************************************************************************
+# ******************* Registering widgets for Memo plugin ******************
+# **************************************************************************
+
+
+main_sizes = (
+    (2, 2),
+    (3, 3),
+    (4, 5),
+    (5, 5),
+)
+plugin_widget_factory(BaseMemoWidget,
+                      'bootstrap_materialize',
+                      'main',
+                      'memo',
+                      main_sizes)
+
+# **************************************************************************
+# ************** Registering widgets for TinyMCEMemo plugin ****************
+# **************************************************************************
+
+
+main_sizes = (
+    (2, 2),
+    (3, 3),
+    (4, 5),
+    (5, 5),
+)
+plugin_widget_factory(BaseTinyMCEMemoWidget,
+                      'bootstrap_materialize',
+                      'main',
+                      'tinymce_memo',
+                      main_sizes)
+
+# **************************************************************************
+# ******************* Registering the widgets for URL plugin ***************
+# **************************************************************************
+
+
+# Registering URL plugin widgets
+plugin_widget_registry.register(URLBootstrapTwo1x1Bootstrap2FluidMainWidget)
+# plugin_widget_registry.register(URLBootstrapTwo2x2Bootstrap2FluidMainWidget)
+
+# **************************************************************************
+# ***************** Registering the widgets for Video plugin ***************
+# **************************************************************************
+
+
+main_sizes = (
+    (2, 2),
+    (3, 3),
+    (4, 4),
+    (5, 5),
+)
+plugin_widget_factory(BaseVideoWidget,
+                      'bootstrap_materialize',
+                      'main',
+                      'video',
+                      main_sizes)
+
+# **************************************************************************
+# *************** Registering the widgets for Bookmark plugin ***************
+# **************************************************************************
+
+
+main_sizes = (
+    (1, 1),
+    # (2, 2),
+)
+plugin_widget_factory(BaseBookmarkBootstrapTwoWidget,
+                      'bootstrap_materialize',
+                      'main',
+                      'bookmark',
+                      main_sizes)
+
+# **************************************************************************
+# ******************* Registering widgets for File plugin *****************
+# **************************************************************************
+
+
+main_sizes = (
+    (1, 1),
+    (2, 2),
+    (2, 3),
+    (3, 2),
+    (3, 3),
+    (3, 4),
+    (4, 4),
+    (4, 5),
+    (5, 4),
+    (5, 5),
+)
+plugin_widget_factory(BaseFileWidget,
+                      'bootstrap_materialize',
+                      'main',
+                      'file',
+                      main_sizes)

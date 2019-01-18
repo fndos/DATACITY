@@ -1,0 +1,24 @@
+{% load i18n %}
+{% load dash_tags %}
+<div class="generic-content-wrapper">
+    <div class="wrapper-bg"></div>
+    <div class="hero-unit-small">
+        <p class="content-title">{% blocktrans with plugin.name as plugin_name %}AGREGAR {% endblocktrans %} {% upper plugin.name %} AL DASHBOARD</p>
+    </div>
+
+    <div class="content-body">
+        <form method="post" action="{{ request.path }}" enctype="multipart/form-data" class="form-horizontal">
+            {% csrf_token %}
+            <ul class="content-listing generic-form">
+                {% include layout.form_snippet_template_name %}
+                <li class="buttons control-group">
+                    <div class="controls">
+                        <button type="submit" class="btn btn-primary waves-effect waves-light green accent-6">{% trans "Guardar" %}</button>
+                    </div>
+                </li>
+
+                {% include "dash/snippets/plugin_help_text.html" %}
+            </ul>
+        </form>
+    </div>
+</div>

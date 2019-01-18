@@ -8,3 +8,4 @@ from .models import *
 admin.site.register(Gauging)
 admin.site.register(Term)
 admin.site.register(Vehicle)
+admin.site.register(Simulation)

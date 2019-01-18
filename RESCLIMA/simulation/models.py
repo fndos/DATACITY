@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 from .formatChecker import validate_file_extension_xml, validate_file_extension_config
 from django.db import models
+from main.models import *
 
 class Gauging(models.Model):
 	# Información General
@@ -78,43 +79,52 @@ class Vehicle(models.Model):
 		verbose_name_plural = "Vehiculos"
 
 def user_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
-    return 'user_{0}/{1}'.format(instance.user.id, filename)
+	# file will be uploaded to MEDIA_ROOT/simulation/user_<id>/<filename>
+	return 'simulation/user_{0}/{1}'.format(instance.user.id, filename)
+
 class Simulation(models.Model):
-	# osm.motorcycle.rou.xml
-	# osm.passenger.trips.xml
-	# osm_bbox.osm.xml
-	# osm.motorcycle.trips.xml
-	# osm.polycfg
-	# osm.bus.rou.alt.xml
-	# osm.netccfg
-	# osm.poly.xml
-	# osm.bus.rou.xml
+	# Total 16, en uso 15 archivos de configuracion
+	# Informacion general
+	name = models.CharField(verbose_name="Nombre", max_length=100)
+	step = models.IntegerField(verbose_name="Step")
+	# Mapa de la red generado por OSM
 	# osm.net.xml
-	# osm.sumocfg
+	net = models.FileField(verbose_name="Mapa de la simulacion", upload_to=user_directory_path, validators=[validate_file_extension_xml])
+	# Rutas y viajes por tipo de vehiculo
+	# osm.bus.rou.xml
+	# osm.bus.rou.alt.xml
 	# osm.bus.trips.xml
-	# osm.passenger.rou.alt.xml
-	# osm.view.xml
+	bus_rou = models.FileField(verbose_name="Rutas de buses", upload_to=user_directory_path, validators=[validate_file_extension_xml])
+	bus_rou_alt = models.FileField(verbose_name="Rutas alternas de buses", upload_to=user_directory_path, validators=[validate_file_extension_xml])
+	bus_trips = models.FileField(verbose_name="Archivo de viajes de buses", upload_to=user_directory_path, validators=[validate_file_extension_xml])
+	# osm.motorcycle.rou.xml
 	# osm.motorcycle.rou.alt.xml
+	# osm.motorcycle.trips.xml
+	motorcycle_rou = models.FileField(verbose_name="Rutas de motos", upload_to=user_directory_path, validators=[validate_file_extension_xml])
+	motorcycle_rou_alt = models.FileField(verbose_name="Rutas alternas de motos", upload_to=user_directory_path, validators=[validate_file_extension_xml])
+	motorcycle_trips = models.FileField(verbose_name="Archivo de viajes de motos", upload_to=user_directory_path, validators=[validate_file_extension_xml])
 	# osm.passenger.rou.xml
-	mapa_red=models.FileField(verbose_name="Mapa de la simulacion", upload_to=user_directory_path, validators=[validate_file_extension_xml])
-	# RUTAS y VIAJES POR TIPO DE VEHICULO
-	rutas_bus = models.FileField(verbose_name="Mapa de rutas de buses", upload_to=user_directory_path, validators=[validate_file_extension_xml])
-	# rutas_alt_bus = models.FileField(verbose_name="Mapa de rutas alternas de buses", upload_to=user_directory_path, validators=[validate_file_extension_xml])
-	viajes_bus = models.FileField(verbose_name="Archivo de viajes de buses", upload_to=user_directory_path, validators=[validate_file_extension_xml])
-	rutas_moto = models.FileField(verbose_name="Mapa de rutas de motos", upload_to=user_directory_path, validators=[validate_file_extension_xml])
-	# rutas_alt_moto = models.FileField(verbose_name="Mapa de rutas alternas de motos", upload_to=user_directory_path, validators=[validate_file_extension_xml])
-	viajes_moto = models.FileField(verbose_name="Archivo de viajes de motos", upload_to=user_directory_path, validators=[validate_file_extension_xml])
-	rutas_carro = models.FileField(verbose_name="Mapa de rutas de carros", upload_to=user_directory_path, validators=[validate_file_extension_xml])
-	# rutas_carro = models.FileField(verbose_name="Mapa de rutas alternas de carros", upload_to=user_directory_path, validators=[validate_file_extension_xml])
-	viajes_carro = models.FileField(verbose_name="Archivo de viajes de carros", upload_to=user_directory_path, validators=[validate_file_extension_xml])
+	# osm.passenger.rou.alt.xml
+	# osm.passenger.trips.xml
+	passenger_rou = models.FileField(verbose_name="Rutas de carros", upload_to=user_directory_path, validators=[validate_file_extension_xml])
+	passenger_rou_alt = models.FileField(verbose_name="Rutas alternas de carros", upload_to=user_directory_path, validators=[validate_file_extension_xml])
+	passenger_trips = models.FileField(verbose_name="Archivo de viajes de carros", upload_to=user_directory_path, validators=[validate_file_extension_xml])
+	# Archivos adicionales
+	# osm.poly.xml
+	# osm.view.xml
 	poly_file =	models.FileField(verbose_name="Archivo de configuracion de poligonos", upload_to=user_directory_path, validators=[validate_file_extension_xml])
 	view_file = models.FileField(verbose_name="Archivo de configuracion de vista", upload_to=user_directory_path, validators=[validate_file_extension_xml])
-
-	#ARCHIVOS DE CONFIGURACION
-	config_red = models.FileField(verbose_name="Archivo netccfg", upload_to=user_directory_path, validators=[validate_file_extension_config])
-	config_poly = models.FileField(verbose_name="Archivo netccfg", upload_to=user_directory_path, validators=[validate_file_extension_config])
-	config_sumo = models.FileField(verbose_name="Archivo netccfg", upload_to=user_directory_path, validators=[validate_file_extension_config])
+	# Archivos de configuracion
+	# osm.netccfg
+	# osm.polycfg
+	# osm.sumocfg
+	net_config = models.FileField(verbose_name="Archivo netccfg", upload_to=user_directory_path, validators=[validate_file_extension_config])
+	poly_config = models.FileField(verbose_name="Archivo polycfg", upload_to=user_directory_path, validators=[validate_file_extension_config])
+	sumo_config = models.FileField(verbose_name="Archivo sumocfg", upload_to=user_directory_path, validators=[validate_file_extension_config])
+	# Relacion foranea
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	# Campos de auditoria
+	date_updated = models.DateTimeField(auto_now=True) # Fecha de modificación
 
 	class Meta:
 		verbose_name="Simulacion"

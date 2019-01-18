@@ -1,3 +1,7 @@
+###  SUMO  ###
+*.xml
+*.polycfg
+*.netccfg
 ### Django ###
 *.log
 *.pot

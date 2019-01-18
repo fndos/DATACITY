@@ -1,0 +1,128 @@
+{% extends 'simulation/base.html' %}
+{% load static %}
+
+{% block title%}RESCLIMA | SIMULACIONES{% endblock %}
+
+{% block content %}
+
+<div class="section">
+	<div class="row">
+		<div class="col s12 m12 l6">
+			<div class="card-panel">
+
+				<div class="row">
+					<!-- Simulation Form -->
+					<form method="post" action="." enctype="multipart/form-data">
+						{% csrf_token %}
+						<div class="row">
+							<!-- HEADER -->
+							<div class="input-field col s12 m12 l12">
+							{% ifequal form.instance.pk None %}
+								<!--Create-->
+								<p style="font-family:monospace; font-weight: bold; margin-bottom: 15px;">NUEVA SIMULACION</p>
+							{% else %}
+								<!--Update-->
+								<p style="font-family:monospace; font-weight: bold; margin-bottom: 15px;">EDITAR SIMULACION</p>
+							{% endifequal %}
+							</div>
+							<!-- Nombre de la simulacion -->
+							<div class="input-field col s12 m6 l6">
+								<label for="{{ form.name.id_for_label }}">Nombre</label>
+								{{ form.name }}
+							</div>
+							<!-- Step -->
+							<div class="input-field col s12 m6 l6">
+								<label for="{{ form.step.id_for_label }}">Step</label>
+								{{ form.step }}
+							</div>
+							<!-- Mapa de la simulacion -->
+							<div class="input-field col s12 m6 l6">
+								<label for="{{ form.net.id_for_label }}">Mapa de la simulacion</label>
+								{{ form.net }}
+							</div>
+							<!-- Rutas de buses -->
+							<div class="input-field col s12 m6 l6">
+								<label for="{{ form.bus_rou.id_for_label }}">Rutas de buses</label>
+								{{ form.bus_rou }}
+							</div>
+							<!-- Rutas Alternas de buses -->
+							<div class="input-field col s12 m6 l6">
+								<label for="{{ form.bus_rou_alt.id_for_label }}">Rutas Alternas de buses</label>
+								{{ form.bus_rou_alt }}
+							</div>
+							<!-- Archivo de viajes de buses -->
+							<div class="input-field col s12 m6 l6">
+								<label for="{{ form.bus_trips.id_for_label }}">Archivo de viajes de buses</label>
+								{{ form.bus_trips }}
+							</div>
+							<!-- Rutas de motos -->
+							<div class="input-field col s12 m6 l6">
+								<label for="{{ form.motorcycle_rou.id_for_label }}">Rutas de motos</label>
+								{{ form.motorcycle_rou }}
+							</div>
+							<!-- Rutas alternas de motos -->
+							<div class="input-field col s12 m6 l6">
+								<label for="{{ form.motorcycle_rou_alt.id_for_label }}">Rutas alternas de motos</label>
+								{{ form.motorcycle_rou_alt }}
+							</div>
+							<!-- Archivo de viajes de motos -->
+							<div class="input-field col s12 m6 l6">
+								<label for="{{ form.motorcycle_trips.id_for_label }}">Archivo de viajes de motos</label>
+								{{ form.motorcycle_trips }}
+							</div>
+              <!-- Rutas de carros -->
+							<div class="input-field col s12 m6 l6">
+								<label for="{{ form.passenger_rou.id_for_label }}">Rutas de carros</label>
+								{{ form.passenger_rou }}
+							</div>
+							<!-- Rutas alternas de carros -->
+							<div class="input-field col s12 m6 l6">
+								<label for="{{ form.passenger_rou_alt.id_for_label }}">Rutas alternas de carros</label>
+								{{ form.passenger_rou_alt }}
+							</div>
+							<!-- Archivo de viajes de carros -->
+							<div class="input-field col s12 m6 l6">
+								<label for="{{ form.passenger_trips.id_for_label }}">Archivo de viajes de carros</label>
+								{{ form.passenger_trips }}
+							</div>
+							<!-- Archivo de configuracion de poligonos -->
+							<div class="input-field col s12 m6 l6">
+								<label for="{{ form.poly_file.id_for_label }}">Archivo de configuracion de poligonos</label>
+								{{ form.poly_file }}
+							</div>
+							<!-- Archivo de configuracion de vista -->
+							<div class="input-field col s12 m6 l6">
+								<label for="{{ form.view_file.id_for_label }}">Archivo de configuracion de vista</label>
+								{{ form.view_file }}
+							</div>
+							<!-- Archivo netccfg -->
+							<div class="input-field col s12 m6 l6">
+								<label for="{{ form.net_config.id_for_label }}">Archivo netccfg</label>
+								{{ form.net_config }}
+							</div>
+							<!-- Archivo polycfg -->
+							<div class="input-field col s12 m6 l6">
+								<label for="{{ form.poly_config.id_for_label }}">Archivo polycfg</label>
+								{{ form.poly_config }}
+							</div>
+							<!-- Archivo sumocfg -->
+							<div class="input-field col s12 m6 l6">
+								<label for="{{ form.sumo_config.id_for_label }}">Archivo sumocfg</label>
+								{{ form.sumo_config }}
+							</div>
+						</div>
+						{% ifequal form.instance.pk None %}
+							<!--Create-->
+							<button class="btn waves-effect waves-light green accent-6" type="submit" ><i class="material-icons left">cloud_done</i>Guardar y salir</button>
+						{% else %}
+							<!--Update-->
+							<button class="btn waves-effect waves-light" type="submit"><i class="material-icons left">check_circle</i> Guardar cambios y salir</button>
+						{% endifequal %}
+							<button class="btn waves-effect waves-light red accent-2" type="button" onClick="window.history.back();"><i class="material-icons left">cancel</i>Cancelar</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

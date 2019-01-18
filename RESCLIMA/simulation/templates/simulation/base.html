@@ -83,8 +83,7 @@
 					{% if user.user_type != 3 %}
 					<!-- Manager, Researcher -->
 					<ul class="nav navbar-nav">
-						<li><a class="tag" href="#"><span class="glyphicon glyphicon-cloud-download"></span> &nbsp Mis datos</a></li>
-						<li><a class="tag" href="#"><span class="glyphicon glyphicon-sd-video"></span> &nbsp Mis Simulaciones</a></li>
+						<li class="{% if 'simulation' in request.resolver_match.url_name %}active{% endif %}"><a href="{% url 'simulation_list' %}"><span class="glyphicon glyphicon-sd-video"></span> &nbsp Mis Simulaciones</a></li>
 					{% endif %}
 						<li><a href="/"><span class="glyphicon glyphicon-search"></span> &nbsp Buscar</a></li>
 					</ul>

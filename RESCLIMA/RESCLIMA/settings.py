@@ -63,7 +63,7 @@ INSTALLED_APPS = (
 	'dash.contrib.plugins.video',
 	'dash.contrib.plugins.weather',
 	'd3',
-	#'producto_layout',
+	'django_cleanup'
 )
 
 MIDDLEWARE_CLASSES = (

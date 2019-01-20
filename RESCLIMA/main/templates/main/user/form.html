@@ -67,9 +67,9 @@
 							</div>
 							<!-- Tipo de Usuario -->
 							<div class="input-field col s12 m6 l6">
-								<label for="{{ form.user_type.id_for_label }}">Tipo de Usuario</label>
+								<label class="lable-file-field" for="{{ form.user_type.id_for_label }}">Tipo de Usuario</label>
 								<!-- FIX SELECT IS NOT DISPLAYING OK -->
-								{{ form.user_type }}
+								<div class="div-field">{{ form.user_type }}</div>
 							</div>
 						</div>
 						{% ifequal form.instance.pk None %}
@@ -87,3 +87,7 @@
 	</div>
 </div>
 {% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'main/js/materialize.min.js' %}" type= "text/javascript"></script>
+{% endblock %}

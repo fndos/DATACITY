@@ -8,7 +8,7 @@ from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
 
 from nine import versions
-
+from django.contrib.auth.models import User
 from ....base import get_layout
 from ....helpers import iterable_to_dict
 from ....models import DashboardEntry
@@ -19,7 +19,8 @@ if versions.DJANGO_GTE_1_10:
     from django.shortcuts import render
 else:
     from django.shortcuts import render_to_response
-
+from django.contrib.auth import get_user_model
+User = get_user_model()
 __title__ = 'dash.contrib.apps.public_dashboard.views'
 __author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
 __copyright__ = '2013 Artur Barseghyan'
@@ -32,6 +33,7 @@ logger = logging.getLogger(__name__)
 def public_dashboard(request,
                      username,
                      workspace=None,
+                     shared_with=None,
                      template_name='public_dashboard/public_dashboard.html'):
     """Public dashboard.
 
@@ -59,6 +61,7 @@ def public_dashboard(request,
     # A complex query required. All entries shall be taken from default
     # dashboard (no workspace) and joined with all entries of workspaces
     # set to be public. Getting the (frozen) queryset.
+    
     if workspace:
         entries_q = Q(
             user=user,
@@ -68,6 +71,10 @@ def public_dashboard(request,
             plugin_uid__in=user_plugin_uids
         )
     else:
+        # if shared_with:
+        #     user=User.objects.all().filter(username=shared_with)[0]
+        #     entries_q = Q(user=user, layout_uid=layout.uid, workspace=None, shared_with=user)
+        # else:
         entries_q = Q(user=user, layout_uid=layout.uid, workspace=None)
 
     dashboard_entries = DashboardEntry._default_manager \

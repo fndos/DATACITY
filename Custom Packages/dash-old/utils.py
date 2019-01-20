@@ -399,6 +399,94 @@ def get_workspaces(user, layout_uid=None, workspace=None, public=False,
         'current_workspace_not_found': current_not_found
     }
 
+def get_workspaces_compartidas(user, layout_uid=None, workspace=None, public=False,
+                   different_layouts=False):
+    """Gets previous, current, next and and a queryset of all workspaces.
+
+    :param django.contrib.auth.models.User user:
+    :param str layout_uid:
+    :param string workspace:
+    :param bool public:
+    :param bool different_layouts:
+    :return dict:
+    """
+    # We need to show workspaces
+    q_kwargs = {'shared_with': user}
+    if not different_layouts:
+        q_kwargs.update({'layout_uid': layout_uid})
+    if public:
+        q_kwargs.update({'is_public': public})
+
+    workspaces = list(
+        DashboardWorkspace._default_manager
+                          .filter(shared_with=user.id)
+                          .only('id', 'name', 'slug')
+                          .order_by('position')[:]
+    )
+
+    next = None
+    previous = None
+    current = None
+    current_not_found = False
+
+    if workspace:
+
+        # Slugifying the workspace
+        workspace_slug = slugify_workspace(workspace)
+        num_workspaces = len(workspaces)
+
+        for index, ws in enumerate(workspaces):
+            if workspace_slug == ws.slug:
+                current = ws
+
+                if index == 0:
+                    # No previous workspace (previous is default).
+                    try:
+                        next = workspaces[1]
+                    except IndexError:
+                        pass
+
+                elif num_workspaces == index:
+                    # No next workspace (next is default).
+                    try:
+                        previous = workspaces[index - 1]
+                    except IndexError:
+                        pass
+
+                else:
+                    # Getting previous and next workspaces.
+                    try:
+                        previous = workspaces[index - 1]
+                    except IndexError:
+                        pass
+
+                    try:
+                        next = workspaces[index + 1]
+                    except IndexError:
+                        pass
+
+        if current is None:
+            current_not_found = True
+
+    else:
+        try:
+            previous = workspaces[-1]
+        except IndexError:
+            pass
+
+        try:
+            next = workspaces[0]
+        except IndexError:
+            pass
+
+    return {
+        'workspaces': workspaces,
+        'next_workspace': next,
+        'previous_workspace': previous,
+        'current_workspace': current,
+        'current_workspace_not_found': current_not_found
+    }
+
 
 def get_occupied_cells(layout, placeholder, plugin_uid, position,
                        check_boundaries=False, fail_silently=True):

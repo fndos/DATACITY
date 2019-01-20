@@ -4,10 +4,10 @@ TraCI utiliza una arquitectura cliente / servidor basada en TCP para proporciona
 
 Para realizar una simulación es necesario ejecutar sumo (servidor) con el siguiente comando
 Realizar en sumo-git/tools
-sumo -n osm.net.xml --remote-port 3345
+sumo -n osm.net.xml --remote-port 8888
 
 Con este parametro se indica el número de clientes permitidos para la misma conexión
-sumo -n osm.net.xml --remote-port 3345 --num-clients 100
+sumo -n osm.net.xml --remote-port 8888 --num-clients 99
 
 Este comando realiza la simulación y exporta el archivo FCD (Output de SUMO)
 Este comando no es necesario ejecutarlo puesto que está embebido en el archivo runner.py
@@ -28,8 +28,11 @@ sumo -c osm.sumocfg --emission-output resclima_emission_file.xml
 NOTA: En el directorio de SUMO deben estar el resto de archivos de configuracion para la simulacion
       No se subieron porque eran demasiado pesados.
 
-python2 plot_trajectories.py resclima_sumo_trace.xml -t td -o plot.png -s
+python plot_trajectories.py resclima_sumo_trace.xml -t td -o plot.png -s
 
 INSTALACION DJANGO ADICIONAL
 django_cleanup
-https://github.com/czue/celery-progress
+celery-progress https://github.com/czue/celery-progress
+
+
+python plot_dump_net.py -v -n bs.net.xml --xticks 7000,14001,2000,16 --yticks 9000,16001,1000,16 --measures entered,entered --xlabel [m] --ylabel [m] --default-width 1 -i base-jr.xml,base-jr.xml --xlim 7000,14000 --ylim 9000,16000 - --default-width .5 --default-color #606060 --min-color-value -1000 --max-color-value 1000 --max-width-value 1000 --min-width-value -1000 --max-width 3 --min-width .5 --colormap #0:#0000c0,.25:#404080,.5:#808080,.75:#804040,1:#c00000

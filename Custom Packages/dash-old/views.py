@@ -48,6 +48,7 @@ from .utils import (
     get_user_plugins,
     get_widgets,
     get_workspaces,
+    get_workspaces_compartidas,
 )
 from .json_package import json
 
@@ -109,6 +110,12 @@ def dashboard(request, workspace=None):
         workspace,
         different_layouts=dashboard_settings.allow_different_layouts
     )
+    workspaces_compartidas =get_workspaces_compartidas(
+        request.user,
+        dashboard_settings.layout_uid,
+        workspace,
+        different_layouts=dashboard_settings.allow_different_layouts
+    )
 
     layout = get_layout(
         layout_uid=(
@@ -145,18 +152,20 @@ def dashboard(request, workspace=None):
     )
 
     layout.collect_widget_media(dashboard_entries)
-
+    username = request.user.username
     context = {
         'placeholders': placeholders,
         'placeholders_dict': iterable_to_dict(placeholders,
                                               key_attr_name='uid'),
         'css': layout.get_css(placeholders),
         'layout': layout,
-        'dashboard_settings': dashboard_settings
+        'dashboard_settings': dashboard_settings,
+        'user':username,
+        'workspaces_compartidas': workspaces_compartidas
     }
 
     context.update(workspaces)
-
+    
     context.update(
         {'public_dashboard_url': get_public_dashboard_url(dashboard_settings)}
     )
@@ -725,6 +734,7 @@ def create_dashboard_workspace(request,
             different_layouts=dashboard_settings.allow_different_layouts
         )
         if form.is_valid():
+            print form
             obj = form.save(commit=False)
             obj.user = request.user
             if not dashboard_settings.allow_different_layouts:

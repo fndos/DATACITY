@@ -5,40 +5,40 @@ INSERT INTO main_user (id, password, is_superuser, username, first_name, last_na
 (3, 'pbkdf2_sha256$36000$dhqxoejz7cPU$y2UArD3//0+1ltQlMfeUM7NTK5oY/76FHD4YxquLg7o=', false, 'cliente', 'Fernando', 'Sanchez', 'customer@example.com', false, true, '0929858736', '0969488119', 3, 'UEES', 'Fernando Sánchez', 'Fernando Sánchez', current_timestamp, current_timestamp)
 
 /* Gauging */
-INSERT INTO simulation_gauging (date, weather, station, ts, te) VALUES ('2018-11-14', 'Normal', 'Semaforo del Km. 1.5 Av. Nicolas Lapenti y Av. Jaime Nebot, Duran', '07:00:00', '08:00:00')
+INSERT INTO simulation_gauging (id, date, weather, station, ts, te) VALUES (1, '2018-11-14', 'Normal', 'Semaforo del Km. 1.5 Av. Nicolas Lapenti y Av. Jaime Nebot, Duran', '07:00:00', '08:00:00')
 
 /* Periodos */
-INSERT INTO simulation_term (gauging_id, number, ts, te) VALUES (1, 1, '07:00:00', '07:15:00');
-INSERT INTO simulation_term (gauging_id, number, ts, te) VALUES (1, 2, '07:00:00', '07:15:00');
-INSERT INTO simulation_term (gauging_id, number, ts, te) VALUES (1, 3, '07:00:00', '07:15:00');
-INSERT INTO simulation_term (gauging_id, number, ts, te) VALUES (1, 4, '07:00:00', '07:15:00');
-INSERT INTO simulation_term (gauging_id, number, ts, te) VALUES (1, 5, '07:00:00', '07:15:00');
-INSERT INTO simulation_term (gauging_id, number, ts, te) VALUES (1, 6, '07:00:00', '07:15:00');
-INSERT INTO simulation_term (gauging_id, number, ts, te) VALUES (1, 7, '07:00:00', '07:15:00');
+INSERT INTO simulation_term (id, gauging_id, number, ts, te) VALUES (1, 1, 1, '07:00:00', '07:15:00');
+INSERT INTO simulation_term (id, gauging_id, number, ts, te) VALUES (2, 1, 2, '07:00:00', '07:15:00');
+INSERT INTO simulation_term (id, gauging_id, number, ts, te) VALUES (3, 1, 3, '07:00:00', '07:15:00');
+INSERT INTO simulation_term (id, gauging_id, number, ts, te) VALUES (4, 1, 4, '07:00:00', '07:15:00');
+INSERT INTO simulation_term (id, gauging_id, number, ts, te) VALUES (5, 1, 5, '07:00:00', '07:15:00');
+INSERT INTO simulation_term (id, gauging_id, number, ts, te) VALUES (6, 1, 6, '07:00:00', '07:15:00');
+INSERT INTO simulation_term (id, gauging_id, number, ts, te) VALUES (7, 1, 7, '07:00:00', '07:15:00');
 
-INSERT INTO simulation_term (gauging_id, number, ts, te) VALUES (1, 8, '07:15:00', '07:30:00');
-INSERT INTO simulation_term (gauging_id, number, ts, te) VALUES (1, 9, '07:15:00', '07:30:00');
-INSERT INTO simulation_term (gauging_id, number, ts, te) VALUES (1, 10, '07:15:00', '07:30:00');
-INSERT INTO simulation_term (gauging_id, number, ts, te) VALUES (1, 11, '07:15:00', '07:30:00');
-INSERT INTO simulation_term (gauging_id, number, ts, te) VALUES (1, 12, '07:15:00', '07:30:00');
-INSERT INTO simulation_term (gauging_id, number, ts, te) VALUES (1, 13, '07:15:00', '07:30:00');
-INSERT INTO simulation_term (gauging_id, number, ts, te) VALUES (1, 14, '07:15:00', '07:30:00');
+INSERT INTO simulation_term (id, gauging_id, number, ts, te) VALUES (8, 1, 8, '07:15:00', '07:30:00');
+INSERT INTO simulation_term (id, gauging_id, number, ts, te) VALUES (9, 1, 9, '07:15:00', '07:30:00');
+INSERT INTO simulation_term (id, gauging_id, number, ts, te) VALUES (10, 1, 10, '07:15:00', '07:30:00');
+INSERT INTO simulation_term (id, gauging_id, number, ts, te) VALUES (11, 1, 11, '07:15:00', '07:30:00');
+INSERT INTO simulation_term (id, gauging_id, number, ts, te) VALUES (12, 1, 12, '07:15:00', '07:30:00');
+INSERT INTO simulation_term (id, gauging_id, number, ts, te) VALUES (13, 1, 13, '07:15:00', '07:30:00');
+INSERT INTO simulation_term (id, gauging_id, number, ts, te) VALUES (14, 1, 14, '07:15:00', '07:30:00');
 
-INSERT INTO simulation_term (gauging_id, number, ts, te) VALUES (1, 15, '07:30:00', '07:45:00');
-INSERT INTO simulation_term (gauging_id, number, ts, te) VALUES (1, 16, '07:30:00', '07:45:00');
-INSERT INTO simulation_term (gauging_id, number, ts, te) VALUES (1, 17, '07:30:00', '07:45:00');
-INSERT INTO simulation_term (gauging_id, number, ts, te) VALUES (1, 18, '07:30:00', '07:45:00');
-INSERT INTO simulation_term (gauging_id, number, ts, te) VALUES (1, 19, '07:30:00', '07:45:00');
-INSERT INTO simulation_term (gauging_id, number, ts, te) VALUES (1, 20, '07:30:00', '07:45:00');
-INSERT INTO simulation_term (gauging_id, number, ts, te) VALUES (1, 21, '07:30:00', '07:45:00');
+INSERT INTO simulation_term (id, gauging_id, number, ts, te) VALUES (15,1, 15, '07:30:00', '07:45:00');
+INSERT INTO simulation_term (id, gauging_id, number, ts, te) VALUES (16, 1, 16, '07:30:00', '07:45:00');
+INSERT INTO simulation_term (id, gauging_id, number, ts, te) VALUES (17, 1, 17, '07:30:00', '07:45:00');
+INSERT INTO simulation_term (id, gauging_id, number, ts, te) VALUES (18, 1, 18, '07:30:00', '07:45:00');
+INSERT INTO simulation_term (id, gauging_id, number, ts, te) VALUES (19, 1, 19, '07:30:00', '07:45:00');
+INSERT INTO simulation_term (id, gauging_id, number, ts, te) VALUES (20, 1, 20, '07:30:00', '07:45:00');
+INSERT INTO simulation_term (id, gauging_id, number, ts, te) VALUES (21, 1, 21, '07:30:00', '07:45:00');
 
-INSERT INTO simulation_term (gauging_id, number, ts, te) VALUES (1, 22, '07:45:00', '08:00:00');
-INSERT INTO simulation_term (gauging_id, number, ts, te) VALUES (1, 23, '07:45:00', '08:00:00');
-INSERT INTO simulation_term (gauging_id, number, ts, te) VALUES (1, 24, '07:45:00', '08:00:00');
-INSERT INTO simulation_term (gauging_id, number, ts, te) VALUES (1, 25, '07:45:00', '08:00:00');
-INSERT INTO simulation_term (gauging_id, number, ts, te) VALUES (1, 26, '07:45:00', '08:00:00');
-INSERT INTO simulation_term (gauging_id, number, ts, te) VALUES (1, 27, '07:45:00', '08:00:00');
-INSERT INTO simulation_term (gauging_id, number, ts, te) VALUES (1, 28, '07:45:00', '08:00:00');
+INSERT INTO simulation_term (id, gauging_id, number, ts, te) VALUES (22, 1, 22, '07:45:00', '08:00:00');
+INSERT INTO simulation_term (id, gauging_id, number, ts, te) VALUES (23, 1, 23, '07:45:00', '08:00:00');
+INSERT INTO simulation_term (id, gauging_id, number, ts, te) VALUES (24, 1, 24, '07:45:00', '08:00:00');
+INSERT INTO simulation_term (id, gauging_id, number, ts, te) VALUES (25, 1, 25, '07:45:00', '08:00:00');
+INSERT INTO simulation_term (id, gauging_id, number, ts, te) VALUES (26, 1, 26, '07:45:00', '08:00:00');
+INSERT INTO simulation_term (id, gauging_id, number, ts, te) VALUES (27, 1, 27, '07:45:00', '08:00:00');
+INSERT INTO simulation_term (id, gauging_id, number, ts, te) VALUES (28, 1, 28, '07:45:00', '08:00:00');
 
 /* Vehicle */
 INSERT INTO simulation_vehicle (term_id, movement, type, number) VALUES (1, 1, 1, 16);

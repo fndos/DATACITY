@@ -26,89 +26,89 @@
 							{% endifequal %}
 							</div>
 							<!-- Nombre de la simulacion -->
-							<div class="input-field col s12 m6 l6">
+							<div class="input-field col s12 m12 l12">
 								<label for="{{ form.name.id_for_label }}">Nombre</label>
 								{{ form.name }}
 							</div>
 							<!-- Step -->
-							<div class="input-field col s12 m6 l6">
+							<div class="input-field col s12 m12 l12">
 								<label for="{{ form.step.id_for_label }}">Step</label>
 								{{ form.step }}
 							</div>
 							<!-- Mapa de la simulacion -->
-							<div class="input-field col s12 m6 l6">
-								<label for="{{ form.net.id_for_label }}">Mapa de la simulacion</label>
-								{{ form.net }}
+							<div class="input-field col s12 m12 l12">
+								<label class="lable-file-field" for="{{ form.net.id_for_label }}">Mapa de la simulacion</label>
+								<div class="div-field">{{ form.net }}</div>
 							</div>
 							<!-- Rutas de buses -->
-							<div class="input-field col s12 m6 l6">
-								<label for="{{ form.bus_rou.id_for_label }}">Rutas de buses</label>
-								{{ form.bus_rou }}
+							<div class="input-field col s12 m12 l12">
+								<label class="lable-file-field" for="{{ form.bus_rou.id_for_label }}">Rutas de buses</label>
+								<div class="div-field">{{ form.bus_rou }}</div>
 							</div>
 							<!-- Rutas Alternas de buses -->
-							<div class="input-field col s12 m6 l6">
-								<label for="{{ form.bus_rou_alt.id_for_label }}">Rutas Alternas de buses</label>
-								{{ form.bus_rou_alt }}
+							<div class="input-field col s12 m12 l12">
+								<label class="lable-file-field" for="{{ form.bus_rou_alt.id_for_label }}">Rutas Alternas de buses</label>
+								<div class="div-field">{{ form.bus_rou_alt }}</div>
 							</div>
 							<!-- Archivo de viajes de buses -->
-							<div class="input-field col s12 m6 l6">
-								<label for="{{ form.bus_trips.id_for_label }}">Archivo de viajes de buses</label>
-								{{ form.bus_trips }}
+							<div class="input-field col s12 m12 l12">
+								<label class="lable-file-field" for="{{ form.bus_trips.id_for_label }}">Archivo de viajes de buses</label>
+								<div class="div-field">{{ form.bus_trips }}</div>
 							</div>
 							<!-- Rutas de motos -->
-							<div class="input-field col s12 m6 l6">
-								<label for="{{ form.motorcycle_rou.id_for_label }}">Rutas de motos</label>
-								{{ form.motorcycle_rou }}
+							<div class="input-field col s12 m12 l12">
+								<label class="lable-file-field" for="{{ form.motorcycle_rou.id_for_label }}">Rutas de motos</label>
+								<div class="div-field">{{ form.motorcycle_rou }}</div>
 							</div>
 							<!-- Rutas alternas de motos -->
-							<div class="input-field col s12 m6 l6">
-								<label for="{{ form.motorcycle_rou_alt.id_for_label }}">Rutas alternas de motos</label>
-								{{ form.motorcycle_rou_alt }}
+							<div class="input-field col s12 m12 l12">
+								<label class="lable-file-field" for="{{ form.motorcycle_rou_alt.id_for_label }}">Rutas alternas de motos</label>
+								<div class="div-field">{{ form.motorcycle_rou_alt }}</div>
 							</div>
 							<!-- Archivo de viajes de motos -->
-							<div class="input-field col s12 m6 l6">
-								<label for="{{ form.motorcycle_trips.id_for_label }}">Archivo de viajes de motos</label>
-								{{ form.motorcycle_trips }}
+							<div class="input-field col s12 m12 l12">
+								<label class="lable-file-field" for="{{ form.motorcycle_trips.id_for_label }}">Archivo de viajes de motos</label>
+								<div class="div-field">{{ form.motorcycle_trips }}</div>
 							</div>
               <!-- Rutas de carros -->
-							<div class="input-field col s12 m6 l6">
-								<label for="{{ form.passenger_rou.id_for_label }}">Rutas de carros</label>
-								{{ form.passenger_rou }}
+							<div class="input-field col s12 m12 l12">
+								<label class="lable-file-field" for="{{ form.passenger_rou.id_for_label }}">Rutas de carros</label>
+								<div class="div-field">{{ form.passenger_rou }}</div>
 							</div>
 							<!-- Rutas alternas de carros -->
-							<div class="input-field col s12 m6 l6">
-								<label for="{{ form.passenger_rou_alt.id_for_label }}">Rutas alternas de carros</label>
-								{{ form.passenger_rou_alt }}
+							<div class="input-field col s12 m12 l12">
+								<label class="lable-file-field" for="{{ form.passenger_rou_alt.id_for_label }}">Rutas alternas de carros</label>
+								<div class="div-field">{{ form.passenger_rou_alt }}</div>
 							</div>
 							<!-- Archivo de viajes de carros -->
-							<div class="input-field col s12 m6 l6">
-								<label for="{{ form.passenger_trips.id_for_label }}">Archivo de viajes de carros</label>
-								{{ form.passenger_trips }}
+							<div class="input-field col s12 m12 l12">
+								<label class="lable-file-field" for="{{ form.passenger_trips.id_for_label }}">Archivo de viajes de carros</label>
+								<div class="div-field">{{ form.passenger_trips }}</div>
 							</div>
 							<!-- Archivo de configuracion de poligonos -->
-							<div class="input-field col s12 m6 l6">
-								<label for="{{ form.poly_file.id_for_label }}">Archivo de configuracion de poligonos</label>
-								{{ form.poly_file }}
+							<div class="input-field col s12 m12 l12">
+								<label class="lable-file-field" for="{{ form.poly_file.id_for_label }}">Archivo de configuracion de poligonos</label>
+								<div class="div-field">{{ form.poly_file }}</div>
 							</div>
 							<!-- Archivo de configuracion de vista -->
-							<div class="input-field col s12 m6 l6">
-								<label for="{{ form.view_file.id_for_label }}">Archivo de configuracion de vista</label>
-								{{ form.view_file }}
+							<div class="input-field col s12 m12 l12">
+								<label class="lable-file-field" for="{{ form.view_file.id_for_label }}">Archivo de configuracion de vista</label>
+								<div class="div-field">{{ form.view_file }}</div>
 							</div>
 							<!-- Archivo netccfg -->
-							<div class="input-field col s12 m6 l6">
-								<label for="{{ form.net_config.id_for_label }}">Archivo netccfg</label>
-								{{ form.net_config }}
+							<div class="input-field col s12 m12 l12">
+								<label class="lable-file-field" for="{{ form.net_config.id_for_label }}">Archivo netccfg</label>
+								<div class="div-field">{{ form.net_config }}</div>
 							</div>
 							<!-- Archivo polycfg -->
-							<div class="input-field col s12 m6 l6">
-								<label for="{{ form.poly_config.id_for_label }}">Archivo polycfg</label>
-								{{ form.poly_config }}
+							<div class="input-field col s12 m12 l12">
+								<label class="lable-file-field" for="{{ form.poly_config.id_for_label }}">Archivo polycfg</label>
+								<div class="div-field">{{ form.poly_config }}</div>
 							</div>
 							<!-- Archivo sumocfg -->
-							<div class="input-field col s12 m6 l6">
-								<label for="{{ form.sumo_config.id_for_label }}">Archivo sumocfg</label>
-								{{ form.sumo_config }}
+							<div class="input-field col s12 m12 l12">
+								<label class="lable-file-field" for="{{ form.sumo_config.id_for_label }}">Archivo sumocfg</label>
+								<div class="div-field">{{ form.sumo_config }}</div>
 							</div>
 						</div>
 						{% ifequal form.instance.pk None %}

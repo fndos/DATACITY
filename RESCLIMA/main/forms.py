@@ -39,7 +39,6 @@ class UserForm(forms.ModelForm):
 			'email': forms.TextInput(),
 			'institution': forms.TextInput(),
 			'phone_number': forms.TextInput(),
-			'user_type': forms.NumberInput(attrs={'min':'1', 'max':'3'}),
 		}
 
 	def __init__(self, *args, **kwargs):

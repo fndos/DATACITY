@@ -1,10 +1,11 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-
+from django.conf import settings
 from .base import get_registered_layouts
 from .constants import ACTION_CHOICES
 from .models import DashboardWorkspace, DashboardSettings, DashboardPlugin
-
+from django.contrib.auth import get_user_model
+User = get_user_model()
 __title__ = 'dash.forms'
 __author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
 __copyright__ = '2013-2018 Artur Barseghyan'
@@ -14,7 +15,7 @@ __all__ = (
     'DashboardSettingsForm',
     'DashboardWorkspaceForm',
 )
-
+AUTH_USER_MODEL = settings.AUTH_USER_MODEL
 
 class DashboardWorkspaceForm(forms.ModelForm):
     """Dashboard workspace form."""
@@ -29,13 +30,14 @@ class DashboardWorkspaceForm(forms.ModelForm):
         """Meta."""
 
         model = DashboardWorkspace
-        fields = ('layout_uid', 'user', 'name', 'is_public', 'is_cloneable')
+        fields = ('layout_uid', 'user', 'name', 'is_public', 'is_cloneable', 'shared_with')
 
     def __init__(self, *args, **kwargs):
         different_layouts = kwargs.pop('different_layouts', False)
         super(DashboardWorkspaceForm, self).__init__(*args, **kwargs)
         self.fields['user'].widget = forms.widgets.HiddenInput()
-
+        self.fields['shared_with'].widget = forms.widgets.RadioSelect()
+        self.fields['shared_with'].queryset = User.objects.all()
         if not different_layouts:
             self.fields['layout_uid'].widget = forms.widgets.HiddenInput()
 
@@ -47,13 +49,15 @@ class DashboardSettingsForm(forms.ModelForm):
         """Meta."""
 
         model = DashboardSettings
-        fields = ('user', 'layout_uid', 'title', 'is_public')
+        fields = ('user', 'layout_uid', 'title', 'is_public', 'shared_with')
 
     layout_uid = forms.ChoiceField(choices=get_registered_layouts())
 
     def __init__(self, *args, **kwargs):
         super(DashboardSettingsForm, self).__init__(*args, **kwargs)
         self.fields['user'].widget = forms.widgets.HiddenInput()
+        self.fields['shared_with'].widget = forms.widgets.RadioSelect()
+        self.fields['shared_with'].queryset = User.objects.all()
 
 
 class BulkChangeDashboardPluginsForm(forms.ModelForm):

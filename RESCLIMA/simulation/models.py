@@ -80,7 +80,7 @@ class Vehicle(models.Model):
 
 def user_directory_path(instance, filename):
 	# file will be uploaded to MEDIA_ROOT/simulation/user_<id>/<filename>
-	return 'simulation/user_{0}/{1}'.format(instance.user.id, filename)
+	return 'simulation/user_{0}/simulation_{1}/{2}'.format(instance.user.id, instance.id, filename)
 
 class Simulation(models.Model):
 	# Total 16, en uso 15 archivos de configuracion
@@ -125,6 +125,61 @@ class Simulation(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	# Campos de auditoria
 	date_updated = models.DateTimeField(auto_now=True) # Fecha de modificación
+
+	def save(self, *args, **kwargs):
+		if self.id is None:
+			saved_net = self.net
+			saved_bus_rou = self.bus_rou
+			saved_bus_rou_alt = self.bus_rou_alt
+			saved_bus_trips = self.bus_trips
+			saved_motorcycle_rou = self.motorcycle_rou
+			saved_motorcycle_rou_alt = self.motorcycle_rou_alt
+			saved_motorcycle_trips = self.motorcycle_trips
+			saved_passenger_rou = self.passenger_rou
+			saved_passenger_rou_alt = self.passenger_rou_alt
+			saved_passenger_trips = self.passenger_trips
+			saved_poly_file = self.poly_file
+			saved_view_file = self.view_file
+			saved_net_config = self.net_config
+			saved_poly_config = self.poly_config
+			saved_sumo_config = self.sumo_config
+			self.net = None
+			self.bus_rou = None
+			self.bus_rou_alt = None
+			self.bus_trips = None
+			self.motorcycle_rou = None
+			self.motorcycle_rou_alt = None
+			self.motorcycle_trips = None
+			self.passenger_rou = None
+			self.passenger_rou_alt = None
+			self.passenger_trips = None
+			self.poly_file = None
+			self.view_file = None
+			self.net_config = None
+			self.poly_config = None
+			self.sumo_config = None
+			super(Simulation, self).save(*args, **kwargs)
+			self.net = saved_net
+			self.bus_rou = saved_bus_rou
+			self.bus_rou_alt = saved_bus_rou_alt
+			self.bus_trips = saved_bus_trips
+			self.motorcycle_rou = saved_motorcycle_rou
+			self.motorcycle_rou_alt = saved_motorcycle_rou_alt
+			self.motorcycle_trips = saved_motorcycle_trips
+			self.passenger_rou = saved_passenger_rou
+			self.passenger_rou_alt = saved_passenger_rou_alt
+			self.passenger_trips = saved_passenger_trips
+			self.poly_file = saved_poly_file
+			self.view_file = saved_view_file
+			self.net_config = saved_net_config
+			self.poly_config = saved_poly_config
+			self.sumo_config = saved_sumo_config
+		super(Simulation, self).save(*args, **kwargs)
+
+	def __unicode__(self):
+		return "%s %s" % (self.id, self.name)
+	def __str__(self):
+		return "%s %s" % (self.id, self.name)
 
 	class Meta:
 		verbose_name="Simulacion"

@@ -74,7 +74,12 @@ class DashboardSettings(models.Model):
                     "como publico, hace que su producto predeterminado "
                     "tambien sea publico.")
     )
-
+    shared_with = models.ForeignKey(AUTH_USER_MODEL,
+        related_name=_("clients_dashboard"),
+        verbose_name=_("Clients"),
+        help_text=_("Otros usuarios podran acceder a este producto."),
+        blank=True,
+        null=True)
     class Meta(object):
         """Meta."""
 
@@ -122,10 +127,9 @@ class DashboardWorkspace(models.Model):
         default=False,
         help_text=_("Hace que su producto sea clonado por otros usuarios.")
     )
-    shared_with = models.ManyToManyField(AUTH_USER_MODEL,
+    shared_with = models.OneToOneField(AUTH_USER_MODEL,
         related_name=_("clients_workspace"),
         verbose_name=_("Clients"),
-        blank=True,
         help_text=_("Otros usuarios podran acceder a este producto."))
 
     class Meta(object):

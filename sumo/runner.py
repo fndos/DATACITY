@@ -16,7 +16,6 @@
 from __future__ import absolute_import
 from __future__ import print_function
 
-
 import os, sys
 import subprocess
 import shutil
@@ -27,15 +26,13 @@ try:
 	tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
 	sys.path.append(tools)
 	import sumolib
-	from sumolib.miscutils import getFreeSocketPort
 	import traci
-	# PORT = sumolib.miscutils.getFreeSocketPort()
 	sumoBinary = "/home/fernando/sumo-git/bin/sumo"
 	sumoCmd = [sumoBinary, "-c", "osm.sumocfg", "--fcd-output", "resclima_sumo_trace.xml"]
-	traci.start(sumoCmd)
+	traci.start(sumoCmd, port=8888)
 	print("Realizando Simulacion")
 	step = 0
-	while step < 5:
+	while step < 44:
 	   traci.simulationStep()
 	   # Your Script here
 	   print("Step:", step)

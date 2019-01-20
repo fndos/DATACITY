@@ -106,6 +106,26 @@ button:active:focus {
   border-radius: 4px !important;
 }
 
+input[type="file"] {
+  display: inline;
+  /* margin-top: 35px !important; */
+}
+
+.lable-file-field {
+  position: static !important;
+}
+
+.div-field {
+  margin-top: 5px !important;
+}
+
+.caret {
+  border-top:  0px !important;
+  border-top:  0 !important;
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+}
+
 /*---------------------------- RESCLIMA Tables -------------------------------*/
 .td-resclima-user {
   width: 200px;

@@ -11,6 +11,8 @@ from . models import *
 from . forms import *
 from . tasks import *
 
+from django.conf import settings
+
 # Create your views here.
 
 class SimulationCreate(CreateView):
@@ -48,7 +50,23 @@ class SimulationRun(TemplateView):
 	def get_context_data(self, **kwargs):
 		context = super(SimulationRun, self).get_context_data(**kwargs)
 		try:
-			result = simulation_task.delay()
+			params = {}
+			params['simulation_step'] = Simulation.objects.get(id=self.kwargs['pk']).step
+			params['simulation_whole_path'] = Simulation.objects.get(id=self.kwargs['pk']).sumo_config.path.replace(settings.MEDIA_ROOT, '')
+			# Funcion de corte START
+			temp = params['simulation_whole_path']
+			cut_position = 0
+			for i in range(len(temp)-1):
+				if temp[i] == "/":
+					cut_position = cut_position + 1
+					if cut_position == 4:
+						cut_position = i
+					if cut_position == 3:
+						cut_user = i
+			# Funcion de corte END
+			params['simulation_path'] = temp[:cut_position+1]
+			params['simulation_user_path'] = temp[:cut_user+1]
+			result = simulation_task.delay(params)
 			context['object_list'] = Simulation.objects.filter(id=self.kwargs['pk'])
 			context['task_id'] = result.task_id
 

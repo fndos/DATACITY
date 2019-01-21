@@ -82,7 +82,7 @@
 	        {% if user.user_type == 1 %}
 					<!-- Manager -->
 					<ul class="nav navbar-nav">
-	          <li class="{% if request.resolver_match.url_name == 'user_list' %}active{% endif %}"><a href="{% url 'user_list' %}"><span class="glyphicon glyphicon-user"></span> &nbsp Usuarios</a></li>
+	          <li class="{% if 'user' in request.resolver_match.url_name %}active{% endif %}"><a href="{% url 'user_list' %}"><span class="glyphicon glyphicon-user"></span> &nbsp Usuarios</a></li>
 	          <li><a href="{% url 'admin:index'%}"><span class="glyphicon glyphicon-cog"></span> &nbsp Administrador de Django</a></li>
 						<li><a href="/"><span class="glyphicon glyphicon-search"></span> &nbsp Buscar</a></li>
 					</ul>

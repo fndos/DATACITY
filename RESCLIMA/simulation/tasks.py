@@ -14,7 +14,8 @@ import shutil
 from django.conf import settings
 
 @shared_task(bind=True)
-def simulation_task(self):
+def simulation_task(self, params):
+	# PATH sumocfg, Step de la simulacion
 	progress_recorder = ProgressRecorder(self)
 
 	try:
@@ -25,25 +26,25 @@ def simulation_task(self):
 		import traci
 		MEDIA = settings.MEDIA_ROOT
 		try:
-		  os.mkdir(os.path.join(MEDIA + '/simulation/user_17/', 'output'))
+		  os.mkdir(os.path.join(MEDIA + params['simulation_path'], 'output'))
 		except OSError as e:
 		  if e.errno != errno.EEXIST:
 			  raise
-		PATH = MEDIA + "/simulation/user_17/simulatino_4/osm.sumocfg"
-		OUT = MEDIA + "/simulation/user_17/simulatino_4/output/resclima_sumo_trace.xml"
-		COUT = MEDIA + "/simulation/user_17/simulation_4/output/resclima_emission_output.xml"
+		PATH = MEDIA + params['simulation_whole_path']
+		OUT = MEDIA + params['simulation_path'] + "output/resclima_sumo_trace.xml"
+		COUT = MEDIA + params['simulation_path'] + "output/resclima_emission_output.xml"
 		sumoBinary = "/home/fernando/sumo-git/bin/sumo"
 		sumoCmd = [sumoBinary, "-c", PATH, "--fcd-output", OUT, "--emission-output", COUT]
 		traci.start(sumoCmd, port=8888)
-		print("Realizando Simulacion")
+		print("Realizando la Simulacion...")
 		step = 0
-		while step < 5:
+		while step < params['simulation_step']:
 			traci.simulationStep()
-			# Your Script here
+			# Your Simulation Script here
 			print("Step:", step)
 			step += 1
 			time.sleep(1)
-			progress_recorder.set_progress(step, 5)
+			progress_recorder.set_progress(step, params['simulation_step'])
 		traci.close()
 		sys.exit("SUMO_HOME enviroment variable declared")
 	except ImportError:

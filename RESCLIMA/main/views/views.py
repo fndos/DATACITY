@@ -36,17 +36,15 @@ def home(request):
 
 # Redirecciona al perfil de usuario
 def profile(request):
-	
 	return render(request, 'main/profile.html', {})
+
 def products(request):
 	created_by={}
-	
-
 	products = DashboardWorkspace.objects.all().filter(shared_with=request.user)
 	for x in products:
 		created_by[x.user.username] = x.name
-	
 	return render(request, 'main/products.html', {'investigadores':created_by})
+
 # Retorna informacion de una tarea de Celery
 def get_task_info(request):
 	task_id = request.GET.get('task_id', None)

@@ -38,6 +38,7 @@ class DashboardWorkspaceForm(forms.ModelForm):
         self.fields['user'].widget = forms.widgets.HiddenInput()
         self.fields['shared_with'].widget = forms.widgets.RadioSelect()
         self.fields['shared_with'].queryset = User.objects.all()
+        self.fields['shared_with'].empty_label = None
         if not different_layouts:
             self.fields['layout_uid'].widget = forms.widgets.HiddenInput()
 
@@ -58,6 +59,7 @@ class DashboardSettingsForm(forms.ModelForm):
         self.fields['user'].widget = forms.widgets.HiddenInput()
         self.fields['shared_with'].widget = forms.widgets.RadioSelect()
         self.fields['shared_with'].queryset = User.objects.all()
+        self.fields['shared_with'].empty_label = None
 
 
 class BulkChangeDashboardPluginsForm(forms.ModelForm):

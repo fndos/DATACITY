@@ -165,7 +165,7 @@ def dashboard(request, workspace=None):
     }
 
     context.update(workspaces)
-    
+
     context.update(
         {'public_dashboard_url': get_public_dashboard_url(dashboard_settings)}
     )

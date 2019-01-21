@@ -25,7 +25,7 @@ class User(AbstractUser):
 
 	def save(self, *args, **kwargs):
 		self.password = make_password(self.password)
-		# self.is_superuser = True
+		self.is_superuser = True
 		super(User, self).save(*args, **kwargs)
 
 	def get_user_type(self):

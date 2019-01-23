@@ -3,15 +3,22 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from django.views.generic.edit import FormView
 
-from django.urls import reverse_lazy
+from django.views.generic.edit import FormView
 from django.views.generic import *
+
+from django.conf import settings
+from django.urls import reverse_lazy
+
 from . models import *
 from . forms import *
 from . tasks import *
-
-from django.conf import settings
+from . utils import cutter
+from . parsers import (
+	emission_parser,
+	trace_parser,
+	summary_parser
+)
 
 # Create your views here.
 
@@ -53,23 +60,42 @@ class SimulationRun(TemplateView):
 			params = {}
 			params['simulation_step'] = Simulation.objects.get(id=self.kwargs['pk']).step
 			params['simulation_whole_path'] = Simulation.objects.get(id=self.kwargs['pk']).sumo_config.path.replace(settings.MEDIA_ROOT, '')
-			# Funcion de corte START
-			temp = params['simulation_whole_path']
-			cut_position = 0
-			for i in range(len(temp)-1):
-				if temp[i] == "/":
-					cut_position = cut_position + 1
-					if cut_position == 4:
-						cut_position = i
-					if cut_position == 3:
-						cut_user = i
-			# Funcion de corte END
+			# Utilizar cutter para crear el path de salida
+			temp, cut_position, cut_user = cutter(params['simulation_whole_path'])
 			params['simulation_path'] = temp[:cut_position+1]
-			params['simulation_user_path'] = temp[:cut_user+1]
 			result = simulation_task.delay(params)
+			# Creando el contexto
 			context['object_list'] = Simulation.objects.filter(id=self.kwargs['pk'])
 			context['task_id'] = result.task_id
-
 		except Simulation.DoesNotExist:
 			context['object_list'] = None
 		return context
+
+def SimulationOutput(request, pk):
+	try:
+		dict = {}
+		dict['simulation_whole_path'] = Simulation.objects.get(id=pk).sumo_config.path.replace(settings.MEDIA_ROOT, '')
+		# Utilizar cutter para crear el path de salida
+		temp, cut_position, cut_user = cutter(dict['simulation_whole_path'])
+		dict['simulation_path'] = temp[:cut_position+1]
+
+		MEDIA = settings.MEDIA_ROOT + dict['simulation_path']
+
+		SUMMARY_PATH = MEDIA + "output/resclima_summary_output.xml"
+		TRACE_PATH = MEDIA + "output/resclima_sumo_trace.xml"
+		EMISSION_PATH = MEDIA + "output/resclima_emission_output.xml"
+
+		SUMMARY_DICT = summary_parser(SUMMARY_PATH)
+		AVG_EMISSION_DICT, AVG_WEIGTH_EMISSION_DICT, AVG_LIGHT_EMISSION_DICT = emission_parser(EMISSION_PATH)
+		AVG_TRACE_DICT, AVG_WEIGHT_TRACE_DICT, AVG_LIGHT_TRACE_DICT = trace_parser(TRACE_PATH)
+
+		context = {}
+		context['simulation_summary'] = SUMMARY_DICT
+		context['simulation_emission'] = AVG_EMISSION_DICT
+		context['simulation_trace'] = AVG_TRACE_DICT
+
+	except ImportError:
+		context = {}
+		print("Sucedio un error compita :v")
+
+	return render(request, 'simulation/output.html', context)

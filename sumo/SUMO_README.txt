@@ -36,3 +36,6 @@ celery-progress https://github.com/czue/celery-progress
 
 
 python plot_dump_net.py -v -n bs.net.xml --xticks 7000,14001,2000,16 --yticks 9000,16001,1000,16 --measures entered,entered --xlabel [m] --ylabel [m] --default-width 1 -i base-jr.xml,base-jr.xml --xlim 7000,14000 --ylim 9000,16000 - --default-width .5 --default-color #606060 --min-color-value -1000 --max-color-value 1000 --max-width-value 1000 --min-width-value -1000 --max-width 3 --min-width .5 --colormap #0:#0000c0,.25:#404080,.5:#808080,.75:#804040,1:#c00000
+
+Para procesar la salida instalar el siguiente paquete de python
+pip install xmltodict

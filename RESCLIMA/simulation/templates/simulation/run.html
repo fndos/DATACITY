@@ -5,48 +5,76 @@
 
 {% block content %}
 
-<div class="container">
-	<div class="section">
-		<h4 class="header"><!-- The Title for Simulation --></h4>
-		{% if object_list %}
-		<table class="bordered">
-			<tbody>
-				<tr>
+<div class="section">
+	<div class="row">
+		<!-- Left Side -->
+		<div class="col s12 m12 l6">
+			<p style="font-family:monospace; font-weight: bold; margin-bottom: 15px;">SIMULACION EN EJECUCION</p>
+			<div class="card-panel">
+				{% if object_list %}
 					{% for simulation in object_list %}
-							<td class="td-resclima-user" style="font-family:monospace">{{ simulation.id }}</td>
-							<td class="td-resclima-user-type" style="font-family:monospace">{{ simulation.name }}</td>
-					    <!-- Progress bar display -->
-							<td>
-								<div class='progress-wrapper'>
-						      <div id='progress-bar' class='progress-bar' style="background-color: #68a9ef; width: 0%;">&nbsp;</div>
-						    </div>
-								<br>
-						    <div id="progress-bar-message" style="font-family:monospace">Esperando que la simulacion comience...</div>
-							</td>
-				</tr>
+						<div>{{ simulation.id }} {{ simulation.name }}</div>
+						<div class='progress-wrapper'>
+							<div id='progress-bar' class='progress-bar' style="background-color: #68a9ef; width: 0%;">&nbsp;</div>
+						</div>
+						<br>
+						<div id="progress-bar-message">Esperando que la simulacion comience...</div>
 					{% endfor %}
-			</tbody>
-		</table>
-		{% else %}
-		<div class="wrapper">
-			<div class="container">
-				<p>No hay simulaciones para mostrar</p>
+				{% else %}
+				<div class="wrapper">
+					<div class="container">
+						<p>No hay simulaciones para mostrar</p>
+					</div>
+				</div>
+				{% endif %}
 			</div>
 		</div>
-		{% endif %}
+		<!-- Right Side -->
+		<div class="col s12 m12 l6">
+			<p style="font-family:monospace; font-weight: bold; margin-bottom: 15px;">RESULTADOS</p>
+			<!-- Collapsible Element -->
+			<ul id="rewrite" class="collapsible">
+				<li>
+					<div class="collapsible-header"><i class="material-icons">insert_comment</i>Resumen de la Simulación</div>
+					<div class="collapsible-body"><span id="simulation-summary">Una vez que la simulación haya terminado esta sección estará disponible.</span></div>
+				</li>
+				<li>
+					<div class="collapsible-header"><i class="material-icons">cloud_circle</i>Emisiones</div>
+					<div class="collapsible-body"><span id="simulation-emission">Una vez que la simulación haya terminado esta sección estará disponible.</span></div>
+				</li>
+				<li>
+					<div class="collapsible-header"><i class="material-icons">view_module</i>Vehículos</div>
+					<div class="collapsible-body"><span id="simulation-trace">Una vez que la simulación haya terminado esta sección estará disponible.</span></div>
+				</li>
+			</ul>
+		</div>
 	</div>
+
 </div>
 <div style="height:100px;"></div>
 
 {% endblock content %}
 
+
 {% block scripts_body %}
 <script src="{% static 'celery_progress/celery_progress.js' %}"></script>
 <script type="text/javascript">
   // JQuery
-var progressUrl = "{% url 'celery_progress:task_status' task_id %}";
-$(function () {
-  CeleryProgressBar.initProgressBar(progressUrl)
-});
+	var progressUrl = "{% url 'celery_progress:task_status' task_id %}";
+	$(function () {
+	  CeleryProgressBar.initProgressBar(progressUrl, {
+			onSuccess: function () {
+				$('#progress-bar').css('background-color', '#76ce60');
+				$('#progress-bar-message').text('¡La simulacion ha terminado con éxito!');
+				// Ejecutar AJAX Request
+				// Loading data from server
+	      $('#rewrite').html('').load("output/");
+			},
+			onError: function () {
+				$('#progress-bar-message').text('Uh-Oh, ¡Algo salió mal!');
+				$('#progress-bar').css('background-color', '#dc4f63');
+			}
+		})
+	});
 </script>
 {% endblock %}

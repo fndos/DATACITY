@@ -31,23 +31,26 @@ def simulation_task(self, params):
 		  if e.errno != errno.EEXIST:
 			  raise
 		PATH = MEDIA + params['simulation_whole_path']
-		OUT = MEDIA + params['simulation_path'] + "output/resclima_sumo_trace.xml"
-		COUT = MEDIA + params['simulation_path'] + "output/resclima_emission_output.xml"
+		# Definiendo las salidas de la simulacion
+		TRACE_OUT = MEDIA + params['simulation_path'] + "output/resclima_sumo_trace.xml"
+		EMISSION_OUT = MEDIA + params['simulation_path'] + "output/resclima_emission_output.xml"
+		SUMMARY_OUT = MEDIA + params['simulation_path'] + "output/resclima_summary_output.xml"
+		# Definiendo la ruta del simulador y realizar la simulacion
 		sumoBinary = "/home/fernando/sumo-git/bin/sumo"
-		sumoCmd = [sumoBinary, "-c", PATH, "--fcd-output", OUT, "--emission-output", COUT]
+		sumoCmd = [sumoBinary, "-c", PATH, "--fcd-output", TRACE_OUT, "--emission-output", EMISSION_OUT, "--summary", SUMMARY_OUT]
 		traci.start(sumoCmd, port=8888)
-		print("Realizando la Simulacion...")
+		print("Realizando la simulacion...")
 		step = 0
 		while step < params['simulation_step']:
 			traci.simulationStep()
 			# Your Simulation Script here
-			print("Step:", step)
+			print("Step:" + str(step))
 			step += 1
 			time.sleep(1)
 			progress_recorder.set_progress(step, params['simulation_step'])
 		traci.close()
-		sys.exit("SUMO_HOME enviroment variable declared")
+		print("¡La simulacion ha terminado con exito!")
 	except ImportError:
-		sys.exit("please declare environment variable 'SUMO_HOME'")
+		pass
 
-	return 'done'
+	return '¡La simulacion ha terminado con exito!'

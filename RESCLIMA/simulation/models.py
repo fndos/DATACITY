@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from .formatChecker import validate_file_extension_xml, validate_file_extension_config
+from . validators import validate_file_extension_xml, validate_file_extension_config
 from django.db import models
 from main.models import *
 

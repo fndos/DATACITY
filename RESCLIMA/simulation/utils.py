@@ -281,3 +281,37 @@ def get_summary(data):
 			   {"duration":avg[11]},
 			  ]
 	return SUMMARY_DICT
+
+def get_key_value_emission_by_type(data, key):
+	WEIGHT_STEP = []
+	LIGHT_STEP = []
+	for x in range(len(data)):
+		WEIGHT = 0
+		LIGHT = 0
+		TOTAL_WEIGHT = 0
+		TOTAL_LIGHT = 0
+		# Por cada lista de vehiculos en el timestep
+		for i in range(len(data[x])):
+			v = data[x][i]
+			if v["@type"] == "bus_bus":
+				# Vehiculo pesado
+				WEIGHT = WEIGHT + float(v["@"+key])
+				TOTAL_WEIGHT = TOTAL_WEIGHT + 1
+			else:
+				# Vehiculo liviano
+				LIGHT = LIGHT + float(v["@"+key])
+				TOTAL_LIGHT = TOTAL_LIGHT + 1
+		WEIGHT_STEP.append("{0:.2f}".format(WEIGHT/TOTAL_WEIGHT))
+		LIGHT_STEP.append("{0:.2f}".format(LIGHT/TOTAL_LIGHT))
+
+	# Creo el diccionario de salida para vehiculos pesados
+	KEY_VALUE_WEIGHT_DICT = []
+	for i in range(len(WEIGHT_STEP)):
+		KEY_VALUE_WEIGHT_DICT.append({"value": WEIGHT_STEP[i], "key": i})
+
+	# Creo el diccionario de salida para vehiculos livianos
+	KEY_VALUE_LIGHT_DICT = []
+	for i in range(len(LIGHT_STEP)):
+		KEY_VALUE_LIGHT_DICT.append({"value": LIGHT_STEP[i], "key": i})
+
+	return KEY_VALUE_WEIGHT_DICT, KEY_VALUE_LIGHT_DICT

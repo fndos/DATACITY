@@ -19,7 +19,21 @@ function getLineChartViewBox(size) {
 	else { return "12 0 589 589" }
 }
 
-function d3LineChartSample(container, start_date, end_date, source, origin, domainLabel, rangeLabel, size) {
+function setSource(sid, source, start_date, end_date) {
+	if (!sid) { return "http://127.0.0.1:8000/api/" + source + "/" + start_date + "/" + end_date + "/"; }
+	else { return "http://127.0.0.1:8000/api/" + source + "/" + sid; }
+}
+
+function setOrigin(sid, origin, start_date, end_date) {
+	if (!sid) { return "http://127.0.0.1:8000/api/" + origin + "/" + start_date + "/" + end_date + "/"; }
+	else { return "http://127.0.0.1:8000/api/" + origin + "/" + sid; }
+}
+
+function d3LineChartSample(container, start_date, end_date, source, origin, domainLabel, rangeLabel, size, sid) {
+  // "http://127.0.0.1:8000/api/" + source + "/" + start_date + "/" + end_date + "/"
+  SOURCE_URL = setSource(sid, source, start_date, end_date);
+  ORIGIN_URL = setOrigin(sid, origin, start_date, end_date);
+
   // Set the dimensions of the canvas / graph
   var	margin = {top: 30, right: 20, bottom: 30, left: 50},
   	  width = 600 - margin.left - margin.right,
@@ -33,7 +47,11 @@ function d3LineChartSample(container, start_date, end_date, source, origin, doma
   var	xAxis = d3.svg.axis().scale(x);
 
   var	yAxis = d3.svg.axis().scale(y)
-  	.orient("left");
+  	.orient("left")
+    .tickFormat(function (d) {
+        var prefix = d3.formatPrefix(d);
+        return prefix.scale(d) + prefix.symbol;
+    });
 
   // Define the line
   var	line = d3.svg.line()
@@ -48,7 +66,7 @@ function d3LineChartSample(container, start_date, end_date, source, origin, doma
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  d3.json("http://127.0.0.1:8000/api/" + source + "/" + start_date + "/" + end_date + "/" , function(error, data) {
+  d3.json(SOURCE_URL , function(error, data) {
 
     console.log(data);
     // Scale the range of the data
@@ -70,7 +88,7 @@ function d3LineChartSample(container, start_date, end_date, source, origin, doma
       .attr("y",  31)
       .attr("dx", ".75em")
       .style("text-anchor", "end")
-      .text(toTitleCase(domainLabel));
+      .text(domainLabel);
 
   	// Add the Y Axis
   	svg.append("g")
@@ -81,11 +99,11 @@ function d3LineChartSample(container, start_date, end_date, source, origin, doma
       .attr("x", -(height)/ 2 + margin.top)
       .attr("transform", "rotate(-90)")
       .style("text-anchor", "end")
-      .text(toTitleCase(rangeLabel));
+      .text(rangeLabel);
 
   });
 
-  d3.json("http://127.0.0.1:8000/api/" + origin + "/" + start_date + "/" + end_date + "/" , function(error, data) {
+  d3.json(ORIGIN_URL , function(error, data) {
   	// Add the line path.
     console.log(data);
   	svg.append("path")

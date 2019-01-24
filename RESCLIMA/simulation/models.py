@@ -138,6 +138,10 @@ class Output(models.Model):
 	avg_emission = JSONField()
 	avg_weight_emission = JSONField()
 	avg_light_emission = JSONField()
+	key_value_weight_co2 = JSONField()
+	key_value_light_co2 = JSONField()
+	key_value_weight_co = JSONField()
+	key_value_light_co = JSONField()
 
 	def __unicode__(self):
 		return "%s %s %s" % ("Output: ", self.simulation.id, self.simulation.name)
@@ -145,5 +149,5 @@ class Output(models.Model):
 		return "%s %s %s" % ("Output: ", self.simulation.id, self.simulation.name)
 
 	class Meta:
-		verbose_name="Output"
-		verbose_name_plural="Outputs"
+		verbose_name="Resultado"
+		verbose_name_plural="Resultados"

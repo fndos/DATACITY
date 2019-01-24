@@ -11,7 +11,14 @@ router.register(r'db_resclima_measurements', api_views.MeasurementViewSet)
 
 router.register(r'db_resclima_average_measurement/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.APIAverageMeasurementViewSet, base_name='db_resclima_average_measurement')
 
-router.register(r'd3_bubble_chart_sumo_WE/(?P<sid>[-\w]+)', api_views.AVGLightEmissionViewSet, base_name='d3_bubble_chart_sumo_WE')
+router.register(r'd3_bubble_chart_SUM_SE/(?P<sid>[-\w]+)', api_views.SummaryEmissionViewSet, base_name='d3_bubble_chart_SUM_SE')
+router.register(r'd3_bubble_chart_AVG_WE/(?P<sid>[-\w]+)', api_views.AVGWeightEmissionViewSet, base_name='d3_bubble_chart_AVG_WE')
+router.register(r'd3_bubble_chart_AVG_LE/(?P<sid>[-\w]+)', api_views.AVGLightEmissionViewSet, base_name='d3_bubble_chart_AVG_LE')
+
+router.register(r'd3_line_chart_KV_W_CO2/(?P<sid>[-\w]+)', api_views.KVEmissionWeightCO2ViewSet, base_name='d3_line_chart_KV_W_CO2')
+router.register(r'd3_line_chart_KV_L_CO2/(?P<sid>[-\w]+)', api_views.KVEmissionLightCO2ViewSet, base_name='d3_line_chart_KV_L_CO2')
+router.register(r'd3_line_chart_KV_W_CO/(?P<sid>[-\w]+)', api_views.KVEmissionWeightCOViewSet, base_name='d3_line_chart_KV_W_CO')
+router.register(r'd3_line_chart_KV_L_CO/(?P<sid>[-\w]+)', api_views.KVEmissionLightCOViewSet, base_name='d3_line_chart_KV_L_CO')
 
 router.register(r'd3_tree_map_sample', api_views.TreeMapViewSet, base_name='d3_tree_map_sample')
 

@@ -80,13 +80,94 @@ class APIAverageMeasurementViewSet(viewsets.ViewSet):
 
 		return Response(content)
 
+class SummaryEmissionViewSet(viewsets.ViewSet):
+	renderer_classes = (JSONRenderer, )
+
+	def list(self, request, sid=None):
+		try:
+			output_instance = simulation_models.Output.objects.get(simulation__id=sid)
+			content = {"name":"SUMO","children":[{"name":"Emission","children":[{"name":"Categoria1","children":[{"key":"CO2","value":output_instance.avg_emission[1]['CO2']}]},{"name":"Categoria2","children":[{"key":"CO","value":output_instance.avg_emission[2]['CO']}]},{"name":"Categoria3","children":[{"key":"PMx","value":output_instance.avg_emission[3]['PMx']}]},{"name":"Categoria4","children":[{"key":"NOx","value":output_instance.avg_emission[4]['NOx']}]},{"name":"Categoria5","children":[{"key":"HC","value":output_instance.avg_emission[5]['HC']}]}]}]}
+		except:
+			# Si el Query retorna None
+			context = {}
+
+		return Response(content)
+
+class AVGWeightEmissionViewSet(viewsets.ViewSet):
+	renderer_classes = (JSONRenderer, )
+
+	def list(self, request, sid=None):
+		try:
+			output_instance = simulation_models.Output.objects.get(simulation__id=sid)
+			content = {"name":"SUMO","children":[{"name":"Emission","children":[{"name":"Categoria1","children":[{"key":"CO2","value":output_instance.avg_weight_emission[1]['CO2']}]},{"name":"Categoria2","children":[{"key":"CO","value":output_instance.avg_weight_emission[2]['CO']}]},{"name":"Categoria3","children":[{"key":"PMx","value":output_instance.avg_weight_emission[3]['PMx']}]},{"name":"Categoria4","children":[{"key":"NOx","value":output_instance.avg_weight_emission[4]['NOx']}]},{"name":"Categoria5","children":[{"key":"HC","value":output_instance.avg_weight_emission[5]['HC']}]}]}]}
+		except:
+			# Si el Query retorna None
+			content = {}
+
+		return Response(content)
+
 class AVGLightEmissionViewSet(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
 	def list(self, request, sid=None):
-		output_instance = simulation_models.Output.objects.get(simulation__id=sid)
-		print output_instance.avg_light_emission[1]['CO2']
-		content = {"name":"SUMO","children":[{"name":"Emission","children":[{"name":"Categoria1","children":[{"key":"CO2","value":output_instance.avg_light_emission[1]['CO2']}]},{"name":"Categoria2","children":[{"key":"CO","value":output_instance.avg_light_emission[2]['CO']}]},{"name":"Categoria3","children":[{"key":"PMx","value":output_instance.avg_light_emission[3]['PMx']}]},{"name":"Categoria4","children":[{"key":"NOx","value":output_instance.avg_light_emission[4]['NOx']}]},{"name":"Categoria5","children":[{"key":"HC","value":output_instance.avg_light_emission[5]['HC']}]}]}]}
+		try:
+			output_instance = simulation_models.Output.objects.get(simulation__id=sid)
+			content = {"name":"SUMO","children":[{"name":"Emission","children":[{"name":"Categoria1","children":[{"key":"CO2","value":output_instance.avg_light_emission[1]['CO2']}]},{"name":"Categoria2","children":[{"key":"CO","value":output_instance.avg_light_emission[2]['CO']}]},{"name":"Categoria3","children":[{"key":"PMx","value":output_instance.avg_light_emission[3]['PMx']}]},{"name":"Categoria4","children":[{"key":"NOx","value":output_instance.avg_light_emission[4]['NOx']}]},{"name":"Categoria5","children":[{"key":"HC","value":output_instance.avg_light_emission[5]['HC']}]}]}]}
+		except:
+			# Si el Query retorna None
+			content = {}
+
+		return Response(content)
+
+class KVEmissionWeightCO2ViewSet(viewsets.ViewSet):
+	renderer_classes = (JSONRenderer, )
+
+	def list(self, request, sid=None):
+		try:
+			output_instance = simulation_models.Output.objects.get(simulation__id=sid)
+			content = output_instance.key_value_weight_co2
+		except simulation_models.Output.DoesNotExist:
+			# Si el Query retorna None
+			content = {}
+
+		return Response(content)
+
+class KVEmissionLightCO2ViewSet(viewsets.ViewSet):
+	renderer_classes = (JSONRenderer, )
+
+	def list(self, request, sid=None):
+		try:
+			output_instance = simulation_models.Output.objects.get(simulation__id=sid)
+			content = output_instance.key_value_light_co2
+		except:
+			# Si el Query retorna None
+			content = {}
+
+		return Response(content)
+
+class KVEmissionWeightCOViewSet(viewsets.ViewSet):
+	renderer_classes = (JSONRenderer, )
+
+	def list(self, request, sid=None):
+		try:
+			output_instance = simulation_models.Output.objects.get(simulation__id=sid)
+			content = output_instance.key_value_weight_co
+		except:
+			# Si el Query retorna None
+			content = {}
+
+		return Response(content)
+
+class KVEmissionLightCOViewSet(viewsets.ViewSet):
+	renderer_classes = (JSONRenderer, )
+
+	def list(self, request, sid=None):
+		try:
+			output_instance = simulation_models.Output.objects.get(simulation__id=sid)
+			content = output_instance.key_value_light_co
+		except:
+			# Si el Query retorna None
+			content = {}
 
 		return Response(content)
 
@@ -1556,6 +1637,31 @@ class APIWeightNEViewSet(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
 	def list(self, request, start_date=None, end_date=None):
+		try:
+			# Obtener la informacion de la BD
+			qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 2 AND v.movement = 3''', [end_date, start_date]);
+			qt = simulation_models.Term.objects.raw('''SELECT * FROM simulation_term as t INNER JOIN simulation_vehicle as v ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 2 AND v.movement = 3''', [end_date, start_date]);
+			d = list(qs)
+			t = list(qt)
+
+			dict = {}
+			for i in range(len(d)):
+				dict[t[i].number] = d[i].number
+
+			# Crear JSON dinamico
+			content = [{"value": v, "key": k } for k, v in dict.iteritems()]
+		except:
+			# Si el Query retorna None
+			content = {}
+
+		return Response(content)
+
+class EMISIONWeightNEViewSet(viewsets.ViewSet):
+	renderer_classes = (JSONRenderer, )
+
+	def list(self, request, start_date=None, end_date=None):
+
+		##  AQUI
 		try:
 			# Obtener la informacion de la BD
 			qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 2 AND v.movement = 3''', [end_date, start_date]);

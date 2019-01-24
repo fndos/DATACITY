@@ -20,6 +20,11 @@ KEY_VALUE_CHOICES = (
   ('d3_bar_chart_W_ON', 'Vehiculos | Pesado | GD O-N'),
   ('d3_bar_chart_W_OE', 'Vehiculos | Pesado | FR O-E'),
   ('d3_bar_chart_W_NE', 'Vehiculos | Pesado | GD N-E'),
+  # Choices solo para SUMO | Emisiones
+  ('d3_line_chart_KV_W_CO2', 'SUMO | Emisiones de CO2 | Pesado'),
+  ('d3_line_chart_KV_L_CO2', 'SUMO | Emisiones de CO2 | Liviano'),
+  ('d3_line_chart_KV_W_CO', 'SUMO | Emisiones de CO  | Pesado'),
+  ('d3_line_chart_KV_L_CO', 'SUMO | Emisiones de CO  | Liviano'),
 )
 
 PIE_CHART_CHOICES = (
@@ -32,7 +37,9 @@ PIE_CHART_CHOICES = (
 
 BUBBLE_CHART_CHOICES = (
   (None, 'Selecciona una opción'),
-  ('d3_bubble_chart_sumo_WE', 'Emisiones | W'),
+  ('d3_bubble_chart_SUM_SE', 'Emisiones | S'),
+  ('d3_bubble_chart_AVG_WE', 'Emisiones | W'),
+  ('d3_bubble_chart_AVG_LE', 'Emisiones | L'),
 )
 
 TREE_MAP_CHOICES = (
@@ -78,7 +85,6 @@ class BubbleChartForm(forms.Form, DashboardPluginFormBase):
     ]
 
     title = forms.CharField(label=_("Titulo"), required=True)
-    # Choice Field para que escoja la simulacion que desea
     simulation = forms.ChoiceField(label=_("Simulacion"), choices=SIMULATION_CHOICES, required=True)
     source = forms.ChoiceField(label=_("Tabla/API"), choices=BUBBLE_CHART_CHOICES, required=True)
 
@@ -124,6 +130,7 @@ class LineChartForm(forms.Form, DashboardPluginFormBase):
         ("rangeLabel", ""),
         ("start_date", ""),
         ("end_date", ""),
+        ("simulation", ""),
         ("source", ""),
         ("origin", ""),
     ]
@@ -133,6 +140,7 @@ class LineChartForm(forms.Form, DashboardPluginFormBase):
     rangeLabel = forms.CharField(label=_("Etiqueta del eje Y"), required=True)
     start_date = forms.CharField(label=_("Fecha de inicio"), required=True, widget=forms.TextInput(attrs={'type':'date'}))
     end_date = forms.CharField(label=_("Fecha de finalizacion"), required=True, widget=forms.TextInput(attrs={'type':'date'}))
+    simulation = forms.ChoiceField(label=_("Simulacion [Solo en caso de que quiera utilizar datos de SUMO]"), choices=SIMULATION_CHOICES, required=False)
     source = forms.ChoiceField(label=_("Tabla/API"), choices=KEY_VALUE_CHOICES, required=True)
     origin = forms.ChoiceField(label=_("Tabla/API"), choices=KEY_VALUE_CHOICES, required=True)
 

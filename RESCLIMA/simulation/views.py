@@ -104,7 +104,7 @@ def SimulationOutput(request, pk):
 		EMISSION_PATH = MEDIA + "output/resclima_emission_output.xml"
 
 		SUMMARY_DICT = summary_parser(SUMMARY_PATH)
-		AVG_EMISSION_DICT, AVG_WEIGTH_EMISSION_DICT, AVG_LIGHT_EMISSION_DICT = emission_parser(EMISSION_PATH)
+		AVG_EMISSION_DICT, AVG_WEIGTH_EMISSION_DICT, AVG_LIGHT_EMISSION_DICT, KEY_VALUE_WEIGHT_CO2_DICT, KEY_VALUE_LIGHT_CO2_DICT, KEY_VALUE_WEIGHT_CO_DICT, KEY_VALUE_LIGHT_CO_DICT  = emission_parser(EMISSION_PATH)
 		AVG_TRACE_DICT, AVG_WEIGHT_TRACE_DICT, AVG_LIGHT_TRACE_DICT = trace_parser(TRACE_PATH)
 
 		# Save to DB the Output (Usar try, except)
@@ -116,7 +116,11 @@ def SimulationOutput(request, pk):
 				avg_light_trace=AVG_LIGHT_TRACE_DICT,
 				avg_emission=AVG_EMISSION_DICT,
 				avg_weight_emission=AVG_WEIGTH_EMISSION_DICT,
-				avg_light_emission=AVG_LIGHT_EMISSION_DICT)
+				avg_light_emission=AVG_LIGHT_EMISSION_DICT,
+				key_value_weight_co2=KEY_VALUE_WEIGHT_CO2_DICT,
+				key_value_light_co2=KEY_VALUE_LIGHT_CO2_DICT,
+				key_value_weight_co=KEY_VALUE_WEIGHT_CO_DICT,
+				key_value_light_co=KEY_VALUE_LIGHT_CO_DICT)
 			output_instance.save()
 		except Exception:
 			pass

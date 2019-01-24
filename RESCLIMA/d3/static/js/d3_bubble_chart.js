@@ -13,21 +13,7 @@ function getBubbleChartViewBox(size) {
 	else { return "0 0 625 975" }
 }
 
-function setCustomKey(str) {
-	if (!str) { return "key"; }
-	else { return str; }
-}
-
-function setCustomValue(str) {
-	if (!str) { return "value"; }
-	else { return str; }
-}
-
-function d3BubbleChartSample(container, diameter, source, padding, nodeDy, nodeTextAnchor, size, key, value) {
-	// check key and value
-	key = setCustomKey(key);
-	value = setCustomValue(value);
-
+function d3BubbleChartSample(container, diameter, source, padding, nodeDy, nodeTextAnchor, size, sid) {
 	// define the color
 	var format = d3.format(",d"),
 		color = d3.scale.category20c();
@@ -47,7 +33,7 @@ function d3BubbleChartSample(container, diameter, source, padding, nodeDy, nodeT
 	  .attr("height", diameter)
 	  .attr("class", "bubble");
 
-	d3.json("http://127.0.0.1:8000/api/" + source + "/", function(error, root) {
+	d3.json("http://127.0.0.1:8000/api/" + source + "/" + sid , function(error, root) {
 		// loading data from root
 		var node = svg.selectAll(".node")
 			.data(bubble.nodes(classes(root))
@@ -81,7 +67,7 @@ function d3BubbleChartSample(container, diameter, source, padding, nodeDy, nodeT
 
 		function recurse(name, node) {
 			if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
-			else classes.push({packageName: name, className: node[key], value: node[value]});
+			else classes.push({packageName: name, className: node["key"], value: Math.ceil(node["value"])});
 		}
 
 		recurse(null, root);

@@ -3,6 +3,13 @@ from __future__ import unicode_literals
 from . validators import validate_file_extension_xml, validate_file_extension_config
 from django.db import models
 from main.models import *
+from django.contrib.postgres.fields import JSONField
+
+from . helpers import (
+	user_directory_path,
+	file_directory_path,
+	output_directory_path
+)
 
 class Gauging(models.Model):
 	# Información General
@@ -78,101 +85,23 @@ class Vehicle(models.Model):
 		verbose_name = "Vehiculo"
 		verbose_name_plural = "Vehiculos"
 
-def user_directory_path(instance, filename):
-	# file will be uploaded to MEDIA_ROOT/simulation/user_<id>/<filename>
-	return 'simulation/user_{0}/simulation_{1}/{2}'.format(instance.user.id, instance.id, filename)
-
 class Simulation(models.Model):
 	# Total 16, en uso 15 archivos de configuracion
 	# Informacion general
 	name = models.CharField(verbose_name="Nombre", max_length=100)
-	step = models.IntegerField(verbose_name="Step")
-	# Mapa de la red generado por OSM
-	# osm.net.xml
-	net = models.FileField(verbose_name="Mapa de la simulacion", upload_to=user_directory_path, validators=[validate_file_extension_xml])
-	# Rutas y viajes por tipo de vehiculo
-	# osm.bus.rou.xml
-	# osm.bus.rou.alt.xml
-	# osm.bus.trips.xml
-	bus_rou = models.FileField(verbose_name="Rutas de buses", upload_to=user_directory_path, validators=[validate_file_extension_xml])
-	bus_rou_alt = models.FileField(verbose_name="Rutas alternas de buses", upload_to=user_directory_path, validators=[validate_file_extension_xml])
-	bus_trips = models.FileField(verbose_name="Archivo de viajes de buses", upload_to=user_directory_path, validators=[validate_file_extension_xml])
-	# osm.motorcycle.rou.xml
-	# osm.motorcycle.rou.alt.xml
-	# osm.motorcycle.trips.xml
-	motorcycle_rou = models.FileField(verbose_name="Rutas de motos", upload_to=user_directory_path, validators=[validate_file_extension_xml])
-	motorcycle_rou_alt = models.FileField(verbose_name="Rutas alternas de motos", upload_to=user_directory_path, validators=[validate_file_extension_xml])
-	motorcycle_trips = models.FileField(verbose_name="Archivo de viajes de motos", upload_to=user_directory_path, validators=[validate_file_extension_xml])
-	# osm.passenger.rou.xml
-	# osm.passenger.rou.alt.xml
-	# osm.passenger.trips.xml
-	passenger_rou = models.FileField(verbose_name="Rutas de carros", upload_to=user_directory_path, validators=[validate_file_extension_xml])
-	passenger_rou_alt = models.FileField(verbose_name="Rutas alternas de carros", upload_to=user_directory_path, validators=[validate_file_extension_xml])
-	passenger_trips = models.FileField(verbose_name="Archivo de viajes de carros", upload_to=user_directory_path, validators=[validate_file_extension_xml])
-	# Archivos adicionales
-	# osm.poly.xml
-	# osm.view.xml
-	poly_file =	models.FileField(verbose_name="Archivo de configuracion de poligonos", upload_to=user_directory_path, validators=[validate_file_extension_xml])
-	view_file = models.FileField(verbose_name="Archivo de configuracion de vista", upload_to=user_directory_path, validators=[validate_file_extension_xml])
+	step = models.PositiveIntegerField(verbose_name="Step")
 	# Archivos de configuracion
-	# osm.netccfg
-	# osm.polycfg
-	# osm.sumocfg
-	net_config = models.FileField(verbose_name="Archivo netccfg", upload_to=user_directory_path, validators=[validate_file_extension_config])
-	poly_config = models.FileField(verbose_name="Archivo polycfg", upload_to=user_directory_path, validators=[validate_file_extension_config])
 	sumo_config = models.FileField(verbose_name="Archivo sumocfg", upload_to=user_directory_path, validators=[validate_file_extension_config])
-	# Relacion foranea
+	# Clave Foranea
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	# Campos de auditoria
 	date_updated = models.DateTimeField(auto_now=True) # Fecha de modificación
 
 	def save(self, *args, **kwargs):
 		if self.id is None:
-			saved_net = self.net
-			saved_bus_rou = self.bus_rou
-			saved_bus_rou_alt = self.bus_rou_alt
-			saved_bus_trips = self.bus_trips
-			saved_motorcycle_rou = self.motorcycle_rou
-			saved_motorcycle_rou_alt = self.motorcycle_rou_alt
-			saved_motorcycle_trips = self.motorcycle_trips
-			saved_passenger_rou = self.passenger_rou
-			saved_passenger_rou_alt = self.passenger_rou_alt
-			saved_passenger_trips = self.passenger_trips
-			saved_poly_file = self.poly_file
-			saved_view_file = self.view_file
-			saved_net_config = self.net_config
-			saved_poly_config = self.poly_config
 			saved_sumo_config = self.sumo_config
-			self.net = None
-			self.bus_rou = None
-			self.bus_rou_alt = None
-			self.bus_trips = None
-			self.motorcycle_rou = None
-			self.motorcycle_rou_alt = None
-			self.motorcycle_trips = None
-			self.passenger_rou = None
-			self.passenger_rou_alt = None
-			self.passenger_trips = None
-			self.poly_file = None
-			self.view_file = None
-			self.net_config = None
-			self.poly_config = None
 			self.sumo_config = None
 			super(Simulation, self).save(*args, **kwargs)
-			self.net = saved_net
-			self.bus_rou = saved_bus_rou
-			self.bus_rou_alt = saved_bus_rou_alt
-			self.bus_trips = saved_bus_trips
-			self.motorcycle_rou = saved_motorcycle_rou
-			self.motorcycle_rou_alt = saved_motorcycle_rou_alt
-			self.motorcycle_trips = saved_motorcycle_trips
-			self.passenger_rou = saved_passenger_rou
-			self.passenger_rou_alt = saved_passenger_rou_alt
-			self.passenger_trips = saved_passenger_trips
-			self.poly_file = saved_poly_file
-			self.view_file = saved_view_file
-			self.net_config = saved_net_config
-			self.poly_config = saved_poly_config
 			self.sumo_config = saved_sumo_config
 		super(Simulation, self).save(*args, **kwargs)
 
@@ -184,3 +113,37 @@ class Simulation(models.Model):
 	class Meta:
 		verbose_name="Simulacion"
 		verbose_name_plural="Simulaciones"
+
+class SimulationFile(models.Model):
+	# Informacion general
+	file = models.FileField(upload_to=file_directory_path)
+	simulation = models.ForeignKey(Simulation, on_delete=models.CASCADE)
+
+	def __unicode__(self):
+		return "%s" % (self.file)
+	def __str__(self):
+		return "%s" % (self.file)
+
+	class Meta:
+		verbose_name="Archivo"
+		verbose_name_plural="Archivos"
+
+class Output(models.Model):
+	# Informacion general
+	simulation = models.OneToOneField(Simulation, on_delete=models.CASCADE, primary_key=True)
+	summary = JSONField()
+	avg_trace = JSONField()
+	avg_weight_trace = JSONField()
+	avg_light_trace = JSONField()
+	avg_emission = JSONField()
+	avg_weight_emission = JSONField()
+	avg_light_emission = JSONField()
+
+	def __unicode__(self):
+		return "%s %s %s" % ("Output: ", self.simulation.id, self.simulation.name)
+	def __str__(self):
+		return "%s %s %s" % ("Output: ", self.simulation.id, self.simulation.name)
+
+	class Meta:
+		verbose_name="Output"
+		verbose_name_plural="Outputs"

@@ -21,14 +21,23 @@ from . parsers import (
 )
 
 # Create your views here.
-
 class SimulationCreate(CreateView):
 	template_name = 'simulation/form.html'
 	form_class = SimulationForm
 	success_url = reverse_lazy('simulation_list')
 
 	def form_valid(self, form):
-		form.instance.user =  self.request.user
+		simulation_instance =form.save(commit=False)
+		simulation_instance.user = self.request.user
+		simulation_instance.save()
+
+		for f in self.request.FILES.getlist('file'):
+			try:
+				file_instance = SimulationFile(simulation=simulation_instance, file=f)
+				file_instance.save()
+			except Exception:
+				pass
+
 		return super(SimulationCreate, self).form_valid(form)
 
 class SimulationList(ListView):
@@ -42,7 +51,17 @@ class SimulationUpdate(UpdateView):
 	success_url = reverse_lazy('simulation_list')
 
 	def form_valid(self, form):
-		form.instance.user = self.request.user
+		simulation_instance =form.save(commit=False)
+		simulation_instance.user = self.request.user
+		simulation_instance.save()
+
+		for f in self.request.FILES.getlist('file'):
+			try:
+				file_instance = SimulationFile(simulation=simulation_instance, file=f)
+				file_instance.save()
+			except Exception:
+				pass
+
 		return super(SimulationUpdate, self).form_valid(form)
 
 class SimulationDelete(DeleteView):
@@ -50,7 +69,6 @@ class SimulationDelete(DeleteView):
 	template_name = 'simulation/delete.html'
 	success_url = reverse_lazy('simulation_list')
 
-### Modificar para realizar la simulacion ###
 class SimulationRun(TemplateView):
 	template_name = 'simulation/run.html'
 
@@ -82,20 +100,34 @@ def SimulationOutput(request, pk):
 		MEDIA = settings.MEDIA_ROOT + dict['simulation_path']
 
 		SUMMARY_PATH = MEDIA + "output/resclima_summary_output.xml"
-		TRACE_PATH = MEDIA + "output/resclima_sumo_trace.xml"
+		TRACE_PATH = MEDIA + "output/resclima_trace_output.xml"
 		EMISSION_PATH = MEDIA + "output/resclima_emission_output.xml"
 
 		SUMMARY_DICT = summary_parser(SUMMARY_PATH)
 		AVG_EMISSION_DICT, AVG_WEIGTH_EMISSION_DICT, AVG_LIGHT_EMISSION_DICT = emission_parser(EMISSION_PATH)
 		AVG_TRACE_DICT, AVG_WEIGHT_TRACE_DICT, AVG_LIGHT_TRACE_DICT = trace_parser(TRACE_PATH)
 
+		# Save to DB the Output (Usar try, except)
+		try:
+			output_instance = Output(simulation=Simulation.objects.get(id=pk),
+				summary=SUMMARY_DICT,
+				avg_trace=AVG_TRACE_DICT,
+				avg_weight_trace=AVG_WEIGHT_TRACE_DICT,
+				avg_light_trace=AVG_LIGHT_TRACE_DICT,
+				avg_emission=AVG_EMISSION_DICT,
+				avg_weight_emission=AVG_WEIGTH_EMISSION_DICT,
+				avg_light_emission=AVG_LIGHT_EMISSION_DICT)
+			output_instance.save()
+		except Exception:
+			pass
+
 		context = {}
+		# Se envia el contexto para presentar un resumen breve de la simulacion
 		context['simulation_summary'] = SUMMARY_DICT
 		context['simulation_emission'] = AVG_EMISSION_DICT
 		context['simulation_trace'] = AVG_TRACE_DICT
 
 	except ImportError:
 		context = {}
-		print("Sucedio un error compita :v")
 
 	return render(request, 'simulation/output.html', context)

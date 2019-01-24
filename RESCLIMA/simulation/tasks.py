@@ -32,7 +32,7 @@ def simulation_task(self, params):
 			  raise
 		PATH = MEDIA + params['simulation_whole_path']
 		# Definiendo las salidas de la simulacion
-		TRACE_OUT = MEDIA + params['simulation_path'] + "output/resclima_sumo_trace.xml"
+		TRACE_OUT = MEDIA + params['simulation_path'] + "output/resclima_trace_output.xml"
 		EMISSION_OUT = MEDIA + params['simulation_path'] + "output/resclima_emission_output.xml"
 		SUMMARY_OUT = MEDIA + params['simulation_path'] + "output/resclima_summary_output.xml"
 		# Definiendo la ruta del simulador y realizar la simulacion

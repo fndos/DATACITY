@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from dash.base import DashboardPluginFormBase
 from main import services
+from simulation import models
 
 __author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
 __copyright__ = '2013-2018 Artur Barseghyan'
@@ -31,13 +32,18 @@ PIE_CHART_CHOICES = (
 
 BUBBLE_CHART_CHOICES = (
   (None, 'Selecciona una opción'),
-  ('d3_bubble_chart_sample', 'Bubble Chart Sample (name, size)'),
+  ('d3_bubble_chart_sumo_WE', 'Emisiones | W'),
 )
 
 TREE_MAP_CHOICES = (
   (None, 'Selecciona una opción'),
   ('d3_tree_map_sample', 'Tree Map: Censo Mundial'),
 )
+
+SIMULATION_CHOICES = [(None, 'Selecciona una opción')]
+TEMP = [(s.id, s) for s in models.Simulation.objects.all()]
+for i in range(len(TEMP)):
+    SIMULATION_CHOICES.append(TEMP[i])
 
 # Formulario para Bar Chart
 class BarChartForm(forms.Form, DashboardPluginFormBase):
@@ -67,15 +73,14 @@ class BubbleChartForm(forms.Form, DashboardPluginFormBase):
 
     plugin_data_fields = [
         ("title", ""),
+        ("simulation", ""),
         ("source", ""),
-        ("key", ""),
-        ("value", ""),
     ]
 
     title = forms.CharField(label=_("Titulo"), required=True)
+    # Choice Field para que escoja la simulacion que desea
+    simulation = forms.ChoiceField(label=_("Simulacion"), choices=SIMULATION_CHOICES, required=True)
     source = forms.ChoiceField(label=_("Tabla/API"), choices=BUBBLE_CHART_CHOICES, required=True)
-    key = forms.CharField(label=_("Key"), required=False, strip=True)
-    value = forms.CharField(label=_("Value"), required=False, strip=True)
 
 # Formulario para Tree Map
 class TreeMapForm(forms.Form, DashboardPluginFormBase):

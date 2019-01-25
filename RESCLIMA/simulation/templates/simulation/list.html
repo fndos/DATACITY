@@ -26,11 +26,6 @@
 									<a href="{% url 'simulation_delete' simulation.id %}" style="color: #FF5252;" ><i class="material-icons left">delete_forever</i>Eliminar</a>
 							</td>
 						{% else %}
-						<div class="wrapper">
-							<div class="container">
-								<p>No hay simulaciones para mostrar</p>
-							</div>
-						</div>
 						{% endif %}
 				</tr>
 				{% endfor %}

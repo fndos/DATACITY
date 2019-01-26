@@ -3,7 +3,7 @@
 	box-shadow: 0 0 5px #999999;
 	color: rgb(185, 185, 185);
   border-radius: 2px;
-	font-size: 12px !important;
+	font-size: 16px !important;
 	left: 130px;
 	padding: 8px !important;
 	position: absolute;
@@ -15,7 +15,7 @@
 	opacity: 0;
 }
 .legend {
-	font-size: 10px;
+	font-size: 16px !important;
 }
 rect {
 	cursor: pointer;                                              /* NEW */

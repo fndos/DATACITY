@@ -61,6 +61,7 @@ class BarChartForm(forms.Form, DashboardPluginFormBase):
         ("end_date", ""),
         ("domainLabel", ""),
         ("rangeLabel", ""),
+        ("simulation", ""),
         ("source", ""),
         ("color", ""),
         ("hover", ""),
@@ -69,8 +70,9 @@ class BarChartForm(forms.Form, DashboardPluginFormBase):
     title = forms.CharField(label=_("Titulo"), required=True)
     domainLabel = forms.CharField(label=_("Etiqueta del eje X"), required=True)
     rangeLabel = forms.CharField(label=_("Etiqueta del eje Y"), required=True)
-    start_date = forms.CharField(label=_("Fecha de inicio"), required=True, widget=forms.TextInput(attrs={'type':'date'}))
-    end_date = forms.CharField(label=_("Fecha de finalizacion"), required=True, widget=forms.TextInput(attrs={'type':'date'}))
+    start_date = forms.CharField(label=_("Fecha de inicio"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
+    end_date = forms.CharField(label=_("Fecha de finalizacion"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
+    simulation = forms.ChoiceField(label=_("Simulacion"), choices=SIMULATION_CHOICES, required=False)
     source = forms.ChoiceField(label=_("Tabla/API"), choices=KEY_VALUE_CHOICES, required=True)
     color = forms.CharField(label=_("Color principal"), required=True, widget=forms.TextInput(attrs={'type':'color'}))
     hover = forms.CharField(label=_("Color secundario"), required=True, widget=forms.TextInput(attrs={'type':'color'}))
@@ -119,7 +121,7 @@ class PieChartForm(forms.Form, DashboardPluginFormBase):
 
     title = forms.CharField(label=_("Titulo"), required=True)
     source = forms.ChoiceField(label=_("Tabla/API"), choices=PIE_CHART_CHOICES, required=True)
-    date = forms.CharField(label=_("Fecha"), required=True, widget=forms.TextInput(attrs={'type':'date'}))
+    date = forms.CharField(label=_("Fecha"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
 
 # Formulario para Line Chart
 class LineChartForm(forms.Form, DashboardPluginFormBase):
@@ -138,8 +140,8 @@ class LineChartForm(forms.Form, DashboardPluginFormBase):
     title = forms.CharField(label=_("Titulo"), required=True)
     domainLabel = forms.CharField(label=_("Etiqueta del eje X"), required=True)
     rangeLabel = forms.CharField(label=_("Etiqueta del eje Y"), required=True)
-    start_date = forms.CharField(label=_("Fecha de inicio"), required=True, widget=forms.TextInput(attrs={'type':'date'}))
-    end_date = forms.CharField(label=_("Fecha de finalizacion"), required=True, widget=forms.TextInput(attrs={'type':'date'}))
+    start_date = forms.CharField(label=_("Fecha de inicio"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
+    end_date = forms.CharField(label=_("Fecha de finalizacion"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
     simulation = forms.ChoiceField(label=_("Simulacion [Solo en caso de que quiera utilizar datos de SUMO]"), choices=SIMULATION_CHOICES, required=False)
     source = forms.ChoiceField(label=_("Tabla/API"), choices=KEY_VALUE_CHOICES, required=True)
     origin = forms.ChoiceField(label=_("Tabla/API"), choices=KEY_VALUE_CHOICES, required=True)

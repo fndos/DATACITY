@@ -36,8 +36,6 @@ class APIAverageMeasurementViewSet(viewsets.ViewSet):
 
 	def list(self, request, start_date=None, end_date=None):
 		# Obtener el diccionario para las variables
-		# start_date = '2018-12-25'
-		# end_date = '2018-12-27'
 		qs = models.Variable.objects.all()
 		dict = {}
 		v = list(qs)
@@ -45,7 +43,11 @@ class APIAverageMeasurementViewSet(viewsets.ViewSet):
 			dict[i] = v[i].name
 		# Obtener las lecturas de las estaciones por timestamp
 		try:
-			qs = models.Measurement.objects.raw('''SELECT * FROM \"timeSeries_measurement\" WHERE ts <= %s::DATE AND ts >= %s::DATE''', [end_date, start_date]);
+			if start_date == "null" or end_date == "null":
+				# qs no debe incluir fechas
+				qs = models.Measurement.objects.raw('''SELECT * FROM \"timeSeries_measurement\"''');
+			else:
+				qs = models.Measurement.objects.raw('''SELECT * FROM \"timeSeries_measurement\" WHERE ts <= %s::DATE AND ts >= %s::DATE''', [end_date, start_date]);
 			ms = list(qs)
 			avg = [0] * 9
 			# Agrupo por id de variable.
@@ -1524,11 +1526,15 @@ class APILightONViewSet(viewsets.ViewSet):
 	def list(self, request, start_date=None, end_date=None):
 		try:
 			# Obtener la informacion de la BD
-			qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 1 AND v.movement = 1''', [end_date, start_date]);
-			qt = simulation_models.Term.objects.raw('''SELECT * FROM simulation_term as t INNER JOIN simulation_vehicle as v ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 1 AND v.movement = 1''', [end_date, start_date]);
+			if start_date == "null" or end_date == "null":
+				# qs no debe incluir fechas
+				qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE v.type = 1 AND v.movement = 1''');
+				qt = simulation_models.Term.objects.raw('''SELECT * FROM simulation_term as t INNER JOIN simulation_vehicle as v ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE v.type = 1 AND v.movement = 1''');
+			else:
+				qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 1 AND v.movement = 1''', [end_date, start_date]);
+				qt = simulation_models.Term.objects.raw('''SELECT * FROM simulation_term as t INNER JOIN simulation_vehicle as v ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 1 AND v.movement = 1''', [end_date, start_date]);
 			d = list(qs)
 			t = list(qt)
-
 			dict = {}
 			for i in range(len(d)):
 				dict[t[i].number] = d[i].number
@@ -1547,11 +1553,15 @@ class APILightOEViewSet(viewsets.ViewSet):
 	def list(self, request, start_date=None, end_date=None):
 		try:
 			# Obtener la informacion de la BD
-			qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 1 AND v.movement = 2''', [end_date, start_date]);
-			qt = simulation_models.Term.objects.raw('''SELECT * FROM simulation_term as t INNER JOIN simulation_vehicle as v ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 1 AND v.movement = 2''', [end_date, start_date]);
+			if start_date == "null" or end_date == "null":
+				# qs no debe incluir fechas
+				qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE v.type = 1 AND v.movement = 2''');
+				qt = simulation_models.Term.objects.raw('''SELECT * FROM simulation_term as t INNER JOIN simulation_vehicle as v ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE v.type = 1 AND v.movement = 2''');
+			else:
+				qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 1 AND v.movement = 2''', [end_date, start_date]);
+				qt = simulation_models.Term.objects.raw('''SELECT * FROM simulation_term as t INNER JOIN simulation_vehicle as v ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 1 AND v.movement = 2''', [end_date, start_date]);
 			d = list(qs)
 			t = list(qt)
-
 			dict = {}
 			for i in range(len(d)):
 				dict[t[i].number] = d[i].number
@@ -1570,11 +1580,15 @@ class APILightNEViewSet(viewsets.ViewSet):
 	def list(self, request, start_date=None, end_date=None):
 		try:
 			# Obtener la informacion de la BD
-			qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 1 AND v.movement = 3''', [end_date, start_date]);
-			qt = simulation_models.Term.objects.raw('''SELECT * FROM simulation_term as t INNER JOIN simulation_vehicle as v ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 1 AND v.movement = 3''', [end_date, start_date]);
+			if start_date == "null" or end_date == "null":
+				# qs no debe incluir fechas
+				qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE v.type = 1 AND v.movement = 3''');
+				qt = simulation_models.Term.objects.raw('''SELECT * FROM simulation_term as t INNER JOIN simulation_vehicle as v ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE v.type = 1 AND v.movement = 3''');
+			else:
+				qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 1 AND v.movement = 3''', [end_date, start_date]);
+				qt = simulation_models.Term.objects.raw('''SELECT * FROM simulation_term as t INNER JOIN simulation_vehicle as v ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 1 AND v.movement = 3''', [end_date, start_date]);
 			d = list(qs)
 			t = list(qt)
-
 			dict = {}
 			for i in range(len(d)):
 				dict[t[i].number] = d[i].number
@@ -1593,11 +1607,15 @@ class APIWeightONViewSet(viewsets.ViewSet):
 	def list(self, request, start_date=None, end_date=None):
 		try:
 			# Obtener la informacion de la BD
-			qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 2 AND v.movement = 1''', [end_date, start_date]);
-			qt = simulation_models.Term.objects.raw('''SELECT * FROM simulation_term as t INNER JOIN simulation_vehicle as v ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 2 AND v.movement = 1''', [end_date, start_date]);
+			if start_date == "null" or end_date == "null":
+				# qs no debe incluir fechas
+				qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE v.type = 2 AND v.movement = 1''');
+				qt = simulation_models.Term.objects.raw('''SELECT * FROM simulation_term as t INNER JOIN simulation_vehicle as v ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE v.type = 2 AND v.movement = 1''');
+			else:
+				qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 2 AND v.movement = 1''', [end_date, start_date]);
+				qt = simulation_models.Term.objects.raw('''SELECT * FROM simulation_term as t INNER JOIN simulation_vehicle as v ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 2 AND v.movement = 1''', [end_date, start_date]);
 			d = list(qs)
 			t = list(qt)
-
 			dict = {}
 			for i in range(len(d)):
 				dict[t[i].number] = d[i].number
@@ -1616,11 +1634,15 @@ class APIWeightOEViewSet(viewsets.ViewSet):
 	def list(self, request, start_date=None, end_date=None):
 		try:
 			# Obtener la informacion de la BD
-			qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 2 AND v.movement = 2''', [end_date, start_date]);
-			qt = simulation_models.Term.objects.raw('''SELECT * FROM simulation_term as t INNER JOIN simulation_vehicle as v ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 2 AND v.movement = 2''', [end_date, start_date]);
+			if start_date == "null" or end_date == "null":
+				# qs no debe incluir fechas
+				qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE v.type = 2 AND v.movement = 2''');
+				qt = simulation_models.Term.objects.raw('''SELECT * FROM simulation_term as t INNER JOIN simulation_vehicle as v ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE v.type = 2 AND v.movement = 2''');
+			else:
+				qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 2 AND v.movement = 2''', [end_date, start_date]);
+				qt = simulation_models.Term.objects.raw('''SELECT * FROM simulation_term as t INNER JOIN simulation_vehicle as v ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 2 AND v.movement = 2''', [end_date, start_date]);
 			d = list(qs)
 			t = list(qt)
-
 			dict = {}
 			for i in range(len(d)):
 				dict[t[i].number] = d[i].number
@@ -1639,36 +1661,15 @@ class APIWeightNEViewSet(viewsets.ViewSet):
 	def list(self, request, start_date=None, end_date=None):
 		try:
 			# Obtener la informacion de la BD
-			qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 2 AND v.movement = 3''', [end_date, start_date]);
-			qt = simulation_models.Term.objects.raw('''SELECT * FROM simulation_term as t INNER JOIN simulation_vehicle as v ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 2 AND v.movement = 3''', [end_date, start_date]);
+			if start_date == "null" or end_date == "null":
+				# qs no debe incluir fechas
+				qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE v.type = 2 AND v.movement = 3''');
+				qt = simulation_models.Term.objects.raw('''SELECT * FROM simulation_term as t INNER JOIN simulation_vehicle as v ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE v.type = 2 AND v.movement = 3''');
+			else:
+				qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 2 AND v.movement = 3''', [end_date, start_date]);
+				qt = simulation_models.Term.objects.raw('''SELECT * FROM simulation_term as t INNER JOIN simulation_vehicle as v ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 2 AND v.movement = 3''', [end_date, start_date]);
 			d = list(qs)
 			t = list(qt)
-
-			dict = {}
-			for i in range(len(d)):
-				dict[t[i].number] = d[i].number
-
-			# Crear JSON dinamico
-			content = [{"value": v, "key": k } for k, v in dict.iteritems()]
-		except:
-			# Si el Query retorna None
-			content = {}
-
-		return Response(content)
-
-class EMISIONWeightNEViewSet(viewsets.ViewSet):
-	renderer_classes = (JSONRenderer, )
-
-	def list(self, request, start_date=None, end_date=None):
-
-		##  AQUI
-		try:
-			# Obtener la informacion de la BD
-			qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 2 AND v.movement = 3''', [end_date, start_date]);
-			qt = simulation_models.Term.objects.raw('''SELECT * FROM simulation_term as t INNER JOIN simulation_vehicle as v ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date <= %s AND g.date >= %s AND v.type = 2 AND v.movement = 3''', [end_date, start_date]);
-			d = list(qs)
-			t = list(qt)
-
 			dict = {}
 			for i in range(len(d)):
 				dict[t[i].number] = d[i].number
@@ -1688,7 +1689,11 @@ class APICompositionONViewSet(viewsets.ViewSet):
 		# Como ingresar parametros al API
 		try:
 			# Escoger solo en el rango de fechas determinado
-			qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date = %s AND v.movement = 1''', [date]);
+			if date == "null":
+				# qs no debe incluir fechas
+				qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE v.movement = 1''');
+			else:
+				qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date = %s AND v.movement = 1''', [date]);
 			d = list(qs)
 
 			print len(d)
@@ -1728,7 +1733,11 @@ class APICompositionOEViewSet(viewsets.ViewSet):
 		# Como ingresar parametros al API
 		try:
 			# Escoger solo en el rango de fechas determinado
-			qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date = %s AND v.movement = 2''', [date]);
+			if date == "null":
+				# qs no debe incluir fechas
+				qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE v.movement = 2''');
+			else:
+				qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date = %s AND v.movement = 2''', [date]);
 			d = list(qs)
 
 			print len(d)
@@ -1768,7 +1777,11 @@ class APICompositionNEViewSet(viewsets.ViewSet):
 		# Como ingresar parametros al API
 		try:
 			# Escoger solo en el rango de fechas determinado
-			qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date = %s AND v.movement = 3''', [date]);
+			if date == "null":
+				# qs no debe incluir fechas
+				qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE v.movement = 3''');
+			else:
+				qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date = %s AND v.movement = 3''', [date]);
 			d = list(qs)
 
 			print len(d)
@@ -1808,7 +1821,12 @@ class APICompositionViewSet(viewsets.ViewSet):
 		# Como ingresar parametros al API
 		try:
 			# Escoger solo en el rango de fechas determinado
-			qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date = %s''', [date]);
+			if date == "null":
+				# qs no debe incluir fechas
+				qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id''');
+			else:
+				qs = simulation_models.Vehicle.objects.raw('''SELECT * FROM simulation_vehicle as v INNER JOIN simulation_term as t ON v.term_id = t.id INNER JOIN simulation_gauging as g ON t.gauging_id = g.id WHERE g.date = %s''', [date]);
+
 			d = list(qs)
 
 			print len(d)

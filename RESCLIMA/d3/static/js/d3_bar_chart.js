@@ -8,7 +8,31 @@ function toTitleCase(str) {
     });
 }
 
-function d3BarChartSample(container, source, start_date, end_date, domainLabel, rangeLabel, color, hover) {
+function isEmpty(str) {
+	if (!str) { return true; }
+	else { return false }
+}
+
+function checkDate(start_date, end_date) {
+   if (!isEmpty(start_date) && !isEmpty(end_date)) { return true; }
+  else { return false; }
+}
+
+function setSource(sid, source, start_date, end_date) {
+	if (!sid) { return "http://127.0.0.1:8000/api/" + source + "/" + start_date + "/" + end_date + "/"; }
+	else { return "http://127.0.0.1:8000/api/" + source + "/" + sid; }
+}
+
+function d3BarChartSample(container, source, start_date, end_date, domainLabel, rangeLabel, color, hover, sid) {
+  if (!checkDate(start_date, end_date)) {
+    // Una de las fechas ingresadas no es valida
+    start_date = null;
+    end_date = null;
+  }
+
+  // Check source
+  SOURCE_URL = setSource(sid, source, start_date, end_date);
+
   // set the dimensions of the canvas
   var margin = {top: 20, right: 20, bottom: 70, left: 40},
       width = 600 - margin.left - margin.right,
@@ -26,12 +50,16 @@ function d3BarChartSample(container, source, start_date, end_date, domainLabel, 
   var yAxis = d3.svg.axis()
       .scale(y)
       .orient("left")
-      .ticks(10);
+      .ticks(10)
+      .tickFormat(function (d) {
+          var prefix = d3.formatPrefix(d);
+          return prefix.scale(d) + prefix.symbol;
+      });
 
   // add the SVG element
   var svg = d3.select(container).append("svg")
       .attr("preserveAspectRatio", "xMinYMin meet")
-      .attr("viewBox", "0 -25 600 600")
+      .attr("viewBox", "0 -25 579 579")
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -44,7 +72,8 @@ function d3BarChartSample(container, source, start_date, end_date, domainLabel, 
     })
 
   svg.call(tip);
-  d3.json("http://127.0.0.1:8000/api/" + source + "/" + start_date + "/" + end_date + "/" , function(error, data) {
+
+  d3.json(SOURCE_URL, function(error, data) {
     // get data from table
     data.forEach(function(d) {
       d['key'] = d['key'];
@@ -60,22 +89,22 @@ function d3BarChartSample(container, source, start_date, end_date, domainLabel, 
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
         .call(xAxis)
-        .append("text")
-        .attr("x", width / 2)
-        .attr("y",  31)
+        .append("text").style("font-size", "14px")
+        .attr("x", width / 2 + 13)
+        .attr("y",  36)
         .attr("dx", ".75em")
         .style("text-anchor", "end")
-        .text(toTitleCase(domainLabel));
+        .text(domainLabel);
 
     svg.append("g")
         .attr("class", "y axis")
         .call(yAxis)
-        .append("text")
-        .attr("y", -31)
-        .attr("x", -(height)/ 2 + margin.top)
+        .append("text").style("font-size", "14px")
+        .attr("y", -29)
+        .attr("x", -(height)/ 2 + margin.top + 5)
         .attr("transform", "rotate(-90)")
         .style("text-anchor", "end")
-        .text(toTitleCase(rangeLabel));
+        .text(rangeLabel);
 
     // Add bar chart
     svg.selectAll("bar")

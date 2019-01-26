@@ -14,13 +14,23 @@ function getPieChartPluginSize(str) {
 
 function getPieChartViewBox(size) {
 	if (size == 4) { return "-152 0 712 712" }
-	else if (size == 5) { return "-152 0 675 675" }
+	else if (size == 5) { return "-152 0 685 685" }
 	else if (size == 6) { return "-152 0 675 675" }
 	else { return "-152 0 675 675" }
 }
 
+function isEmpty(str) {
+	if (!str) { return true; }
+	else { return false }
+}
+
 function d3PieChartSample(container, source, date, size) {
-  var colorScheme = ["#7986CB", "#90A4AE","#BA68C8","#A1887F","#4DB6AC","#AED581","#9575CD","#FF8A65","#E57373","#FFF176","#64B5F6","#00E676"];
+  if (isEmpty(date)) {
+    // Una de las fechas ingresadas no es valida
+    date = null;
+  }
+
+  var colorScheme = ["#FF8A65", "#4DB6AC","#FFF176","#BA68C8","#00E676","#AED581","#9575CD","#7986CB","#E57373","#A1887F","#90A4AE","#64B5F6"];
 
   var margin = {top:50,bottom:50,left:50,right:50};
 	var width = 500 - margin.left - margin.right, height = width, radius = Math.min(width, height) / 2;

@@ -6,8 +6,7 @@
 {% block content %}
 <div class="container">
 	<div class="section">
-		<h4 class="header"><!-- The Title for Users --></h4>
-		<button class="btn waves-effect waves-light green accent-6" type="button" onClick="window.location='/user/create';"><i class="material-icons left">person_add</i>Agregar Usuario</button>
+		<h4 class="header">REGISTRO DE USUARIOS</h4>
 		{% if object_list %}
 		<table class="bordered">
 			<tbody>
@@ -30,7 +29,10 @@
 				{% endfor %}
 			</tbody>
 		</table>
-		{% else %}
+		<div class="card-action">
+			<button style="margin-top: 15px" class="btn waves-effect waves-light green accent-6" type="button" onClick="window.location='/user/create';"><i class="material-icons left">person_add</i>Agregar Usuario</button>
+			{% else %}
+		</div>
 		<div class="wrapper">
 			<div class="container">
 				<p>No hay usuarios para mostrar</p>

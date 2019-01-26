@@ -27,49 +27,49 @@ __license__ = 'GPL 2.0/LGPL 2.1'
 class BaseChartPlugin(BaseDashboardPlugin):
     """Base chart plugin."""
 
-    group = _("D3 plugins")
+    group = _("Grafico estadistico")
     form = ChartForm
     html_classes = ['chartonic']
 
 class BaseBubbleChartPlugin(BaseChartPlugin):
     """Base bubble chart plugin."""
 
-    name = _("Bubble Chart")
+    name = _("Grafico de burbuja")
     form = BubbleChartForm
     html_classes = ['chartonic', 'd3-bubble-chart-plugin']
 
 class BaseBarChartPlugin(BaseChartPlugin):
     """Base sunburst partition chart plugin."""
 
-    name = _("Bar Chart")
+    name = _("Grafico de barras")
     form = BarChartForm
     html_classes = ['chartonic', 'd3-bar-chart-plugin']
 
 class BaseTreeMapPlugin(BaseChartPlugin):
     """Base sunburst partition chart plugin."""
 
-    name = _("Tree Map")
+    name = _("Grafico de jerarquia")
     form = TreeMapForm
     html_classes = ['chartonic', 'd3-tree-map-plugin']
 
 class BaseTimeSeriesPlugin(BaseChartPlugin):
     """Base sunburst partition chart plugin."""
 
-    name = _("Time Series")
+    name = _("Serie de tiempo")
     form = TimeSeriesForm
     html_classes = ['chartonic', 'd3-time-series-plugin']
 
 class BasePieChartPlugin(BaseChartPlugin):
     """Base sunburst partition chart plugin."""
 
-    name = _("Pie Chart")
+    name = _("Grafico circular")
     form = PieChartForm
     html_classes = ['chartonic', 'd3-pie-chart-plugin']
 
 class BaseLineChartPlugin(BaseChartPlugin):
     """Base sunburst partition chart plugin."""
 
-    name = _("Line Chart")
+    name = _("Grafico de lineas")
     form = LineChartForm
     html_classes = ['chartonic', 'd3-line-chart-plugin']
 

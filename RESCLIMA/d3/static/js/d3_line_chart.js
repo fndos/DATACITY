@@ -13,10 +13,10 @@ function getLineChartPluginSize(str) {
 }
 
 function getLineChartViewBox(size) {
-	if (size == 4) { return "12 0 589 589" }
-	else if (size == 5) { return "12 0 589 589" }
-	else if (size == 6) { return "12 0 589 589" }
-	else { return "12 0 589 589" }
+	if (size == 4) { return "6 0 589 589" }
+	else if (size == 5) { return "6 0 589 589" }
+	else if (size == 6) { return "6 0 589 589" }
+	else { return "6 0 589 589" }
 }
 
 function setSource(sid, source, start_date, end_date) {
@@ -30,7 +30,6 @@ function setOrigin(sid, origin, start_date, end_date) {
 }
 
 function d3LineChartSample(container, start_date, end_date, source, origin, domainLabel, rangeLabel, size, sid) {
-  // "http://127.0.0.1:8000/api/" + source + "/" + start_date + "/" + end_date + "/"
   SOURCE_URL = setSource(sid, source, start_date, end_date);
   ORIGIN_URL = setOrigin(sid, origin, start_date, end_date);
 
@@ -67,8 +66,6 @@ function d3LineChartSample(container, start_date, end_date, source, origin, doma
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   d3.json(SOURCE_URL , function(error, data) {
-
-    console.log(data);
     // Scale the range of the data
   	x.domain(d3.extent(data, function(d) { return d.key; }));
   	y.domain([0, d3.max(data, function(d) { return d.value; })]);
@@ -83,9 +80,9 @@ function d3LineChartSample(container, start_date, end_date, source, origin, doma
   		.attr("class", "x axis")
   		.attr("transform", "translate(0," + height + ")")
   		.call(xAxis)
-      .append("text")
-      .attr("x", width / 2)
-      .attr("y",  31)
+      .append("text").style("font-size", "14px")
+      .attr("x", width / 2 + 13)
+      .attr("y",  36)
       .attr("dx", ".75em")
       .style("text-anchor", "end")
       .text(domainLabel);
@@ -94,9 +91,9 @@ function d3LineChartSample(container, start_date, end_date, source, origin, doma
   	svg.append("g")
   		.attr("class", "y axis")
   		.call(yAxis)
-      .append("text")
-      .attr("y", -31)
-      .attr("x", -(height)/ 2 + margin.top)
+      .append("text").style("font-size", "14px")
+      .attr("y", -29)
+      .attr("x", -(height)/ 2 + margin.top + 5)
       .attr("transform", "rotate(-90)")
       .style("text-anchor", "end")
       .text(rangeLabel);

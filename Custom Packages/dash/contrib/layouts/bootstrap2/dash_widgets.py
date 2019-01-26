@@ -1,5 +1,5 @@
 from ....contrib.plugins.url.dash_widgets import (
-    BaseBookmarkWidget,
+    # BaseBookmarkWidget,
     BaseURLWidget,
 )
 
@@ -8,7 +8,7 @@ __author__ = 'Artur Barseghyan <artur.barseghyan@gmail.com>'
 __copyright__ = '2013-2018 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
 __all__ = (
-    'BaseBookmarkBootstrapTwoWidget',
+    # 'BaseBookmarkBootstrapTwoWidget',
     'URLBootstrapTwo1x1Bootstrap2FluidMainWidget',
     'URLBootstrapTwo2x2Bootstrap2FluidMainWidget',
 )
@@ -51,9 +51,9 @@ class URLBootstrapTwo2x2Bootstrap2FluidMainWidget(
 # *********************************************************
 
 
-class BaseBookmarkBootstrapTwoWidget(BaseBookmarkWidget):
-    """Base Bookmark plugin widget for Bootstrap 2 Fluid layout."""
-
-    media_css = (
-        'css/dash_plugin_bookmark_bootstrap2.css',
-    )
+# class BaseBookmarkBootstrapTwoWidget(BaseBookmarkWidget):
+#     """Base Bookmark plugin widget for Bootstrap 2 Fluid layout."""
+#
+#     media_css = (
+#         'css/dash_plugin_bookmark_bootstrap2.css',
+#     )

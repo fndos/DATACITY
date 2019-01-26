@@ -129,7 +129,7 @@ class DashboardWorkspace(models.Model):
     )
     shared_with = models.OneToOneField(AUTH_USER_MODEL,
         related_name=_("clients_workspace"),
-        verbose_name=_("Clients"),
+        verbose_name=_("Clientes"),
         help_text=_("Otros usuarios podran acceder a este producto."))
 
     class Meta(object):

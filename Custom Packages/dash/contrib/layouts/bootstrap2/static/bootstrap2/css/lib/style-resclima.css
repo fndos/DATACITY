@@ -167,10 +167,15 @@ input[type="color"] {
   height: 25px !important;
 }
 
-strong {
+.plugin-content-wrapper > p:nth-child(2) {
+  text-align: justify !important;
+}
+
+p > strong {
   font-family:"Helvetica Neue",Helvetica,Arial,sans-serif !important;
   font-weight: bold !important;
   margin-bottom: 0px !important;
+  font-size: 20px !important;
 }
 
 input[type=date]::-webkit-inner-spin-button {

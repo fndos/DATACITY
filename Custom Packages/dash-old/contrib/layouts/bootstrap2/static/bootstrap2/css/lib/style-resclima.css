@@ -156,6 +156,9 @@ input[type="radio"] {
 
 .controls > ul > li > label {
   width: 100% !important;
+  font-weight: normal !important;
+  font-size: inherit !important;
+  color: #555555 !important;
 }
 
 input[type="color"] {

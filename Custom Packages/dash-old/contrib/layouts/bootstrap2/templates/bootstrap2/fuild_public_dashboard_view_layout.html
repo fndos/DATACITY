@@ -22,24 +22,42 @@
 <div class="container-fluid">
 {% endblock content-before %}
 
-{% block bootstrap2_workspaces %}
-    <li class="nav-header">{% trans "Productos" %}</li>
-    <li class="{% if not current_workspace %} active{% endif %}">
-        <a href="{% url 'dash.public_dashboard' user.username %}" title="{% trans 'Predeterminado' %}">
-            {% trans 'Predeterminado' %}
-        </a>
-    </li>
+{% block bootstrap2_sidebar_wrapper %}
+<div class="span3">
+    <div class="well sidebar-nav">
+        <ul class="nav nav-list">
+            <li class="nav-header">{% trans "Productos" %}</li>
+            <li class="{% if not current_workspace %} active{% endif %}">
+                <a href="{% url 'dash.public_dashboard' user.username %}" title="{% trans 'Predeterminado' %}">
+                    {% trans 'Predeterminado' %}
+                </a>
+            </li>
 
-    {% if workspaces %}
-        {% for ws in workspaces %}
-        <li class="{% if ws == current_workspace %} active{% endif %}">
-            <a href="{% url 'dash.public_dashboard' user.username ws.slug %}" title="{{ ws.name }}">
-                {{ ws.name }}
-            </a>
-        </li>
-        {% endfor %}
-    {% endif %}
-{% endblock bootstrap2_workspaces %}
+            {% if workspaces %}
+                {% for ws in workspaces %}
+                <li class="{% if ws == current_workspace %} active{% endif %}">
+                    <a href="{% url 'dash.public_dashboard' user.username ws.slug %}" title="{{ ws.name }}">
+                        {{ ws.name }}
+                    </a>
+                </li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </div>
+
+    <div class="well sidebar-nav">
+        <ul class="nav nav-list">
+            <li class="nav-header">{% trans "Acerca del Propietario" %}</li>
+            <li>
+                <a href="#" title="{% trans 'Propietario' %}">
+                    {% trans user.first_name %}
+                    {% trans user.last_name %} <br> {% trans user.institution %}
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock bootstrap2_sidebar_wrapper %}
 
 {% block bootstrap2_settings %}
     {% if current_workspace.is_clonable %}

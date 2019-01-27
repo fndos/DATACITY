@@ -15,7 +15,8 @@
 {% block content %}
 <div class="container">
 	<div class="section">
-		<h4 class="header">CAPAS VECTORIALES</h4>
+		<p class="resclima-header">Capas vectoriales</p>
+		<!-- <h4 class="header">Capas vectoriales</h4> -->
 		{% if vectorlayers %}
 			<div id="bordered-table">
 				<div class="row">
@@ -83,9 +84,10 @@
 			</div>
 		{% else %}
 		<div class="wrapper">
+			<p>No hay capas vectoriales para mostrar</p>
 			<div class="container">
-				<p>No hay usuario<button type="button" id="Cancel" onClick='window.location="/vector";' class="btn waves-effect waves-light red accent-2">
-					<i class="material-icons left">cancel</i>Cancelar
+				<!-- <button type="button" id="Cancel" onClick='window.location="/vector";' class="btn waves-effect waves-light red accent-2">
+				<i class="material-icons left">cancel</i>Cancelar -->
 			</div>
 		{% endif %}
 			<div class="card-action">

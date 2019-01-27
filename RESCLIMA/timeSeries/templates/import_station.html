@@ -8,7 +8,8 @@
 	<div class="row">
 		<div class="col s12 m12 l6">
 			<div class="card-panel">
-				<h4>Ingresar Estaci&oacute;n</h4>
+				<p class="resclima-header">Ingresar Estaci&oacute;n</p>
+				<!-- <h4 class="header">Ingresar Estaci&oacute;n</h4> -->
 
 				<div class="row" id="errorMsg">
 					{% if err_msg %}
@@ -71,7 +72,7 @@
 						<div class="row">
 							<div style="height:30px;"></div>
 						</div>
-						
+
 						<!--Botones-->
 						<div class="row">
 							<button type="submit" id="Upload" name="action" class="btn waves-effect waves-light">
@@ -146,7 +147,7 @@
 
 	function init(){
 		var sensorTypes = document.getElementById("id_stationType");
-		
+
 		$('#id_stationType').material_select();
 
 		$('#id_stationType').change(function(){
@@ -171,4 +172,3 @@
 
 </script>
 {% endblock %}
-

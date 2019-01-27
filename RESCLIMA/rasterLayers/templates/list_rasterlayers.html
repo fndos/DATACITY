@@ -41,7 +41,7 @@
 								</td>
 								<td>
 									<a href="/raster/edit/{{ raster.id }}">
-										<i  class="material-icons left">edit</i>  
+										<i  class="material-icons left">edit</i>
 										Editar
 									</a>
 								</td>
@@ -49,7 +49,7 @@
 									<a href="#" onclick="confirmationDelete('/raster/delete/{{ raster.id }}')">
 										<i  class="material-icons left">delete_forever</i>
 										Eliminar
-									</a>	
+									</a>
 								</td>
 							</tr>
 						</tbody>
@@ -83,9 +83,8 @@
 		</div>
 		{% else %}
 		<div class="wrapper">
-			<div class="container">
-				<p>No hay capas para mostrar</p>
-			</div>
+			<p>No hay capas raster para mostrar</p>
+			<div class="container"></div>
 		</div>
 		{% endif %}
 	</div>
@@ -94,7 +93,7 @@
 		<button class="waves-effect waves-light btn gradient-45deg-red-pink" onClick='window.location="/raster/import"'>Importar Raster</button>
 	</div>
     <br>
-    
+
 	<div>
 		<h4 class="header">ESTILOS</h4>
 		{% if styles %}
@@ -122,9 +121,8 @@
 		</div>
 		{% else %}
 		<div class="wrapper">
-			<div class="container">
 			<p>No hay estilos para mostrar</p>
-			</div>
+			<div class="container"></div>
 		</div>
 		{% endif %}
 	</div>

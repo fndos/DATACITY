@@ -37,7 +37,6 @@ PIE_CHART_CHOICES = (
 
 BUBBLE_CHART_CHOICES = (
   (None, 'Selecciona una opción'),
-  ('d3_bubble_chart_SUM_SE', 'Emisiones | S'),
   ('d3_bubble_chart_AVG_WE', 'Emisiones | W'),
   ('d3_bubble_chart_AVG_LE', 'Emisiones | L'),
 )

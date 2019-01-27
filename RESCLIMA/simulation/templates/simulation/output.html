@@ -4,7 +4,7 @@
       <span id="simulation-summary">
         {% for data in simulation_summary %}
           {% for key, value in data.iteritems %}
-          <span style="font-family:monospace; font-weight: bold;">{{ key }}: </span>
+          <span class="resclima-span">{{ key }}: </span>
           <span>{{ value }}</span>
           <br>
           {% endfor %}
@@ -18,7 +18,7 @@
       <span id="simulation-emission">
         {% for data in simulation_emission %}
           {% for key, value in data.iteritems %}
-            <span style="font-family:monospace; font-weight: bold;">{{ key }}: </span>
+            <span class="resclima-span">{{ key }}: </span>
             <span>{{ value }}</span>
             <br>
           {% endfor %}
@@ -32,7 +32,7 @@
       <span id="simulation-trace">
         {% for data in simulation_trace %}
           {% for key, value in data.iteritems %}
-            <span style="font-family:monospace; font-weight: bold;">{{ key }}: </span>
+            <span class="resclima-span">{{ key }}: </span>
             <span>{{ value }}</span>
             <br>
           {% endfor %}

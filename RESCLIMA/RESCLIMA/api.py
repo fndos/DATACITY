@@ -11,7 +11,6 @@ router.register(r'db_resclima_measurements', api_views.MeasurementViewSet)
 
 router.register(r'db_resclima_average_measurement/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.APIAverageMeasurementViewSet, base_name='db_resclima_average_measurement')
 
-router.register(r'd3_bubble_chart_SUM_SE/(?P<sid>[-\w]+)', api_views.SummaryEmissionViewSet, base_name='d3_bubble_chart_SUM_SE')
 router.register(r'd3_bubble_chart_AVG_WE/(?P<sid>[-\w]+)', api_views.AVGWeightEmissionViewSet, base_name='d3_bubble_chart_AVG_WE')
 router.register(r'd3_bubble_chart_AVG_LE/(?P<sid>[-\w]+)', api_views.AVGLightEmissionViewSet, base_name='d3_bubble_chart_AVG_LE')
 

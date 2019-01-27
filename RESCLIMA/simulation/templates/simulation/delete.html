@@ -14,7 +14,8 @@
 						<div class="card-panel">
 							<form method="post">
 								{% csrf_token %}
-								<p style="font-family:monospace; font-weight: bold">¿Quieres eliminar esta simulacion?</p>
+								<p class="resclima-header">¿Quieres eliminar esta simulacion?</p>
+								<!-- <h4 class="header">¿Quieres eliminar esta simulacion?</h4> -->
 								<p>{{ object.name }}</p>
 								<p>Si eliminas este registro, no podrás recuperarlo.</p>
 								<br>

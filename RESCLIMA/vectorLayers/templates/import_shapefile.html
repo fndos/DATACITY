@@ -12,9 +12,10 @@
 
 <div class="section">
 	<div class="row">
-		<div class="col s12 m12 l6">				
+		<div class="col s12 m12 l6">
 				<div class="card-panel">
-					<h4>Importar Shapefile</h4>
+          <p class="resclima-header">Importar Shapefile</p>
+      		<!-- <h4 class="header">Importar Shapefile</h4> -->
 
 					<div class="row">
 						<div id="errorMsg"></div>
@@ -22,7 +23,7 @@
 
 					<div class="row">
 						<form enctype="multipart/form-data" method="post" action="import" id="shapefileForm" class="col s12">
-							<!-- File chooser --> 
+							<!-- File chooser -->
 							<div class="row">
 								<label for="id_import_files">Importar archivos shapefile</label>
 								<div class="file-field input-field">
@@ -35,7 +36,7 @@
 									</div>
 								</div>
 							</div>
-							<!-- Codificacion --> 
+							<!-- Codificacion -->
 							<div class="row">
 								<div class="input-field col s12">
 									<select name="encoding" id="id_encoding" class="initialized">
@@ -46,7 +47,7 @@
 									<label for="id_encoding">Codificaci&oacute;n</label>
 								</div>
 							</div>
-							<!-- Titulo --> 
+							<!-- Titulo -->
 							<div class="row">
 								<div class="input-field col s12">
 									<input type="text" name="title" required="" id="id_title" data-length="50">
@@ -73,7 +74,7 @@
 									<label for="categories">Categorias</label>
 									<div id="categories">
 										{% for category in categories %}
-											<div 
+											<div
 											class="chip z-depth-3"
 											onclick="markCategory(event)">
 												{{category.name}}
@@ -98,7 +99,7 @@
 							</div>
 						</form>
 					</div>
-					
+
 					<div class="row" id="progress-container" style="visibility:hidden;">
 						<div class="progress">
 							<div id="uploadPercent" class="determinate" style="width: 0%"></div>

@@ -127,6 +127,20 @@ input[type="file"] {
 }
 
 /*---------------------------- RESCLIMA Tables -------------------------------*/
+.resclima-header {
+  font-family:monospace !important;
+  font-weight: bold !important;
+  margin-bottom: 23px !important;
+  text-transform: uppercase !important;
+  font-size: 15px !important;
+}
+
+.resclima-span {
+  font-family:monospace !important;
+  font-weight: bold !important;
+  text-transform: uppercase !important;
+}
+
 .td-resclima-user {
   width: 200px;
 }
@@ -141,6 +155,10 @@ input[type="file"] {
 
 .td-resclima-view {
   width: 91px;
+}
+
+.table-btn {
+  margin-top: 23px !important;
 }
 
 /*-------------------------- Sidebar Navigation ------------------------------*/

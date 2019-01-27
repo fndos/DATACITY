@@ -6,7 +6,8 @@
 {% block content %}
 <div class="container">
 	<div class="section">
-		<h4 class="header">Mis Simulaciones</h4>
+		<p class="resclima-header">Mis Simulaciones</p>
+		<!-- <h4 class="header">Mis Simulaciones</h4> -->
 		{% if object_list %}
 		<table class="bordered">
 			<tbody>
@@ -31,7 +32,7 @@
 			</tbody>
 		</table>
 		<div class="card-action">
-				<button style="margin-top: 15px" class="btn waves-effect waves-light green accent-6" type="button" onClick="window.location='/simulation/create';"><i class="material-icons left">add_circle</i>Agregar Simulacion</button>
+				<button class="btn waves-effect waves-light green accent-6 table-btn" type="button" onClick="window.location='/simulation/create';"><i class="material-icons left">add_circle</i>Agregar Simulacion</button>
 		</div>
 		{% else %}
 		<div class="wrapper">

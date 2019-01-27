@@ -39,19 +39,19 @@ def get_average_emission(data):
 	for i in range(len(avg)):
 		avg[i] = avg[i] / len(data)
 	# Creo el diccionario de salida
-	AVG_EMISSION_DICT = [{"noise":avg[0]},
+	AVG_EMISSION_DICT = [{"Ruido":str("{0:.2f}".format(avg[0])) + " dB"},
 			   # {"value":avg[1], "key":"lane"},
-			   {"CO2":avg[2]},
-			   {"CO":avg[3]},
+			   {"CO2":str("{0:.2f}".format(avg[2])) + " ppm"},
+			   {"CO":str("{0:.2f}".format(avg[3])) + " ppm" },
 			   # {"value":avg[4], "key":"angle"},
 			   # {"value":avg[5], "key":"id"},
 			   # {"value":avg[6], "key":"pos"},
-			   {"PMx":avg[7]},
+			   {"PMx":str("{0:.2f}".format(avg[7])) + " ppm"},
 			   # {"value":avg[8], "key":"waiting"},
 			   # {"value":avg[9], "key":"electricity"},
-			   {"NOx":avg[10]},
+			   {"NOx":str("{0:.2f}".format(avg[10])) + " ppm"},
 			   # {"value":avg[11], "key":"route"},
-			   {"HC":avg[12]},
+			   {"HC":str("{0:.2f}".format(avg[12])) + " ppm"},
 			   # {"value":avg[13], "key":"fuel"},
 			   # {"value":avg[14], "key":"x"},
 			   # {"value":avg[15], "key":"y"},
@@ -178,14 +178,14 @@ def get_average_trace(data):
 	# Creo el diccionario de salida
 	AVG_TRACE_DICT = [
 			   # {"value":avg[0], "key":"id"},
-			   {"x":avg[1]},
-			   {"y":avg[2]},
-			   {"angle":avg[3]},
+			   {"x":"{0:.2f}".format(avg[1])},
+			   {"y":"{0:.2f}".format(avg[2])},
+			   {"Angulo":"{0:.2f}".format(avg[3])},
 			   # {"value":avg[4], "key":"type"},
-			   {"speed":avg[5]},
-			   {"pos":avg[6]},
+			   {"Velocidad":"{0:.2f}".format(avg[5])},
+			   {"pos":"{0:.2f}".format(avg[6])},
 			   # {"value":avg[7], "key":"lane"},
-			   {"slope":avg[8]},
+			   {"Peralte":"{0:.2f}".format(avg[8])},
 			  ]
 	return AVG_TRACE_DICT
 
@@ -267,18 +267,18 @@ def get_summary(data):
 		avg[11] = avg[11] + int(v["@duration"])
 	# Creo el diccionario de salida
 	SUMMARY_DICT = [
-			   {"time":avg[0]},
-			   {"loaded":avg[1]},
-			   {"inserted":avg[2]},
-			   {"running":avg[3]},
-			   {"waiting":avg[4]},
-			   {"ended":avg[5]},
-			   {"meanWaitingTime":avg[6]},
-			   {"meanTravelTime":avg[7]},
-			   {"halting":avg[8]},
-			   {"meanSpeed":avg[9]},
-			   {"meanSpeedRelative":avg[10]},
-			   {"duration":avg[11]},
+			   {"tiempo":str(avg[0]) + " segundos"},
+			   {"cargado":str(avg[1]) + " vehiculos"},
+			   {"insertado":str(avg[2]) + " vehiculos"},
+			   {"corriendo":str(avg[3]) + " vehiculos"},
+			   {"esperando":str(avg[4]) + " vehiculos"},
+			   {"terminado":str(avg[5]) + " vehiculos"},
+			   {"tiempo de espera medio":str(avg[6]) + " segundos"},
+			   {"tiempo de viaje medio":str(avg[7]) + " segundos"},
+			   {"interrupcion":avg[8]},
+			   {"velocidad media":str(avg[9]) + " metros por segundo"},
+			   {"velocidad relativa media":str(avg[10])  + " metros por segundo"},
+			   {"duracion":str(avg[11]) + " segundos"},
 			  ]
 	return SUMMARY_DICT
 

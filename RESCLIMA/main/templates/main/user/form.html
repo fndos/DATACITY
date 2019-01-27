@@ -19,10 +19,12 @@
 							<div class="input-field col s12 m12 l12">
 							{% ifequal form.instance.pk None %}
 								<!--Create-->
-								<p style="font-family:monospace; font-weight: bold; margin-bottom: 15px;">NUEVO USUARIO</p>
+								<p class="resclima-header">Nuevo usuario</p>
+								<!-- <h4 class="header">Nuevo usuario</h4> -->
 							{% else %}
 								<!--Update-->
-								<p style="font-family:monospace; font-weight: bold; margin-bottom: 15px;">EDITAR USUARIO</p>
+								<p class="resclima-header">Editar usuario</p>
+								<!-- <h4 class="header">Editar usuario</h4> -->
 							{% endifequal %}
 							</div>
 							<!-- Identity Card -->
@@ -68,7 +70,6 @@
 							<!-- Tipo de Usuario -->
 							<div class="input-field col s12 m6 l6">
 								<label class="lable-file-field" for="{{ form.user_type.id_for_label }}">Tipo de Usuario</label>
-								<!-- FIX SELECT IS NOT DISPLAYING OK -->
 								<div class="div-field">{{ form.user_type }}</div>
 							</div>
 						</div>

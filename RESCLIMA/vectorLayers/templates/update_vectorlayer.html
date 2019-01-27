@@ -1,15 +1,16 @@
 {% extends 'main/base.html' %}
 {% load static %}
 
-{% block title%}RESCLIMA | CAPA VECTORIAL{% endblock %}      
+{% block title%}RESCLIMA | CAPA VECTORIAL{% endblock %}
 
 {% block content %}
 
 <div class="section">
 	<div class="row">
-		<div class="col s12 m12 l6">				
+		<div class="col s12 m12 l6">
 			<div class="card-panel">
-				<h4>Editar capa vectorial</h4>
+				<p class="resclima-header">Editar capa vectorial</p>
+				<!-- <h4 class="header">Editar capa vectorial</h4> -->
 
 				<div class="row">
 					<div id="errorMsg">
@@ -22,7 +23,7 @@
 				<div class="row">
 					<form id="formUpdate" method="post">
 						{% csrf_token %}
-						<!-- Titulo --> 
+						<!-- Titulo -->
 						<div class="row">
 							<div class="input-field col s12">
 								<input type="text" name="title" required="" id="id_title" value="{{vectorlayer.title}}" data-length="50">
@@ -49,7 +50,7 @@
 								<label for="categories">Categorias</label>
 								<div id="categories">
 									{% for category in categories %}
-										<div 
+										<div
 										id="{{category.id}}"
 										class="chip z-depth-3"
 										onclick="markCategory(event)">
@@ -131,7 +132,7 @@
 			if(category["selected"]){
 				for(var i=0; i<nodes.length; i++){
 					var node = nodes[i];
-					var category_name = 
+					var category_name =
 					node.className = "chip z-depth-3 cyan selected";
 				}
 			}
@@ -172,7 +173,7 @@
 			cancelButton.disabled = true;
 
 			var categories_string = getCategoriesString();
-			var hidden_field = '<input type="hidden" name="categories_string" value="' + categories_string + '"/> ' 
+			var hidden_field = '<input type="hidden" name="categories_string" value="' + categories_string + '"/> '
 			$(this).append(hidden_field);
 			return true;
 		});

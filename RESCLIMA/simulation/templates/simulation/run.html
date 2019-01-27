@@ -1,5 +1,8 @@
 {% extends 'simulation/base.html' %}
 {% load static %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'simulation/css/pace.min.css' %}" type="text/css">
+{% endblock %}
 
 {% block title%}RESCLIMA | SIMULACIONES{% endblock %}
 
@@ -9,8 +12,8 @@
 	<div class="row">
 		<!-- Left Side -->
 		<div class="col s12 m12 l6">
-			<!-- <p style="font-family:monospace; font-weight: bold; margin-bottom: 15px;">SIMULACION EN EJECUCION</p> -->
-			<h4 class="header">SIMULACIÓN EN EJECUCIÓN</h4>
+			<p class="resclima-header">Simulacion en ejecucion</p>
+			<!-- <h4 class="header">Simulacion en ejecucion</h4> -->
 			<div class="card-panel">
 				{% if object_list %}
 					{% for simulation in object_list %}
@@ -32,9 +35,8 @@
 		</div>
 		<!-- Right Side -->
 		<div class="col s12 m12 l6">
-			<!-- <p style="font-family:monospace; font-weight: bold; margin-bottom: 15px;">RESULTADOS</p> -->
-			<h4 class="header">RESULTADOS</h4>
-			<!-- Collapsible Element -->
+			<p class="resclima-header">Resultados</p>
+			<!-- <h4 class="header">Resultados</h4> -->
 			<ul id="rewrite" class="collapsible">
 				<li>
 					<div class="collapsible-header"><i class="material-icons">insert_comment</i>Resumen de la Simulación</div>
@@ -60,6 +62,7 @@
 
 {% block scripts_body %}
 <script src="{% static 'celery_progress/celery_progress.js' %}"></script>
+<script src="{% static 'simulation/js/pace.min.js' %}"></script>
 <script type="text/javascript">
   // JQuery
 	var progressUrl = "{% url 'celery_progress:task_status' task_id %}";

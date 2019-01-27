@@ -82,19 +82,6 @@ class APIAverageMeasurementViewSet(viewsets.ViewSet):
 
 		return Response(content)
 
-class SummaryEmissionViewSet(viewsets.ViewSet):
-	renderer_classes = (JSONRenderer, )
-
-	def list(self, request, sid=None):
-		try:
-			output_instance = simulation_models.Output.objects.get(simulation__id=sid)
-			content = {"name":"SUMO","children":[{"name":"Emission","children":[{"name":"Categoria1","children":[{"key":"CO2","value":output_instance.avg_emission[1]['CO2']}]},{"name":"Categoria2","children":[{"key":"CO","value":output_instance.avg_emission[2]['CO']}]},{"name":"Categoria3","children":[{"key":"PMx","value":output_instance.avg_emission[3]['PMx']}]},{"name":"Categoria4","children":[{"key":"NOx","value":output_instance.avg_emission[4]['NOx']}]},{"name":"Categoria5","children":[{"key":"HC","value":output_instance.avg_emission[5]['HC']}]}]}]}
-		except:
-			# Si el Query retorna None
-			context = {}
-
-		return Response(content)
-
 class AVGWeightEmissionViewSet(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 

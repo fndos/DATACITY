@@ -33,3 +33,11 @@ body {
 	padding: 10px;
 	position: relative;
 }
+
+/*--_------------------------ RESCLIMA v2 Tables -----------_-----------------*/
+.resclima-header {
+  font-family:monospace !important;
+  font-weight: bold !important;
+  margin-bottom: 23px !important;
+  text-transform: uppercase !important;
+}

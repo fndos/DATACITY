@@ -46,11 +46,6 @@ TREE_MAP_CHOICES = (
   ('d3_tree_map_sample', 'Tree Map: Censo Mundial'),
 )
 
-SIMULATION_CHOICES = [(None, 'Selecciona una opción')]
-TEMP = [(s.id, s) for s in models.Simulation.objects.all()]
-for i in range(len(TEMP)):
-    SIMULATION_CHOICES.append(TEMP[i])
-
 # Formulario para Bar Chart
 class BarChartForm(forms.Form, DashboardPluginFormBase):
 
@@ -71,10 +66,17 @@ class BarChartForm(forms.Form, DashboardPluginFormBase):
     rangeLabel = forms.CharField(label=_("Etiqueta del eje Y"), required=True)
     start_date = forms.CharField(label=_("Fecha de inicio"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
     end_date = forms.CharField(label=_("Fecha de finalizacion"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
-    simulation = forms.ChoiceField(label=_("Simulacion"), choices=SIMULATION_CHOICES, required=False)
-    source = forms.ChoiceField(label=_("Tabla/API"), choices=KEY_VALUE_CHOICES, required=True)
-    color = forms.CharField(label=_("Color principal"), required=True, widget=forms.TextInput(attrs={'type':'color'}))
-    hover = forms.CharField(label=_("Color secundario"), required=True, widget=forms.TextInput(attrs={'type':'color'}))
+
+    def __init__(self, *args, **kwargs):
+        super(BarChartForm, self).__init__(*args, **kwargs)
+        SIMULATION_CHOICES = [(None, 'Selecciona una opción')]
+        TEMP = [(s.id, s) for s in  models.Simulation.objects.all()]
+        for i in range(len(TEMP)):
+            SIMULATION_CHOICES.append(TEMP[i])
+        self.fields['simulation'] = forms.ChoiceField(label=_("Simulacion [Solo en caso de que quiera utilizar datos de SUMO]"), choices=SIMULATION_CHOICES, required=False)
+        self.fields['source'] = forms.ChoiceField(label=_("Tabla/API"), choices=KEY_VALUE_CHOICES, required=True)
+        self.fields['color'] = forms.CharField(label=_("Color principal"), required=True, widget=forms.TextInput(attrs={'type':'color'}))
+        self.fields['hover'] = forms.CharField(label=_("Color secundario"), required=True, widget=forms.TextInput(attrs={'type':'color'}))
 
 # Formulario para Bubble Chart
 class BubbleChartForm(forms.Form, DashboardPluginFormBase):
@@ -86,8 +88,16 @@ class BubbleChartForm(forms.Form, DashboardPluginFormBase):
     ]
 
     title = forms.CharField(label=_("Titulo"), required=True)
-    simulation = forms.ChoiceField(label=_("Simulacion"), choices=SIMULATION_CHOICES, required=True)
-    source = forms.ChoiceField(label=_("Tabla/API"), choices=BUBBLE_CHART_CHOICES, required=True)
+
+    def __init__(self, *args, **kwargs):
+        super(BubbleChartForm, self).__init__(*args, **kwargs)
+        SIMULATION_CHOICES = [(None, 'Selecciona una opción')]
+        TEMP = [(s.id, s) for s in  models.Simulation.objects.all()]
+        for i in range(len(TEMP)):
+            SIMULATION_CHOICES.append(TEMP[i])
+        self.fields['simulation'] = forms.ChoiceField(label=_("Simulacion [Solo en caso de que quiera utilizar datos de SUMO]"), choices=SIMULATION_CHOICES, required=False)
+        self.fields['source'] = forms.ChoiceField(label=_("Tabla/API"), choices=BUBBLE_CHART_CHOICES, required=True)
+
 
 # Formulario para Tree Map
 class TreeMapForm(forms.Form, DashboardPluginFormBase):
@@ -141,9 +151,16 @@ class LineChartForm(forms.Form, DashboardPluginFormBase):
     rangeLabel = forms.CharField(label=_("Etiqueta del eje Y"), required=True)
     start_date = forms.CharField(label=_("Fecha de inicio"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
     end_date = forms.CharField(label=_("Fecha de finalizacion"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
-    simulation = forms.ChoiceField(label=_("Simulacion [Solo en caso de que quiera utilizar datos de SUMO]"), choices=SIMULATION_CHOICES, required=False)
-    source = forms.ChoiceField(label=_("Tabla/API"), choices=KEY_VALUE_CHOICES, required=True)
-    origin = forms.ChoiceField(label=_("Tabla/API"), choices=KEY_VALUE_CHOICES, required=True)
+
+    def __init__(self, *args, **kwargs):
+        super(LineChartForm, self).__init__(*args, **kwargs)
+        SIMULATION_CHOICES = [(None, 'Selecciona una opción')]
+        TEMP = [(s.id, s) for s in  models.Simulation.objects.all()]
+        for i in range(len(TEMP)):
+            SIMULATION_CHOICES.append(TEMP[i])
+        self.fields['simulation'] = forms.ChoiceField(label=_("Simulacion [Solo en caso de que quiera utilizar datos de SUMO]"), choices=SIMULATION_CHOICES, required=False)
+        self.fields['source'] = forms.ChoiceField(label=_("Tabla/API"), choices=KEY_VALUE_CHOICES, required=True)
+        self.fields['origin'] = forms.ChoiceField(label=_("Tabla/API"), choices=KEY_VALUE_CHOICES, required=True)
 
 # Clase base de la cual heredan todos los charts
 class ChartForm(forms.Form, DashboardPluginFormBase):

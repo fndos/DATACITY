@@ -57,14 +57,14 @@
         {% has_edit_dashboard_permissions as has_edit_dashboard_permissions %}
         {% if has_edit_dashboard_permissions %}
         <li class="menu-item{% if edit_mode %} active{% endif %}">
-            <a href="{% if current_workspace %}{% url 'dash.edit_dashboard' current_workspace.slug %}{% else %}{% url 'dash.edit_dashboard' %}{% endif %}" class="menu-dashboard-edit" title="{% trans 'Edit dashboard' %}">
+            <a href="{% if current_workspace %}{% url 'dash.edit_dashboard' current_workspace.slug %}{% else %}{% url 'dash.edit_dashboard' %}{% endif %}" class="menu-dashboard-edit" title="{% trans 'Editar dashboard' %}">
                 <span class="glyphicon glyphicon-edit"></span>&nbsp
                 <span>{% trans 'Editar Dashboard' %}</span>
             </a>
         </li>
         {% endif %}
         <li class="menu-item{% if not edit_mode %} active{% endif %}">
-            <a href="{% if current_workspace %}{% url 'dash.dashboard' current_workspace.slug %}{% else %}{% url 'dash.dashboard' %}{% endif %}" class="menu-dashboard-home" title="{% trans 'View Dashboard' %}">
+            <a href="{% if current_workspace %}{% url 'dash.dashboard' current_workspace.slug %}{% else %}{% url 'dash.dashboard' %}{% endif %}" class="menu-dashboard-home" title="{% trans 'Ver Dashboard' %}">
                 <span class="glyphicon glyphicon-stats"></span>&nbsp
                 <span>{% trans 'Ver dashboard' %}</span>
             </a>
@@ -152,7 +152,7 @@
             <li class="sub-menu-item">
                 <a href="{% url 'dash.clone_dashboard_workspace' current_workspace.pk %}" class="menu-dashboard-clone-workspace" title="{% trans 'Clonar Producto' %}">
                     <!-- <span class="iconic icon-copy"></span> -->
-                    <span class="glyphicon glyphicon-random"></span> &nbsp
+                    <span class="glyphicon glyphicon-copy"></span> &nbsp
                     <span class="textonic">{% trans "Clonar Producto" %}</span>
                 </a>
             </li>

@@ -112,6 +112,7 @@ function d3PieChartSample(container, source, date, size) {
   	  .enter()
   	  .append('g')
       .attr('class', 'legend')
+      .style("font-size","16px")
       .attr('transform', function(d, i) {
   	    var height = legendRectSize + legendSpacing;
         var offset =  height * color.domain().length / 2;

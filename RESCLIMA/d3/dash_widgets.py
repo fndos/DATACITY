@@ -105,6 +105,8 @@ class BaseLineChartWidget(BaseChartWidget):
 
     media_js = (
         'js/d3.v3.min.js',  # Main D3 script
+        'js/legend.min.js', # D3 Legend
+        'js/d3.queue.min.js', # D3 Queue
         'js/d3_line_chart.js',  # Helper script
     )
 

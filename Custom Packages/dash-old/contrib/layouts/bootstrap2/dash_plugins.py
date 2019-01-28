@@ -13,7 +13,7 @@ from ....contrib.plugins.video.dash_widgets import BaseVideoWidget
 # from ....contrib.plugins.weather.dash_widgets import BaseWeatherWidget
 from ....contrib.plugins.url.dash_plugins import BaseURLPlugin
 from .dash_widgets import (
-    BaseBookmarkBootstrapTwoWidget,
+    # BaseBookmarkBootstrapTwoWidget,
     URLBootstrapTwo1x1Bootstrap2FluidMainWidget,
     URLBootstrapTwo2x2Bootstrap2FluidMainWidget,
 )
@@ -167,15 +167,15 @@ plugin_widget_factory(BaseVideoWidget,
 # **************************************************************************
 
 
-main_sizes = (
-    (1, 1),
-    # (2, 2),
-)
-plugin_widget_factory(BaseBookmarkBootstrapTwoWidget,
-                      'bootstrap_materialize',
-                      'main',
-                      'bookmark',
-                      main_sizes)
+# main_sizes = (
+#     (1, 1),
+#     # (2, 2),
+# )
+# plugin_widget_factory(BaseBookmarkBootstrapTwoWidget,
+#                       'bootstrap_materialize',
+#                       'main',
+#                       'bookmark',
+#                       main_sizes)
 
 # **************************************************************************
 # ******************* Registering widgets for File plugin *****************

@@ -14,9 +14,6 @@
 	display: block;
 	opacity: 0;
 }
-.legend {
-	font-size: 16px !important;
-}
 rect {
 	cursor: pointer;                                              /* NEW */
 	stroke-width: 2;

@@ -10,14 +10,14 @@
 	shape-rendering: crispEdges;
 }
 
-.line2 {
-  stroke: brown;
+.line {
+  stroke: blue;
   stroke-width: 2;
   fill: none;
 }
 
-.line {
-  stroke: steelblue;
-  stroke-width: 2;
-  fill: none;
+.legend rect {
+  fill:white;
+  stroke:white;
+  opacity:0.8;
 }

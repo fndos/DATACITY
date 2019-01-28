@@ -29,7 +29,33 @@ function setOrigin(sid, origin, start_date, end_date) {
 	else { return "http://127.0.0.1:8000/api/" + origin + "/" + sid; }
 }
 
+function isEmpty(str) {
+	if (!str) { return true; }
+	else { return false }
+}
+
+function checkDate(start_date, end_date) {
+   if (!isEmpty(start_date) && !isEmpty(end_date)) { return true; }
+  else { return false; }
+}
+
+function setLegend(str) {
+  if (str.includes("W")) {
+    return "Pesados"
+  } else if (str.includes("L")) {
+    return "Livianos"
+  } else {
+    return "Undefined"
+  }
+}
+
 function d3LineChartSample(container, start_date, end_date, source, origin, domainLabel, rangeLabel, size, sid) {
+  if (!checkDate(start_date, end_date)) {
+    // Una de las fechas ingresadas no es valida
+    start_date = null;
+    end_date = null;
+  }
+
   SOURCE_URL = setSource(sid, source, start_date, end_date);
   ORIGIN_URL = setOrigin(sid, origin, start_date, end_date);
 
@@ -65,48 +91,62 @@ function d3LineChartSample(container, start_date, end_date, source, origin, doma
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  d3.json(SOURCE_URL , function(error, data) {
-    // Scale the range of the data
-  	x.domain(d3.extent(data, function(d) { return d.key; }));
-  	y.domain([0, d3.max(data, function(d) { return d.value; })]);
 
-  	// Add the line path.
-  	svg.append("path")
-  		.attr("class", "line")
-  		.attr("d", line(data));
+  d3.queue()
+    .defer(d3.json, SOURCE_URL)
+    .defer(d3.json, ORIGIN_URL)
+    .await(function(error, data, root) {
+    if (error) {
+        console.error('Algo salió mal: ' + error);
+    }
+    else {
+        // Scale the range of the data
+      	x.domain(d3.extent(data, function(d) { return d.key; }));
+        y.domain([0, d3.max(root, function(d) { return d.value; })]);
 
-  	// Add the X Axis
-  	svg.append("g")
-  		.attr("class", "x axis")
-  		.attr("transform", "translate(0," + height + ")")
-  		.call(xAxis)
-      .append("text").style("font-size", "14px")
-      .attr("x", width / 2 + 13)
-      .attr("y",  36)
-      .attr("dx", ".75em")
-      .style("text-anchor", "end")
-      .text(domainLabel);
+      	// Add the line path.
+      	svg.append("path")
+      		.attr("class", "line")
+      		.attr("d", line(data))
+          .attr("data-legend",function(d) { return setLegend(source) });
 
-  	// Add the Y Axis
-  	svg.append("g")
-  		.attr("class", "y axis")
-  		.call(yAxis)
-      .append("text").style("font-size", "14px")
-      .attr("y", -29)
-      .attr("x", -(height)/ 2 + margin.top + 5)
-      .attr("transform", "rotate(-90)")
-      .style("text-anchor", "end")
-      .text(rangeLabel);
+      	// Add the X Axis
+      	svg.append("g")
+      		.attr("class", "x axis")
+      		.attr("transform", "translate(0," + height + ")")
+      		.call(xAxis)
+          .append("text").style("font-size", "14px")
+          .attr("x", width / 2 + 13)
+          .attr("y",  36)
+          .attr("dx", ".75em")
+          .style("text-anchor", "end")
+          .text(domainLabel);
 
-  });
+      	// Add the Y Axis
+      	svg.append("g")
+      		.attr("class", "y axis")
+      		.call(yAxis)
+          .append("text").style("font-size", "14px")
+          .attr("y", -34)
+          .attr("x", -(height)/ 2 + margin.top + 5)
+          .attr("transform", "rotate(-90)")
+          .style("text-anchor", "end")
+          .text(rangeLabel);
 
-  d3.json(ORIGIN_URL , function(error, data) {
-  	// Add the line path.
-    console.log(data);
-  	svg.append("path")
-  		.attr("class", "line2")
-  		.attr("d", line(data));
+      	// Add the line path.
+      	svg.append("path")
+      		.attr("class", "line")
+          .style("stroke", "red")
+      		.attr("d", line(root))
+          .attr("data-legend",function(d) { return setLegend(origin) });
 
+        legend = svg.append("g")
+          .attr("class","legend")
+          .attr("transform","translate(474,-19)")
+          .style("font-size","12px")
+          .call(d3.legend)
+
+    }
   });
 
 }

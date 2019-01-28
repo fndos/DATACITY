@@ -19,6 +19,7 @@ from main.views import *
 from main.views import manager
 from django.contrib.auth.views import logout
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.contrib.auth.decorators import login_required
 
 from .api import router
 
@@ -36,11 +37,11 @@ urlpatterns = [
     url(r'^profile/$', profile, name='profile'),
     url(r'^products/$', products, name='products'),
     ################################# MANAGER ##################################
-    url(r'^user/create/$', manager.UserCreate.as_view(), name='user_create'),
-    url(r'^user/$', manager.UserList.as_view(), name='user_list'),
-    url(r'^user/update/(?P<pk>\d+)/$', manager.UserUpdate.as_view(), name='user_update'),
-    url(r'^user/delete/(?P<pk>\d+)/$', manager.UserDelete.as_view(), name='user_delete'),
-    url(r'^user/show/(?P<pk>\d+)/$', manager.UserShow.as_view(), name='user_show'),
+    url(r'^user/create/$', login_required(manager.UserCreate.as_view(), login_url='noAccess'), name='user_create'),
+    url(r'^user/$', login_required(manager.UserList.as_view(), login_url='noAccess'), name='user_list'),
+    url(r'^user/update/(?P<pk>\d+)/$', login_required(manager.UserUpdate.as_view(), login_url='noAccess'), name='user_update'),
+    url(r'^user/delete/(?P<pk>\d+)/$', login_required(manager.UserDelete.as_view(), login_url='noAccess'), name='user_delete'),
+    url(r'^user/show/(?P<pk>\d+)/$', login_required(manager.UserShow.as_view(), login_url='noAccess'), name='user_show'),
     ################################# RESCLIMA #################################
 	url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include(router.urls)),
@@ -54,7 +55,7 @@ urlpatterns = [
     url(r'^d3/', include('d3.urls')),
     url(r'^dashboard/', include('dash.urls')),
     url(r'^dashboard/', include('dash.contrib.apps.public_dashboard.urls')),
-    url(r'^celery-progress/', include('celery_progress.urls')), 
+    url(r'^celery-progress/', include('celery_progress.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns() + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

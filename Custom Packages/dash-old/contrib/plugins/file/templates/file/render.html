@@ -1,6 +1,14 @@
             <p>
-                <strong><a href="{{ MEDIA_URL }}{{ plugin.data.file }}" title="Vista Previa" target="_blank">{{ plugin.data.title }}</a></strong>
+                <strong style="cursor: pointer;" onclick="window.open('{{ MEDIA_URL }}{{ plugin.data.file }}')">{{ plugin.data.title }}</strong>
             </p>
             <p>
-                <a href="{{ MEDIA_URL }}{{ plugin.data.file }}" title="Descargar {{ plugin.data.title }}" download>Descargar</a>
+                <button style="text-shadow: none; margin-top: 15px;" class="btn waves-effect waves-light green accent-6" type="button" onClick="downloadFile('{{ MEDIA_URL }}{{ plugin.data.file }}');"><i class="material-icons left">file_download</i>Descargar</button>
             </p>
+            <script type="text/javascript">
+              function downloadFile(filePath){
+                  var link=document.createElement('a');
+                  link.href = filePath;
+                  link.download = filePath.substr(filePath.lastIndexOf('/') + 1);
+                  link.click();
+              }
+            </script>

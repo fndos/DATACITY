@@ -56,7 +56,9 @@ class DashboardSettings(models.Model):
     user = models.OneToOneField(
         AUTH_USER_MODEL,
         verbose_name=_("User"),
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True
     )
     layout_uid = models.CharField(_("Layout"), max_length=25)
     title = models.CharField(_("Titulo"), max_length=255)
@@ -130,7 +132,9 @@ class DashboardWorkspace(models.Model):
     shared_with = models.OneToOneField(AUTH_USER_MODEL,
         related_name=_("clients_workspace"),
         verbose_name=_("Clientes"),
-        help_text=_("Otros usuarios podran acceder a este producto."))
+        help_text=_("Otros usuarios podran acceder a este producto."),
+        blank=True,
+        null=True)
 
     class Meta(object):
         """Meta."""

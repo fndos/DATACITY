@@ -151,3 +151,33 @@ class Output(models.Model):
 	class Meta:
 		verbose_name="Resultado"
 		verbose_name_plural="Resultados"
+
+
+class Data_logistica(models.Model):
+	VEHICLE_TYPE_CHOICES = (
+	  (None, 'Seleccione una opción'),
+	  (1, 'Liviano'),
+	  (0, 'Pesado'),
+	)
+	MOVEMENT_TYPE_CHOICES = (
+	  (None, 'Seleccione una opción'),
+	  (1, 'GD Sentido E-N'),
+	  (2, 'FR Sentido E-O'),
+	  (3, 'GD Sentido N-O'),
+	  (4, 'GI Sentido O-N'),
+	  (5, 'FR Sentido O-E'),
+	  (6, 'GI Sentido N-E'),
+	)
+
+	id_term = models.IntegerField()
+	value = models.IntegerField()
+	vehicle_type = models.PositiveSmallIntegerField(null=True, choices=VEHICLE_TYPE_CHOICES)
+	movement = models.PositiveSmallIntegerField(null=True, choices=MOVEMENT_TYPE_CHOICES)
+	id_aforo = models.IntegerField()
+	class Meta:
+		verbose_name="Dato de Logistica"
+		verbose_name_plural="Datos de Logistica"
+
+# class Resultados_logistica(models.Model):
+# 	id_aforo=models.ForeignKey()
+# 	# campos de resultado por aforo

@@ -1,5 +1,7 @@
 # -*- encoding: utf-8 -*-
-
+def metseg_a_kmhor(metseg):
+	km_hora = round(3.6*float(metseg), 2)
+	return km_hora
 def cutter(path):
 	temp = path
 	cut_position = 0
@@ -266,6 +268,8 @@ def get_summary(data):
 		avg[10] = avg[10] + float(v["@meanSpeedRelative"])
 		avg[11] = avg[11] + int(v["@duration"])
 	# Creo el diccionario de salida
+	avg[9]=round(float(float(avg[9])/float(len(data))),2)
+	avg[10]=round(float(float(avg[10])/float(len(data))),2)
 	SUMMARY_DICT = [
 			   {"tiempo":str(avg[0]) + " segundos"},
 			   {"cargado":str(avg[1]) + " vehiculos"},
@@ -276,8 +280,10 @@ def get_summary(data):
 			   {"tiempo de espera medio":str(avg[6]) + " segundos"},
 			   {"tiempo de viaje medio":str(avg[7]) + " segundos"},
 			   {"interrupcion":avg[8]},
-			   {"velocidad media":str(avg[9]) + " metros por segundo"},
-			   {"velocidad relativa media":str(avg[10])  + " metros por segundo"},
+			   #{"velocidad media":str(avg[9]) + " metros por segundo"},
+			   {"velocidad media":str(metseg_a_kmhor(avg[9])) + " kilometros por hora"},
+			   #{"velocidad relativa media":str(avg[10])  + " metros por segundo"},
+			   {"velocidad relativa media":str(metseg_a_kmhor(avg[10]))  + " kilometros por hora"},
 			   {"duracion":str(avg[11]) + " segundos"},
 			  ]
 	return SUMMARY_DICT

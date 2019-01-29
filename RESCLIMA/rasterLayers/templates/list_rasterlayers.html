@@ -15,7 +15,11 @@
 {% block content %}
 <div class="container">
 	<div class="section">
-		<h4 class="header">CAPAS RASTER</h4>
+		<p class="resclima-header">Capas Raster</p>
+		<!-- <h4 class="header">CAPAS RASTER</h4> -->
+		<div class="card-action">
+			<button class="waves-effect waves-light btn gradient-45deg-red-pink" onClick='window.location="/raster/import"'>Importar Raster</button>
+		</div>
 		{% if rasterlayers %}
 		<div>
 			<div class="row">
@@ -88,14 +92,14 @@
 		</div>
 		{% endif %}
 	</div>
-
-	<div class="card-action">
-		<button class="waves-effect waves-light btn gradient-45deg-red-pink" onClick='window.location="/raster/import"'>Importar Raster</button>
-	</div>
-    <br>
+  <br>
 
 	<div>
-		<h4 class="header">ESTILOS</h4>
+		<p class="resclima-header">Estilos</p>
+		<!-- <h4 class="header">ESTILOS</h4> -->
+		<div class="card-action">
+			<button class="waves-effect waves-light btn gradient-45deg-red-pink" onClick='window.location="/raster/import_style"'>Importar estilo</button>
+		</div>
 		{% if styles %}
 		<div class="row">
 			<div class="col s12">
@@ -126,11 +130,8 @@
 		</div>
 		{% endif %}
 	</div>
-
-	<div class="card-action">
-		<button class="waves-effect waves-light btn gradient-45deg-red-pink" onClick='window.location="/raster/import_style"'>Importar estilo</button>
-	</div>
 	<br>
+
 </div>
 {% endblock content %}
 

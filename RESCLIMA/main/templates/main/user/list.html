@@ -8,6 +8,9 @@
 	<div class="section">
 		<p class="resclima-header">Registro de usuarios</p>
 		<!-- <h4 class="header">Registro de usuarios</h4> -->
+		<div class="card-action">
+			<button class="btn waves-effect waves-light green accent-6" type="button" onClick="window.location='/user/create';"><i class="material-icons left">person_add</i>Agregar Usuario</button>
+		</div>
 		{% if object_list %}
 		<table class="bordered">
 			<tbody>
@@ -37,9 +40,6 @@
 			</div>
 		</div>
 		{% endif %}
-		<div class="card-action">
-			<button class="btn waves-effect waves-light green accent-6 table-btn" type="button" onClick="window.location='/user/create';"><i class="material-icons left">person_add</i>Agregar Usuario</button>
-		</div>
 	</div>
 </div>
 	<div style="height:135px;"></div>

@@ -23,8 +23,31 @@ KEY_VALUE_CHOICES = (
   # Choices solo para SUMO | Emisiones
   ('d3_line_chart_KV_W_CO2', 'SUMO | Emisiones de CO2 | Pesado'),
   ('d3_line_chart_KV_L_CO2', 'SUMO | Emisiones de CO2 | Liviano'),
-  ('d3_line_chart_KV_W_CO', 'SUMO | Emisiones de CO  | Pesado'),
-  ('d3_line_chart_KV_L_CO', 'SUMO | Emisiones de CO  | Liviano'),
+  ('d3_line_chart_KV_W_CO', 'SUMO | Emisiones de CO | Pesado'),
+  ('d3_line_chart_KV_L_CO', 'SUMO | Emisiones de CO | Liviano'),
+)
+
+  # ('d3_bar_chart_L_EN', 'GD Sentido E-N | Liviano'), # noexiste
+  # ('d3_bar_chart_L_EO', 'FR Sentido E-O | Liviano'), # noexiste
+  # ('d3_bar_chart_L_NO', 'GD Sentido N-O | Liviano'), # noexiste
+  # ('d3_bar_chart_L_ON', 'GI Sentido O-N | Liviano'),
+  # ('d3_bar_chart_L_OE', 'GD Sentido O-E | Liviano'),
+  # ('d3_bar_chart_L_NE', 'GD Sentido N-E | Liviano'),
+  # ('d3_bar_chart_W_EN', 'GD Sentido E-N | Pesado'), # noexiste
+  # ('d3_bar_chart_W_EO', 'FR Sentido E-O | Pesado'), # noexiste
+  # ('d3_bar_chart_W_NO', 'GD Sentido N-O | Pesado'), # noexiste
+  # ('d3_bar_chart_W_ON', 'GI Sentido O-N | Pesado'),
+  # ('d3_bar_chart_W_OE', 'GD Sentido O-E | Pesado'),
+  # ('d3_bar_chart_W_NE', 'GD Sentido N-E | Pesado'),
+
+MOVEMENT_TYPE_CHOICES = (
+  (None, 'Seleccione una opción'),
+  (1, 'GD Sentido E-N'),
+  (2, 'FR Sentido E-O'),
+  (3, 'GD Sentido N-O'),
+  (4, 'GI Sentido O-N'),
+  (5, 'FR Sentido O-E'),
+  (6, 'GI Sentido N-E'),
 )
 
 PIE_CHART_CHOICES = (

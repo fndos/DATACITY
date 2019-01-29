@@ -8,6 +8,9 @@
 	<div class="section">
 		<p class="resclima-header">Mis Simulaciones</p>
 		<!-- <h4 class="header">Mis Simulaciones</h4> -->
+		<div class="card-action">
+			<button class="btn waves-effect waves-light green accent-6" type="button" onClick="window.location='/simulation/create';"><i class="material-icons left">add_circle</i>Agregar Simulacion</button>
+		</div>
 		{% if object_list %}
 		<table class="bordered">
 			<tbody>
@@ -38,9 +41,6 @@
 			</div>
 		</div>
 		{% endif %}
-		<div class="card-action">
-			<button class="btn waves-effect waves-light green accent-6 table-btn" type="button" onClick="window.location='/simulation/create';"><i class="material-icons left">add_circle</i>Agregar Simulacion</button>
-		</div>
 	</div>
 </div>
 	<div style="height:100px;"></div>

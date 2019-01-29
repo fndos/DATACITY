@@ -8,18 +8,19 @@
 {% endblock %}
 
 {% block content %}
-	
+
 <div class="section">
 	<div class="row">
-		<div class="col s12 m12 l6">				
+		<div class="col s12 m12 l6">
 				<div class="card-panel">
-					<h4>Importar Raster</h4>
+					<p class="resclima-header">Importar Raster</p>
+					<!-- <h4>Importar Raster</h4> -->
 					<div class="row">
 						<div id="errorMsg"></div>
 					</div>
 					<div class="row">
 						<form enctype="multipart/form-data" method="post" action="import" id="rasterForm">
-							<!-- File chooser --> 
+							<!-- File chooser -->
 							<div class="row">
 								<label for="id_import_file">Importar geoTIFF</label>
 								<div class="file-field input-field">
@@ -60,7 +61,7 @@
 									<label for="categories">Categorias</label>
 									<div id="categories">
 										{% for category in categories %}
-											<div 
+											<div
 											class="chip z-depth-3"
 											onclick="markCategory(event)">
 												{{category.name}}
@@ -99,5 +100,5 @@
 		</div>
 	</div>
 </div>
- 
+
 {% endblock %}

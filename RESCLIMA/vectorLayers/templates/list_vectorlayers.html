@@ -17,6 +17,9 @@
 	<div class="section">
 		<p class="resclima-header">Capas vectoriales</p>
 		<!-- <h4 class="header">Capas vectoriales</h4> -->
+		<div class="card-action">
+				<button class="waves-effect waves-light btn gradient-45deg-red-pink" onClick='window.location="/vector/import"'>Importar Shapefile</button>
+		</div>
 		{% if vectorlayers %}
 			<div id="bordered-table">
 				<div class="row">
@@ -90,9 +93,6 @@
 				<i class="material-icons left">cancel</i>Cancelar -->
 			</div>
 		{% endif %}
-			<div class="card-action">
-					<button class="waves-effect waves-light btn gradient-45deg-red-pink" onClick='window.location="/vector/import"'>Importar Shapefile</button>
-			</div>
 		</div>
 	</div>
 </div>

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from . models import *
-from django.db.models import Q
+from simulation.models import *
 
 ################################# MANAGER ######################################
 

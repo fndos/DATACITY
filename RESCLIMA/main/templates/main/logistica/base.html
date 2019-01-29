@@ -3,7 +3,7 @@
 <html>
 
 <head>
-	<title>{% block title %}RESCLIMA | USUARIOS{% endblock %}</title>
+	<title>{% block title %}RESCLIMA | DATOS{% endblock %}</title>
 	<meta charset="UTF-8">
 	<meta name="description" content="Plataforma para buscar, visualizar y descargar datos geograficos y seies de tiempo">
 	<meta name="keywords" content="Capa, Shapefile, Raster, Serie de tiempo">
@@ -79,14 +79,11 @@
 	      </div>
 				<!-- Start Menu -->
 	      <div class="collapse navbar-collapse" id="myNavbar">
-	        {% if user.user_type == 1 %}
 					<!-- Manager -->
 					<ul class="nav navbar-nav">
-	          <li class="{% if 'user' in request.resolver_match.url_name %}active{% endif %}"><a href="{% url 'user_list' %}"><span class="glyphicon glyphicon-user"></span> &nbsp Usuarios</a></li>
-	          <li><a href="{% url 'admin:index'%}"><span class="glyphicon glyphicon-cog"></span> &nbsp Administrador de Django</a></li>
+	          <li class="{% if 'logistica' in request.resolver_match.url_name %}active{% endif %}"><a href="{% url 'logistica_list' %}"><span class="glyphicon glyphicon-folder-open"></span> &nbsp Mis datos</a></li>
 						<li><a href="/"><span class="glyphicon glyphicon-search"></span> &nbsp Buscar</a></li>
 					</ul>
-          {% endif %}
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="{% url 'profile' %}"><span class="glyphicon glyphicon-user"></span> &nbsp {{ request.user.first_name }} {{ request.user.last_name }}</a></li>
 						<li><a href="{% url 'logout' %}?next=/"><span class="glyphicon glyphicon-log-out"></span> &nbsp Cerrar Sesión</a></li>
@@ -96,7 +93,6 @@
 	    </div>
 	  </nav>
 	</header>
-
 	<!-- Contenido -->
 	<div class="main">
 		{% block content %}

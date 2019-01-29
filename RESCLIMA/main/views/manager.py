@@ -6,10 +6,6 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import *
 
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-
-from .. decorators import *
 from .. forms import *
 from .. models import *
 

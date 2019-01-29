@@ -92,7 +92,7 @@ class Simulation(models.Model):
 	step = models.PositiveIntegerField(verbose_name="Step")
 	# Archivos de configuracion
 	sumo_config = models.FileField(verbose_name="Archivo sumocfg", upload_to=user_directory_path, validators=[validate_file_extension_config])
-	# Clave Foranea
+	# Foreign Key
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	# Campos de auditoria
 	date_updated = models.DateTimeField(auto_now=True) # Fecha de modificación
@@ -152,8 +152,7 @@ class Output(models.Model):
 		verbose_name="Resultado"
 		verbose_name_plural="Resultados"
 
-
-class Data_logistica(models.Model):
+class Logistica(models.Model):
 	VEHICLE_TYPE_CHOICES = (
 	  (None, 'Seleccione una opción'),
 	  (1, 'Liviano'),
@@ -168,16 +167,39 @@ class Data_logistica(models.Model):
 	  (5, 'FR Sentido O-E'),
 	  (6, 'GI Sentido N-E'),
 	)
-
+	# Informacion general
 	id_term = models.IntegerField()
 	value = models.IntegerField()
 	vehicle_type = models.PositiveSmallIntegerField(null=True, choices=VEHICLE_TYPE_CHOICES)
 	movement = models.PositiveSmallIntegerField(null=True, choices=MOVEMENT_TYPE_CHOICES)
-	id_aforo = models.IntegerField()
+	id_gauging = models.IntegerField()
+	# Foreign Key
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+	def get_vehicle_type(self):
+		choices = {
+	        1: "Liviano",
+	        0: "Pesado"
+	    }
+		return choices.get(self.vehicle_type, "¡Choices error!")
+
+	def get_movement(self):
+		choices = {
+	        1: "GD Sentido E-N",
+	        2: "FR Sentido E-O",
+	        3: "GD Sentido N-O",
+	        4: "GI Sentido O-N",
+	        5: "FR Sentido O-E",
+	        6: "GI Sentido N-E"
+	    }
+		return choices.get(self.movement, "¡Choices error!")
+
+
+
 	class Meta:
-		verbose_name="Dato de Logistica"
+		verbose_name="Logistica"
 		verbose_name_plural="Datos de Logistica"
 
 # class Resultados_logistica(models.Model):
-# 	id_aforo=models.ForeignKey()
+# 	id_aforo = models.ForeignKey()
 # 	# campos de resultado por aforo

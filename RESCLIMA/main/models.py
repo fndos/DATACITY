@@ -36,6 +36,14 @@ class User(AbstractUser):
 		elif self.user_type == 3:
 			return "Cliente"
 
+	def get_user_type(self):
+		choices = {
+	        1: "Administrador",
+	        2: "Investigador",
+	        3: "Cliente"
+	    }
+		return choices.get(self.user_type, "¡Choices error!")
+
 	def __unicode__(self):
 		return "%s %s" % (self.first_name, self.last_name)
 

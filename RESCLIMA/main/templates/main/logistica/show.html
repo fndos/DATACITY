@@ -1,0 +1,53 @@
+{% extends 'main/logistica/base.html' %}
+{% load static %}
+
+{% block title%}RESCLIMA | DATOS{% endblock %}
+
+{% block content %}
+<div class="section">
+	<div class="row">
+		<div class="col s12 m12 l6">
+			<div class="card-panel">
+				<div class="row">
+					<!-- User Form -->
+					<div class="row">
+						<!-- HEADER -->
+						<div class="input-field col s12 m12 l12">
+							<p class="resclima-header">Información general</p>
+							<!-- <h4 class="header">Información general</h4> -->
+						</div>
+            <!-- ID Aforo -->
+            <div class="input-field col s12 m6 l6">
+              <label for="{{ form.id_gauging.id_for_label }}">ID Aforo</label>
+              <input type="text" value="{{ object.id_gauging }}" readonly>
+            </div>
+						<!-- Periodo -->
+						<div class="input-field col s12 m6 l6">
+							<label for="{{ form.id_term.id_for_label }}">Periodo</label>
+							<input type="text" value="{{ object.id_term }}" readonly>
+						</div>
+            <!-- Valor -->
+						<div class="input-field col s12 m6 l6">
+							<label for="{{ form.value.id_for_label }}">Valor</label>
+							<input type="text" value="{{ object.value }}" readonly>
+						</div>
+            <!-- Tipo de Movimiento -->
+						<div class="input-field col s12 m6 l6">
+							<label for="{{ form.movement.id_for_label }}">Tipo de movimiento</label>
+							<input type="text" value="{{ object.get_movement }}" readonly>
+						</div>
+            <!-- Tipo de Vehiculo -->
+						<div class="input-field col s12 m6 l6">
+							<label for="{{ form.vehicle_type.id_for_label }}">Tipo de vehículo</label>
+							<input type="text" value="{{ object.get_vehicle_type }}" readonly>
+						</div>
+					</div>
+					<!-- End User Form -->
+					<button class="btn waves-effect waves-light" type="button" onClick="window.history.back();"><i class="material-icons left">keyboard_backspace</i>Atrás</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock content %}

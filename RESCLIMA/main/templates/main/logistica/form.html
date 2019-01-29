@@ -1,0 +1,54 @@
+{% extends 'main/logistica/base.html' %}
+{% load static %}
+
+{% block title%}RESCLIMA | DATOS{% endblock %}
+
+{% block content %}
+
+<div class="section">
+	<div class="row">
+		<div class="col s12 m12 l6">
+			<div class="card-panel">
+
+				<div class="row">
+					<!-- Logistica Form -->
+					<form method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+						<div class="row">
+							<!-- HEADER -->
+							<div class="input-field col s12 m12 l12">
+							{% ifequal form.instance.pk None %}
+								<!--Create-->
+								<p class="resclima-header">Importar datos</p>
+								<!-- <h4 class="header">Importar datos</h4> -->
+							{% else %}
+								<!--Update-->
+								<p class="resclima-header">Importar datos</p>
+								<!-- <h4 class="header">Importar datos</h4> -->
+							{% endifequal %}
+							</div>
+              <!-- Archivo CSV -->
+							<div class="input-field only-file col s12 m12 l12">
+									<label class="lable-file-field" for="id_file">Cargar datos [.csv]</label>
+									<div class="div-field"><input type="file" name="file" required="" id="id_file"></div>
+							</div>
+						</div>
+						{% ifequal form.instance.pk None %}
+							<!--Create-->
+							<button class="btn waves-effect waves-light green accent-6" type="submit" ><i class="material-icons left">cloud_done</i>Guardar y salir</button>
+						{% else %}
+							<!--Update-->
+							<button class="btn waves-effect waves-light" type="submit"><i class="material-icons left">check_circle</i> Guardar cambios y salir</button>
+						{% endifequal %}
+							<button class="btn waves-effect waves-light red accent-2" type="button" onClick="window.history.back();"><i class="material-icons left">cancel</i>Cancelar</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'main/js/materialize.min.js' %}" type= "text/javascript"></script>
+{% endblock %}

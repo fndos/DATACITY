@@ -1,0 +1,46 @@
+{% extends 'main/logistica/base.html' %}
+{% load static %}
+
+{% block title%}RESCLIMA | DATOS{% endblock %}
+
+{% block content %}
+<div class="container">
+	<div class="section">
+		<p class="resclima-header">Importar archivo CSV</p>
+		<!-- <h4 class="header">Importar archivo CSV</h4> -->
+		{% if object_list %}
+		<table class="bordered">
+			<tbody>
+				<tr>
+					{% for data in object_list %}
+						<td class="td-resclima-user" style="font-family:monospace">{{ data.get_vehicle_type }}</td>
+						<td class="td-resclima-user-type" style="font-family:monospace">{{ data.get_movement }}</td>
+						<td class="td-resclima-view" style="font-family:monospace">
+								<a href="{% url 'logistica_show' data.id %}" style="color: #5c5f68;"><i class="material-icons left">visibility</i>Ver</a>
+						</td>
+						<td class="td-resclima-action" style="font-family:monospace">
+								<a href="{% url 'logistica_update' data.id %}"><i class="material-icons left">edit</i>Editar</a>
+						</td>
+						<td class="td-resclima-action" style="font-family:monospace">
+								<a href="{% url 'logistica_delete' data.id %}" style="color: #FF5252;" ><i class="material-icons left">delete_forever</i>Eliminar</a>
+						</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+    {% else %}
+		<div class="wrapper">
+			<div class="container">
+				<p>No hay datos para mostrar</p>
+			</div>
+		</div>
+		{% endif %}
+	</div>
+  <div class="card-action">
+    <button class="btn waves-effect waves-light green accent-6 table-btn" type="button" onClick="window.location='/data/create';"><i class="material-icons left">cloud_upload</i>Importar archivos</button>
+  </div>
+</div>
+	<div style="height:135px;"></div>
+
+
+{% endblock content %}

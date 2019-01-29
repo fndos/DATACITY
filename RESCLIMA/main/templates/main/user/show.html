@@ -60,7 +60,7 @@
 						<div class="input-field col s12 m6 l6">
 							<label for="{{ form.user_type.id_for_label }}">Tipo de Usuario</label>
 							<!-- FIX SELECT IS NOT DISPLAYING OK -->
-							<input type="number" value="{{ object.user_type }}" readonly>
+							<input type="text" value="{{ object.get_user_type }}" readonly>
 						</div>
 					</div>
 					<!-- End User Form -->

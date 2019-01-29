@@ -30,16 +30,16 @@
 				{% endfor %}
 			</tbody>
 		</table>
-		<div class="card-action">
-			<button class="btn waves-effect waves-light green accent-6 table-btn" type="button" onClick="window.location='/user/create';"><i class="material-icons left">person_add</i>Agregar Usuario</button>
 			{% else %}
-		</div>
 		<div class="wrapper">
 			<div class="container">
 				<p>No hay usuarios para mostrar</p>
 			</div>
 		</div>
 		{% endif %}
+		<div class="card-action">
+			<button class="btn waves-effect waves-light green accent-6 table-btn" type="button" onClick="window.location='/user/create';"><i class="material-icons left">person_add</i>Agregar Usuario</button>
+		</div>
 	</div>
 </div>
 	<div style="height:135px;"></div>

@@ -69,6 +69,11 @@ TREE_MAP_CHOICES = (
   ('d3_tree_map_sample', 'Tree Map: Censo Mundial'),
 )
 
+TIME_SERIES_CHOICES = (
+  (None, 'Selecciona una opción'),
+  ('d3_time_series_tmin', 'Temperatura Minima'),
+)
+
 # Formulario para Bar Chart
 class BarChartForm(forms.Form, DashboardPluginFormBase):
 
@@ -138,9 +143,11 @@ class TimeSeriesForm(forms.Form, DashboardPluginFormBase):
 
     plugin_data_fields = [
         ("title", ""),
+        ("source", ""),
     ]
 
     title = forms.CharField(label=_("Titulo"), required=True)
+    source = forms.ChoiceField(label=_("Tabla/API"), choices=TIME_SERIES_CHOICES, required=True)
 
 # Formulario para Pie Chart
 class PieChartForm(forms.Form, DashboardPluginFormBase):

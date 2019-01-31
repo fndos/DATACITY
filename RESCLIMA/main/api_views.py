@@ -3,6 +3,7 @@ from rest_framework import viewsets
 from rest_framework.decorators import detail_route
 from timeSeries import models
 from simulation import models as simulation_models
+from main import models as main_models
 from . import serializers
 
 from rest_framework.renderers import JSONRenderer
@@ -1840,6 +1841,127 @@ class APICompositionViewSet(viewsets.ViewSet):
 			content = [{"data": liviano, "value":sum_liviano, "key":"Livianos"},
 				       {"data": pesado, "value":sum_pesado, "key":"Pesados"}
 					  ]
+		except:
+			# Si el Query retorna None
+			content = {}
+
+		return Response(content)
+
+# Series de tiempo para los investigadores de cambio climatico
+class TminViewSet(viewsets.ViewSet):
+	renderer_classes = (JSONRenderer, )
+
+	def list(self, request, start_date=None, end_date=None):
+		try:
+			# Obtener la informacion de la BD
+			if start_date == "null" or end_date == "null":
+				# qs no debe incluir fechas
+				qs = main_models.Clima.objects.raw('''SELECT * FROM main_clima''')
+			else:
+				qs = main_models.Clima.objects.raw('''SELECT * FROM main_clima WHERE date <= %s AND date >= %s''', [end_date, start_date])
+			data = list(qs)
+			dict = {}
+			for i in range(len(data)):
+				dict[data[i].date] = data[i].tmin
+
+			# Crear JSON dinamico
+			content = [{"count": v, "month": k } for k, v in dict.iteritems()]
+		except:
+			# Si el Query retorna None
+			content = {}
+
+		return Response(content)
+
+class TmaxViewSet(viewsets.ViewSet):
+	renderer_classes = (JSONRenderer, )
+
+	def list(self, request, start_date=None, end_date=None):
+		try:
+			# Obtener la informacion de la BD
+			if start_date == "null" or end_date == "null":
+				# qs no debe incluir fechas
+				qs = main_models.Clima.objects.raw('''SELECT * FROM main_clima''')
+			else:
+				qs = main_models.Clima.objects.raw('''SELECT * FROM main_clima WHERE date <= %s AND date >= %s''', [end_date, start_date])
+			data = list(qs)
+			dict = {}
+			for i in range(len(data)):
+				dict[data[i].date] = data[i].tmax
+
+			# Crear JSON dinamico
+			content = [{"count": v, "date": k } for k, v in dict.iteritems()]
+		except:
+			# Si el Query retorna None
+			content = {}
+
+		return Response(content)
+
+class TmeanViewSet(viewsets.ViewSet):
+	renderer_classes = (JSONRenderer, )
+
+	def list(self, request, start_date=None, end_date=None):
+		try:
+			# Obtener la informacion de la BD
+			if start_date == "null" or end_date == "null":
+				# qs no debe incluir fechas
+				qs = main_models.Clima.objects.raw('''SELECT * FROM main_clima''')
+			else:
+				qs = main_models.Clima.objects.raw('''SELECT * FROM main_clima WHERE date <= %s AND date >= %s''', [end_date, start_date])
+			data = list(qs)
+			dict = {}
+			for i in range(len(data)):
+				dict[data[i].date] = data[i].tmean
+
+			# Crear JSON dinamico
+			content = [{"count": v, "date": k } for k, v in dict.iteritems()]
+		except:
+			# Si el Query retorna None
+			content = {}
+
+		return Response(content)
+
+class RRViewSet(viewsets.ViewSet):
+	renderer_classes = (JSONRenderer, )
+
+	def list(self, request, start_date=None, end_date=None):
+		try:
+			# Obtener la informacion de la BD
+			if start_date == "null" or end_date == "null":
+				# qs no debe incluir fechas
+				qs = main_models.Clima.objects.raw('''SELECT * FROM main_clima''')
+			else:
+				qs = main_models.Clima.objects.raw('''SELECT * FROM main_clima WHERE date <= %s AND date >= %s''', [end_date, start_date])
+			data = list(qs)
+			dict = {}
+			for i in range(len(data)):
+				dict[data[i].date] = data[i].rr
+
+			# Crear JSON dinamico
+			content = [{"count": v, "date": k } for k, v in dict.iteritems()]
+		except:
+			# Si el Query retorna None
+			content = {}
+
+		return Response(content)
+
+class ONIViewSet(viewsets.ViewSet):
+	renderer_classes = (JSONRenderer, )
+
+	def list(self, request, start_date=None, end_date=None):
+		try:
+			# Obtener la informacion de la BD
+			if start_date == "null" or end_date == "null":
+				# qs no debe incluir fechas
+				qs = main_models.Clima.objects.raw('''SELECT * FROM main_clima''')
+			else:
+				qs = main_models.Clima.objects.raw('''SELECT * FROM main_clima WHERE date <= %s AND date >= %s''', [end_date, start_date])
+			data = list(qs)
+			dict = {}
+			for i in range(len(data)):
+				dict[data[i].date] = data[i].oni
+
+			# Crear JSON dinamico
+			content = [{"count": v, "date": k } for k, v in dict.iteritems()]
 		except:
 			# Si el Query retorna None
 			content = {}

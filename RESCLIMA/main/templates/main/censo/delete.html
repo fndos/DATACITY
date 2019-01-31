@@ -1,4 +1,4 @@
-{% extends 'main/logistica/base.html' %}
+{% extends 'main/censo/base.html' %}
 {% load static %}
 
 {% block title%}RESCLIMA | DATOS{% endblock %}
@@ -16,7 +16,7 @@
 								{% csrf_token %}
 								<p class="resclima-header">¿Quieres eliminar este registro?</p>
 								<!-- <h4 class="header">¿Quieres eliminar este registro?</h4> -->
-								<p>{{ object.id }} {{ object.get_movement }} {{ object.get_vehicle_type }} del {{ object.date }}</p>
+								<p>Censo: {{ object.id }} con {{ object.total_pob }} habitantes del año {{ object.year }} </p>
 								<p>Si eliminas este registro, no podrás recuperarlo.</p>
 								<br>
 								<button class="btn waves-effect waves-light red accent-2" type="submit" ><i class="material-icons left">delete</i>Eliminar</button>

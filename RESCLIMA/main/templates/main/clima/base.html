@@ -75,13 +75,13 @@
 	          <span class="icon-bar"></span>
 	          <span class="icon-bar"></span>
 	        </button>
-	        <a class="navbar-brand" href="{% url 'logistica_list' %}">RESCLIMA</a>
+	        <a class="navbar-brand" href="{% url 'clima_list' %}">RESCLIMA</a>
 	      </div>
 				<!-- Start Menu -->
 	      <div class="collapse navbar-collapse" id="myNavbar">
 					<!-- Manager -->
 					<ul class="nav navbar-nav">
-	          <li class="{% if 'logistica' in request.resolver_match.url_name %}active{% endif %}"><a href="{% url 'logistica_list' %}"><span class="glyphicon glyphicon-folder-open"></span> &nbsp Mis datos</a></li>
+	          <li class="{% if 'clima' in request.resolver_match.url_name %}active{% endif %}"><a href="{% url 'clima_list' %}"><span class="glyphicon glyphicon-folder-open"></span> &nbsp Mis datos</a></li>
 						<li><a href="/"><span class="glyphicon glyphicon-search"></span> &nbsp Buscar</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">

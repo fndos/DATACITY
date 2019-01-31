@@ -1,4 +1,4 @@
-{% extends 'main/logistica/base.html' %}
+{% extends 'main/clima/base.html' %}
 {% load static %}
 
 {% block title%}RESCLIMA | DATOS{% endblock %}
@@ -16,30 +16,25 @@
 							<p class="resclima-header">Información general</p>
 							<!-- <h4 class="header">Información general</h4> -->
 						</div>
-            <!-- ID Aforo -->
+            <!-- TMIN -->
             <div class="input-field col s12 m6 l6">
-              <label for="{{ form.id_gauging.id_for_label }}">ID Aforo</label>
-              <input type="text" value="{{ object.id_gauging }}" readonly>
+              <label for="{{ form.tmin.id_for_label }}">TMIN</label>
+              <input type="text" value="{{ object.tmin }}" readonly>
             </div>
-						<!-- Periodo -->
+						<!-- TMAX -->
 						<div class="input-field col s12 m6 l6">
-							<label for="{{ form.id_term.id_for_label }}">Periodo</label>
-							<input type="text" value="{{ object.id_term }}" readonly>
+							<label for="{{ form.tmax.id_for_label }}">TMAX</label>
+							<input type="text" value="{{ object.tmax }}" readonly>
 						</div>
-            <!-- Valor -->
+            <!-- RR -->
 						<div class="input-field col s12 m6 l6">
-							<label for="{{ form.value.id_for_label }}">Valor</label>
-							<input type="text" value="{{ object.value }}" readonly>
+							<label for="{{ form.rr.id_for_label }}">RR</label>
+							<input type="text" value="{{ object.rr }}" readonly>
 						</div>
             <!-- Tipo de Movimiento -->
 						<div class="input-field col s12 m6 l6">
-							<label for="{{ form.movement.id_for_label }}">Tipo de movimiento</label>
-							<input type="text" value="{{ object.get_movement }}" readonly>
-						</div>
-            <!-- Tipo de Vehiculo -->
-						<div class="input-field col s12 m6 l6">
-							<label for="{{ form.vehicle_type.id_for_label }}">Tipo de vehículo</label>
-							<input type="text" value="{{ object.get_vehicle_type }}" readonly>
+							<label for="{{ form.oni.id_for_label }}">ONI</label>
+							<input type="text" value="{{ object.oni }}" readonly>
 						</div>
 						<!-- Fecha -->
 						<div class="input-field col s12 m6 l6">

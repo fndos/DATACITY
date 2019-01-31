@@ -1,8 +1,8 @@
 /* Usuario */
 INSERT INTO main_user (id, password, is_superuser, username, first_name, last_name, email, is_staff, is_active, identity_card, phone_number, user_type, institution, created_by, updated_by, date_joined, date_updated) VALUES
-(1, 'pbkdf2_sha256$36000$dhqxoejz7cPU$y2UArD3//0+1ltQlMfeUM7NTK5oY/76FHD4YxquLg7o=', true, 'admin', 'Oswaldo', 'Bayona', 'admin@example.com', true, true, '0923333736', '0969455119', 1, 'ESPOL', 'Fernando Sánchez', 'Fernando Sánchez', current_timestamp, current_timestamp)
-(2, 'pbkdf2_sha256$36000$dhqxoejz7cPU$y2UArD3//0+1ltQlMfeUM7NTK5oY/76FHD4YxquLg7o=', false, 'investigador', 'Carlos', 'Manosalvas', 'researcher@example.com', false, true, '0920335567', '0984487328', 2, 'ESPOL', 'Fernando Sánchez', 'Fernando Sánchez', current_timestamp, current_timestamp);
-(3, 'pbkdf2_sha256$36000$dhqxoejz7cPU$y2UArD3//0+1ltQlMfeUM7NTK5oY/76FHD4YxquLg7o=', false, 'cliente', 'Fernando', 'Sanchez', 'customer@example.com', false, true, '0929858736', '0969488119', 3, 'UEES', 'Fernando Sánchez', 'Fernando Sánchez', current_timestamp, current_timestamp)
+(1, 'pbkdf2_sha256$36000$dhqxoejz7cPU$y2UArD3//0+1ltQlMfeUM7NTK5oY/76FHD4YxquLg7o=', true, 'admin', 'Oswaldo', 'Bayona', 'admin@example.com', true, true, '0923333736', '0969455119', 1, 'ESPOL', 'Fernando Sánchez', 'Fernando Sánchez', current_timestamp, current_timestamp),
+(2, 'pbkdf2_sha256$36000$dhqxoejz7cPU$y2UArD3//0+1ltQlMfeUM7NTK5oY/76FHD4YxquLg7o=', false, 'investigador', 'Carlos', 'Manosalvas', 'researcher@example.com', false, true, '0920335567', '0984487328', 2, 'ESPOL', 'Fernando Sánchez', 'Fernando Sánchez', current_timestamp, current_timestamp),
+(3, 'pbkdf2_sha256$36000$dhqxoejz7cPU$y2UArD3//0+1ltQlMfeUM7NTK5oY/76FHD4YxquLg7o=', false, 'cliente', 'Fernando', 'Sanchez', 'customer@example.com', false, true, '0929858736', '0969488119', 3, 'UEES', 'Fernando Sánchez', 'Fernando Sánchez', current_timestamp, current_timestamp);
 
 /* Gauging */
 INSERT INTO simulation_gauging (id, date, weather, station, ts, te) VALUES (1, '2018-11-14', 'Normal', 'Semaforo del Km. 1.5 Av. Nicolas Lapenti y Av. Jaime Nebot, Duran', '07:00:00', '08:00:00')

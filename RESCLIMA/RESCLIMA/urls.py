@@ -16,8 +16,6 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from main.views import *
-from main.views import manager
-from main.views import logistica
 from django.contrib.auth.views import logout
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib.auth.decorators import login_required
@@ -43,12 +41,24 @@ urlpatterns = [
     url(r'^user/update/(?P<pk>\d+)/$', login_required(manager.UserUpdate.as_view(), login_url='noAccess'), name='user_update'),
     url(r'^user/delete/(?P<pk>\d+)/$', login_required(manager.UserDelete.as_view(), login_url='noAccess'), name='user_delete'),
     url(r'^user/show/(?P<pk>\d+)/$', login_required(manager.UserShow.as_view(), login_url='noAccess'), name='user_show'),
-    ################################# RESCLIMA #################################
+    ################################ LOGISTICA #################################
     url(r'^data/create/$', logistica.LogisticaCreate, name='logistica_create'),
     url(r'^data/$', login_required(logistica.LogisticaList.as_view(), login_url='noAccess'), name='logistica_list'),
     url(r'^data/update/(?P<pk>\d+)/$', login_required(logistica.LogisticaUpdate.as_view(), login_url='noAccess'), name='logistica_update'),
     url(r'^data/delete/(?P<pk>\d+)/$', login_required(logistica.LogisticaDelete.as_view(), login_url='noAccess'), name='logistica_delete'),
     url(r'^data/show/(?P<pk>\d+)/$', login_required(logistica.LogisticaShow.as_view(), login_url='noAccess'), name='logistica_show'),
+    ################################ CLIMA #################################
+    url(r'^clima/create/$', clima.ClimaCreate, name='clima_create'),
+    url(r'^clima/$', login_required(clima.ClimaList.as_view(), login_url='noAccess'), name='clima_list'),
+    url(r'^clima/update/(?P<pk>\d+)/$', login_required(clima.ClimaUpdate.as_view(), login_url='noAccess'), name='clima_update'),
+    url(r'^clima/delete/(?P<pk>\d+)/$', login_required(clima.ClimaDelete.as_view(), login_url='noAccess'), name='clima_delete'),
+    url(r'^clima/show/(?P<pk>\d+)/$', login_required(clima.ClimaShow.as_view(), login_url='noAccess'), name='clima_show'),
+    ################################ CENSO #################################
+    url(r'^censo/create/$', censo.CensoCreate, name='censo_create'),
+    url(r'^censo/$', login_required(censo.CensoList.as_view(), login_url='noAccess'), name='censo_list'),
+    url(r'^censo/update/(?P<pk>\d+)/$', login_required(censo.CensoUpdate.as_view(), login_url='noAccess'), name='censo_update'),
+    url(r'^censo/delete/(?P<pk>\d+)/$', login_required(censo.CensoDelete.as_view(), login_url='noAccess'), name='censo_delete'),
+    url(r'^censo/show/(?P<pk>\d+)/$', login_required(censo.CensoShow.as_view(), login_url='noAccess'), name='censo_show'),
     ################################# RESCLIMA #################################
 	url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include(router.urls)),

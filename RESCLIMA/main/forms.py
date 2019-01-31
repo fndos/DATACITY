@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from . models import *
-from simulation.models import *
-
-################################# MANAGER ######################################
 
 class UserForm(forms.ModelForm):
 	class Meta:
@@ -44,3 +41,21 @@ class UserForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(UserForm, self).__init__(*args, **kwargs)
 		self.fields['username'].help_text = None
+
+class LogisticaForm(forms.ModelForm):
+	class Meta:
+		model = Logistica
+		fields = ('__all__')
+	file = forms.FileField(required=True)
+
+class ClimaForm(forms.ModelForm):
+	class Meta:
+		model = Clima
+		fields = ('__all__')
+	file = forms.FileField(required=True)
+
+class CensoForm(forms.ModelForm):
+	class Meta:
+		model = Censo
+		fields = ('__all__')
+	file = forms.FileField(required=True)

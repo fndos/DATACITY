@@ -1,0 +1,63 @@
+{% extends 'main/censo/base.html' %}
+{% load static %}
+
+{% block title%}RESCLIMA | DATOS{% endblock %}
+
+{% block content %}
+<div class="section">
+	<div class="row">
+		<div class="col s12 m12 l6">
+			<div class="card-panel">
+				<div class="row">
+					<!-- User Form -->
+					<div class="row">
+						<!-- HEADER -->
+						<div class="input-field col s12 m12 l12">
+							<p class="resclima-header">Información general</p>
+							<!-- <h4 class="header">Información general</h4> -->
+						</div>
+            <!-- Año del censo -->
+            <div class="input-field col s12 m6 l6">
+              <label for="{{ form.year.id_for_label }}">Año del censo</label>
+              <input type="text" value="{{ object.year }}" readonly>
+            </div>
+						<!-- Hombres -->
+						<div class="input-field col s12 m6 l6">
+							<label for="{{ form.man.id_for_label }}">Hombres</label>
+							<input type="text" value="{{ object.man }}" readonly>
+						</div>
+            <!-- Mujeres -->
+						<div class="input-field col s12 m6 l6">
+							<label for="{{ form.woman.id_for_label }}">Mujeres</label>
+							<input type="text" value="{{ object.woman }}" readonly>
+						</div>
+            <!-- Población total -->
+						<div class="input-field col s12 m6 l6">
+							<label for="{{ form.total_pob.id_for_label }}">Población total</label>
+							<input type="text" value="{{ object.total_pob }}" readonly>
+						</div>
+						<!-- Saben leer y escribir -->
+						<div class="input-field col s12 m6 l6">
+							<label for="{{ form.lettered.id_for_label }}">Saben leer y escribir</label>
+							<input type="text" value="{{ object.lettered }}" readonly>
+						</div>
+            <!-- Analfabetos -->
+						<div class="input-field col s12 m6 l6">
+							<label for="{{ form.unlettered.id_for_label }}">Analfabetos</label>
+							<input type="text" value="{{ object.unlettered }}" readonly>
+						</div>
+            <!-- Viviendas -->
+						<div class="input-field col s12 m6 l6">
+							<label for="{{ form.housing.id_for_label }}">Viviendas</label>
+							<input type="text" value="{{ object.housing }}" readonly>
+						</div>
+					</div>
+					<!-- End User Form -->
+					<button class="btn waves-effect waves-light" type="button" onClick="window.history.back();"><i class="material-icons left">keyboard_backspace</i>Atrás</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock content %}

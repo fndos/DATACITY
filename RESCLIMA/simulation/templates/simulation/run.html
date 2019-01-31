@@ -66,14 +66,7 @@
 <script type="text/javascript">
   // JQuery
 	var progressUrl = "{% url 'celery_progress:task_status' task_id %}";
-<<<<<<< HEAD
-
-=======
->>>>>>> f80ff485c9f6a6614e97e6fcafa07b460ffdea08
 	$(function () {
-
-
-
 	  CeleryProgressBar.initProgressBar(progressUrl, {
 			onSuccess: function () {
 				$('#progress-bar').css('background-color', '#76ce60');

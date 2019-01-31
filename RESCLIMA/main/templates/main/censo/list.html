@@ -1,4 +1,4 @@
-{% extends 'main/logistica/base.html' %}
+{% extends 'main/censo/base.html' %}
 {% load static %}
 
 {% block title%}RESCLIMA | DATOS{% endblock %}
@@ -9,7 +9,7 @@
 		<p class="resclima-header">Importar archivo CSV</p>
 		<!-- <h4 class="header">Importar archivo CSV</h4> -->
 		<div class="card-action">
-	    <button class="btn waves-effect waves-light green accent-6" type="button" onClick="window.location='/data/create';"><i class="material-icons left">cloud_upload</i>Importar archivos</button>
+	    <button class="btn waves-effect waves-light green accent-6" type="button" onClick="window.location='/censo/create';"><i class="material-icons left">cloud_upload</i>Importar archivos</button>
 	  </div>
 		{% if object_list %}
 		<table class="bordered">

@@ -11,14 +11,17 @@ from rest_framework.response import Response
 
 import json
 
+# No se está graficando nada con esto pero son conexiones importantes
 class VariableViewset(viewsets.ModelViewSet):
 	queryset = models.Variable.objects.all()
 	serializer_class = serializers.VariableSerializer
 
+# No se está graficando nada con esto pero son conexiones importantes
 class StationTypeViewset(viewsets.ModelViewSet):
 	queryset = models.StationType.objects.all()
 	serializer_class = serializers.StationTypeSerializer
 
+# No se está graficando nada con esto pero son conexiones importantes
 class StationViewset(viewsets.ModelViewSet):
 	queryset = models.Station.objects.all()
 	serializer_class = serializers.StationSerializer
@@ -28,10 +31,12 @@ class ProviderViewSet(viewsets.ModelViewSet):
 	queryset = models.Provider.objects.all()
 	serializer_class = serializers.ProviderSerializer
 
+# No se está graficando nada con esto pero son conexiones importantes
 class MeasurementViewSet(viewsets.ModelViewSet):
 	queryset = models.Measurement.objects.all()
 	serializer_class = serializers.MeasurementSerializer
 
+# Rename
 class APIAverageMeasurementViewSet(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
@@ -83,6 +88,7 @@ class APIAverageMeasurementViewSet(viewsets.ViewSet):
 
 		return Response(content)
 
+# Rename, depurar codigo
 class AVGWeightEmissionViewSet(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
@@ -96,6 +102,7 @@ class AVGWeightEmissionViewSet(viewsets.ViewSet):
 
 		return Response(content)
 
+# Rename
 class AVGLightEmissionViewSet(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
@@ -109,6 +116,7 @@ class AVGLightEmissionViewSet(viewsets.ViewSet):
 
 		return Response(content)
 
+# Rename
 class KVEmissionWeightCO2ViewSet(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
@@ -122,6 +130,7 @@ class KVEmissionWeightCO2ViewSet(viewsets.ViewSet):
 
 		return Response(content)
 
+# Rename
 class KVEmissionLightCO2ViewSet(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
@@ -135,6 +144,7 @@ class KVEmissionLightCO2ViewSet(viewsets.ViewSet):
 
 		return Response(content)
 
+# Rename
 class KVEmissionWeightCOViewSet(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
@@ -148,6 +158,7 @@ class KVEmissionWeightCOViewSet(viewsets.ViewSet):
 
 		return Response(content)
 
+# Rename
 class KVEmissionLightCOViewSet(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
@@ -161,6 +172,7 @@ class KVEmissionLightCOViewSet(viewsets.ViewSet):
 
 		return Response(content)
 
+# Eliminar esto es data quemada
 class TreeMapViewSet(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
@@ -1508,6 +1520,7 @@ class TreeMapViewSet(viewsets.ViewSet):
 
 		return Response(content)
 
+# Eliminar y reemplazar por CSV
 class APILightONViewSet(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
@@ -1535,6 +1548,7 @@ class APILightONViewSet(viewsets.ViewSet):
 
 		return Response(content)
 
+# Eliminar y reemplazar por CSV
 class APILightOEViewSet(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
@@ -1562,6 +1576,7 @@ class APILightOEViewSet(viewsets.ViewSet):
 
 		return Response(content)
 
+# Eliminar y reemplazar por CSV
 class APILightNEViewSet(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
@@ -1589,6 +1604,7 @@ class APILightNEViewSet(viewsets.ViewSet):
 
 		return Response(content)
 
+# Eliminar y reemplazar por CSV
 class APIWeightONViewSet(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
@@ -1616,6 +1632,7 @@ class APIWeightONViewSet(viewsets.ViewSet):
 
 		return Response(content)
 
+# Eliminar y reemplazar por CSV
 class APIWeightOEViewSet(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
@@ -1643,6 +1660,7 @@ class APIWeightOEViewSet(viewsets.ViewSet):
 
 		return Response(content)
 
+# Eliminar y reemplazar por CSV
 class APIWeightNEViewSet(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
@@ -1670,6 +1688,7 @@ class APIWeightNEViewSet(viewsets.ViewSet):
 
 		return Response(content)
 
+# Eliminar y reemplazar por CSV
 class APICompositionONViewSet(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
@@ -1714,6 +1733,7 @@ class APICompositionONViewSet(viewsets.ViewSet):
 
 		return Response(content)
 
+# Eliminar y reemplazar por CSV
 class APICompositionOEViewSet(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
@@ -1758,6 +1778,7 @@ class APICompositionOEViewSet(viewsets.ViewSet):
 
 		return Response(content)
 
+# Eliminar y reemplazar por CSV
 class APICompositionNEViewSet(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
@@ -1802,6 +1823,7 @@ class APICompositionNEViewSet(viewsets.ViewSet):
 
 		return Response(content)
 
+# Eliminar y reemplazar por CSV
 class APICompositionViewSet(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
@@ -1889,13 +1911,14 @@ class TmaxViewSet(viewsets.ViewSet):
 				dict[data[i].date] = data[i].tmax
 
 			# Crear JSON dinamico
-			content = [{"count": v, "date": k } for k, v in dict.iteritems()]
+			content = [{"count": v, "month": k } for k, v in dict.iteritems()]
 		except:
 			# Si el Query retorna None
 			content = {}
 
 		return Response(content)
 
+# Pendiente por actualizar en la BD
 class TmeanViewSet(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
@@ -1913,7 +1936,7 @@ class TmeanViewSet(viewsets.ViewSet):
 				dict[data[i].date] = data[i].tmean
 
 			# Crear JSON dinamico
-			content = [{"count": v, "date": k } for k, v in dict.iteritems()]
+			content = [{"count": v, "month": k } for k, v in dict.iteritems()]
 		except:
 			# Si el Query retorna None
 			content = {}
@@ -1937,7 +1960,7 @@ class RRViewSet(viewsets.ViewSet):
 				dict[data[i].date] = data[i].rr
 
 			# Crear JSON dinamico
-			content = [{"count": v, "date": k } for k, v in dict.iteritems()]
+			content = [{"count": v, "month": k } for k, v in dict.iteritems()]
 		except:
 			# Si el Query retorna None
 			content = {}
@@ -1961,7 +1984,7 @@ class ONIViewSet(viewsets.ViewSet):
 				dict[data[i].date] = data[i].oni
 
 			# Crear JSON dinamico
-			content = [{"count": v, "date": k } for k, v in dict.iteritems()]
+			content = [{"count": v, "month": k } for k, v in dict.iteritems()]
 		except:
 			# Si el Query retorna None
 			content = {}

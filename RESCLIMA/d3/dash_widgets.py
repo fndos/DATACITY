@@ -76,6 +76,8 @@ class BaseTimeSeriesWidget(BaseChartWidget):
     media_js = (
         'js/d3.v3.min.js',  # Main D3 script
         'js/underscore.min.js', # Underscore Script
+        'js/legend.min.js', # D3 Legend
+        'js/d3.queue.min.js', # D3 Queue
         'js/d3_time_series.js',  # Helper script
     )
 
@@ -84,6 +86,23 @@ class BaseTimeSeriesWidget(BaseChartWidget):
     )
 
     _template = 'd3_samples/plugins/render_d3_time_series.html'
+
+class BaseMultiTimeSeriesWidget(BaseChartWidget):
+    """Bar partition chart widget."""
+
+    media_js = (
+        'js/d3.v3.min.js',  # Main D3 script
+        'js/underscore.min.js', # Underscore Script
+        'js/legend.min.js', # D3 Legend
+        'js/d3.queue.min.js', # D3 Queue
+        'js/d3_multi_time_series.js',  # Helper script
+    )
+
+    media_css = (
+        'css/d3_multi_time_series.css',  # Specific styles
+    )
+
+    _template = 'd3_samples/plugins/render_d3_multi_time_series.html'
 
 class BasePieChartWidget(BaseChartWidget):
     """Pie chart widget."""

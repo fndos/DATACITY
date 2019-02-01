@@ -108,6 +108,7 @@ class Clima(models.Model):
 	date = models.DateField()
 	tmin = models.DecimalField(decimal_places=2, max_digits=10)
 	tmax = models.DecimalField(decimal_places=2, max_digits=10)
+	tmean = models.DecimalField(decimal_places=2, max_digits=10)
 	rr = models.DecimalField(decimal_places=2, max_digits=10)
 	oni = models.DecimalField(decimal_places=2, max_digits=10)
 	# Foreign Key

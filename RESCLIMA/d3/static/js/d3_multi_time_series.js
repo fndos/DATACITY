@@ -2,11 +2,11 @@
 // ************************* Simple function ************************
 // ******************************************************************
 
-function getTimeSeriesPluginSize(str) {
+function getMultiTimeSeriesPluginSize(str) {
   return parseInt(str[str.length-1]);
 }
 
-function getTimeSeriesViewBox(size) {
+function getMultiTimeSeriesViewBox(size) {
 	if (size == 4) { return "-32 0 665 665" }
 	else if (size == 5) { return "-22 0 640 640" }
 	else if (size == 6) { return "-18 0 625 625" }
@@ -23,8 +23,17 @@ function checkDate(start_date, end_date) {
   else { return false; }
 }
 
+function setMTSLegend(str) {
+  if (str.includes("min")) {
+    return "Minima"
+  } else if (str.includes("max")) {
+    return "Maxima"
+  } else {
+    return "Media"
+  }
+}
 
-function d3TimeSeriesSample(container, staticURL, size, source, rangeLabel, start_date, end_date) {
+function d3MultiTimeSeriesSample(container, staticURL, size, source, origin, outset, rangeLabel, start_date, end_date) {
   if (!checkDate(start_date, end_date)) {
     // Una de las fechas ingresadas no es valida
     start_date = null;
@@ -38,10 +47,14 @@ function d3TimeSeriesSample(container, staticURL, size, source, rangeLabel, star
 
   // Define URL for JSON
   SOURCE_URL = "http://127.0.0.1:8000/api/" + source + "/" + start_date + "/" + end_date + "/";
+  ORIGIN_URL = "http://127.0.0.1:8000/api/" + origin + "/" + start_date + "/" + end_date + "/";
+  OUTSET_URL = "http://127.0.0.1:8000/api/" + outset + "/" + start_date + "/" + end_date + "/";
 
   d3.queue()
     .defer(d3.json, SOURCE_URL)
-    .await(function(error, dataset) {
+    .defer(d3.json, ORIGIN_URL)
+    .defer(d3.json, OUTSET_URL)
+    .await(function(error, dataset, dataset2, dataset3) {
     if (error) {
         console.error('Algo salió mal: ' + error);
     }
@@ -58,6 +71,22 @@ function d3TimeSeriesSample(container, staticURL, size, source, rangeLabel, star
       });
 
       dataset.sort(function(x, y){
+         return d3.ascending(x.month, y.month);
+      });
+
+      dataset2.forEach(function(d) {
+          d.month = d3.time.format("%Y-%m-%d").parse(d.month);
+      });
+
+      dataset2.sort(function(x, y){
+         return d3.ascending(x.month, y.month);
+      });
+
+      dataset3.forEach(function(d) {
+          d.month = d3.time.format("%Y-%m-%d").parse(d.month);
+      });
+
+      dataset3.sort(function(x, y){
          return d3.ascending(x.month, y.month);
       });
 
@@ -79,8 +108,13 @@ function d3TimeSeriesSample(container, staticURL, size, source, rangeLabel, star
       */
 
         // the date range of available data:
+        var max1 = d3.max(dataset, function(d) { return d.count; })
+        var max2 = d3.max(dataset2, function(d) { return d.count; })
+        var max3 = d3.max(dataset3, function(d) { return d.count; })
+
         var dataXrange = d3.extent(dataset, function(d) { return d.month; });
-        var dataYrange = [0, d3.max(dataset, function(d) { return d.count; })];
+        // var dataYrange = [0, d3.max(dataset, function(d) { return d.count; })];
+        var dataYrange = [0, Math.max(max1, max2, max3)]; // Not working
 
         // maximum date range allowed to display
         var mindate = dataXrange[0],  // use the range of the data
@@ -185,7 +219,7 @@ function d3TimeSeriesSample(container, staticURL, size, source, rangeLabel, star
         // === the main components === //
 
         var vis = d3.select(container).append("svg")
-            .attr("viewBox", getTimeSeriesViewBox(getTimeSeriesPluginSize(size)))
+            .attr("viewBox", getMultiTimeSeriesViewBox(getMultiTimeSeriesPluginSize(size)))
           	.attr("class", "metric-chart");
 
         vis.append("defs").append("clipPath")
@@ -287,7 +321,32 @@ function d3TimeSeriesSample(container, staticURL, size, source, rangeLabel, star
         focus.append("path")
             .datum(dataset)
             .attr("class", "line")
-            .attr("d", line);
+            .attr("d", line)
+            .attr("data-legend",function(d) { return setMTSLegend(source) });;
+
+        /* === focus chart DATASET2 === */
+
+        focus.append("path")
+                    .datum(dataset2)
+                    .attr("class", "area2")
+                    .attr("d", area);
+        focus.append("path")
+                    .datum(dataset2)
+                    .attr("class", "line2")
+                    .attr("d", line)
+                    .attr("data-legend",function(d) { return setMTSLegend(origin) });
+
+        /* === focus chart DATASET3 === */
+
+        focus.append("path")
+                    .datum(dataset3)
+                    .attr("class", "area3")
+                    .attr("d", area);
+        focus.append("path")
+                    .datum(dataset3)
+                    .attr("class", "line3")
+                    .attr("d", line)
+                    .attr("data-legend",function(d) { return setMTSLegend(outset) });;
 
         /* === context chart === */
 
@@ -305,6 +364,30 @@ function d3TimeSeriesSample(container, staticURL, size, source, rangeLabel, star
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height_context + ")")
             .call(xAxis_context);
+
+        /* === context chart DATASET2 === */
+
+        context.append("path")
+            .datum(dataset2)
+            .attr("class", "area2")
+            .attr("d", area_context);
+
+        context.append("path")
+            .datum(dataset2)
+            .attr("class", "line2")
+            .attr("d", line_context);
+
+        /* === context chart DATASET3 === */
+
+        context.append("path")
+            .datum(dataset3)
+            .attr("class", "area3")
+            .attr("d", area_context);
+
+        context.append("path")
+            .datum(dataset3)
+            .attr("class", "line3")
+            .attr("d", line_context);
 
         /* === brush (part of context chart)  === */
 
@@ -347,6 +430,12 @@ function d3TimeSeriesSample(container, staticURL, size, source, rangeLabel, star
             .attr("dy", "1em")
             .attr("transform", "rotate(-90)")
             .style("text-anchor", "middle");
+
+        legend = context.append("g")
+          .attr("class","MTS-legend")
+          .attr("transform","translate(499,-312)")
+          .style("font-size","9px")
+          .call(d3.legend)
 
         // allows zooming before any brush action
         zoom.x(x);
@@ -397,6 +486,10 @@ function d3TimeSeriesSample(container, staticURL, size, source, rangeLabel, star
             x.domain(brush.empty() ? x2.domain() : brush.extent());
             focus.select(".area").attr("d", area);
             focus.select(".line").attr("d", line);
+            focus.select(".area2").attr("d", area);
+            focus.select(".line2").attr("d", line);
+            focus.select(".area3").attr("d", area);
+            focus.select(".line3").attr("d", line);
             focus.select(".x.axis").call(xAxis);
             // Reset zoom scale's domain
             zoom.x(x);
@@ -409,6 +502,10 @@ function d3TimeSeriesSample(container, staticURL, size, source, rangeLabel, star
             setYdomain();
             focus.select(".area").attr("d", area);
             focus.select(".line").attr("d", line);
+            focus.select(".area2").attr("d", area);
+            focus.select(".line2").attr("d", line);
+            focus.select(".area3").attr("d", area);
+            focus.select(".line3").attr("d", line);
             focus.select(".x.axis").call(xAxis);
             //focus.select(".y.axis").call(yAxis);
             // Force changing brush range

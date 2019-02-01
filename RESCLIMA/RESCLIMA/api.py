@@ -34,4 +34,8 @@ router.register(r'd3_pie_chart_composition_NE/(?P<date>[-\w]+)', api_views.APICo
 router.register(r'd3_pie_chart_composition/(?P<date>[-\w]+)', api_views.APICompositionViewSet, base_name='d3_pie_chart_composition')
 
 # Series de tiempo para los investigadores de cambio climatico
-router.register(r'd3_time_series_tmin/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.TminViewSet, base_name='d3_time_series_tmin')
+router.register(r'd3_time_series_tmin/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.TminViewSet, base_name='d3_time_series_tmin') #OK
+router.register(r'd3_time_series_tmax/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.TmaxViewSet, base_name='d3_time_series_tmax') # OK
+router.register(r'd3_time_series_rr/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.RRViewSet, base_name='d3_time_series_rr') # OK
+router.register(r'd3_time_series_oni/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.ONIViewSet, base_name='d3_time_series_oni') # OK
+router.register(r'd3_time_series_tmean/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.TmeanViewSet, base_name='d3_time_series_tmean') # OK

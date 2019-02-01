@@ -44,6 +44,32 @@
 	clip-path: url(#clip);
 }
 
+.metric-chart path.line2 {
+ fill: none;
+ stroke: #2d60af; /* default, changed in each theme */
+ stroke-width: 1.5px;
+ clip-path: url(#clip);
+}
+
+.metric-chart path.area2 {
+ fill: #2d60af; /* CB default, changed in each theme */
+ opacity: 0;
+ clip-path: url(#clip);
+}
+
+.metric-chart path.line3 {
+ fill: none;
+ stroke: #bd51d1; /* default, changed in each theme */
+ stroke-width: 1.5px;
+ clip-path: url(#clip);
+}
+
+.metric-chart path.area3 {
+ fill: #bd51d1; /* CB default, changed in each theme */
+ opacity: 0;
+ clip-path: url(#clip);
+}
+
  .metric-chart .axis {
 	shape-rendering: crispEdges;
 }
@@ -112,4 +138,10 @@
 
  .metric-chart text#displayDates  {
 	font-weight: bold;
+}
+
+.MTS-legend rect {
+  fill:white;
+  stroke:white;
+  opacity:0.8;
 }

@@ -19,6 +19,7 @@ def copy_csv_clima(path, user):
 		Clima.objects.create(date=row['date'],
 								 tmin=row['tmin'],
 								 tmax=row['tmax'],
+								 tmean=row['tmean'],
 								 rr=row['rr'],
 								 oni=row['oni'],
 								 user=user)

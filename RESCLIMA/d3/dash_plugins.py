@@ -9,6 +9,7 @@ from .dash_widgets import (
     BaseBarChartWidget,
     BaseTreeMapWidget,
     BaseTimeSeriesWidget,
+    BaseMultiTimeSeriesWidget,
     BasePieChartWidget,
     BaseLineChartWidget,
 )
@@ -55,9 +56,16 @@ class BaseTreeMapPlugin(BaseChartPlugin):
 class BaseTimeSeriesPlugin(BaseChartPlugin):
     """Base sunburst partition chart plugin."""
 
-    name = _("Serie de tiempo")
+    name = _("Series de tiempo")
     form = TimeSeriesForm
     html_classes = ['chartonic', 'd3-time-series-plugin']
+
+class BaseMultiTimeSeriesPlugin(BaseChartPlugin):
+    """Base sunburst partition chart plugin."""
+
+    name = _("Series de tiempo multiples")
+    form = MultiTimeSeriesForm
+    html_classes = ['chartonic', 'd3-multi-time-series-plugin']
 
 class BasePieChartPlugin(BaseChartPlugin):
     """Base sunburst partition chart plugin."""
@@ -98,6 +106,9 @@ plugin_factory(BaseTreeMapPlugin,
 plugin_factory(BaseTimeSeriesPlugin,
                'd3_time_series',
                sizes)
+plugin_factory(BaseMultiTimeSeriesPlugin,
+               'd3_multi_time_series',
+               sizes)
 plugin_factory(BasePieChartPlugin,
                'd3_pie_chart',
                sizes)
@@ -137,6 +148,13 @@ plugin_widget_factory(BaseTimeSeriesWidget,
                       'bootstrap_materialize',
                       'main',
                       'd3_time_series',
+                      sizes)
+
+# Multi Time Series
+plugin_widget_factory(BaseMultiTimeSeriesWidget,
+                      'bootstrap_materialize',
+                      'main',
+                      'd3_multi_time_series',
                       sizes)
 
 # Pie Chart

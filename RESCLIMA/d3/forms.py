@@ -71,6 +71,14 @@ TREE_MAP_CHOICES = (
 
 TIME_SERIES_CHOICES = (
   (None, 'Selecciona una opción'),
+  ('d3_time_series_oni', 'Oceanic Niño Index (ONI)'), # Mover a Z Time Series
+  ('d3_time_series_rr', 'Relative Risk (RR)'),
+)
+
+MULTI_TIME_SERIES_CHOICES = (
+  (None, 'Selecciona una opción'),
+  ('d3_time_series_tmax', 'Temperatura Maxima'),
+  ('d3_time_series_tmean', 'Temperatura Media'),
   ('d3_time_series_tmin', 'Temperatura Minima'),
 )
 
@@ -143,11 +151,38 @@ class TimeSeriesForm(forms.Form, DashboardPluginFormBase):
 
     plugin_data_fields = [
         ("title", ""),
+        ("rangeLabel", ""),
+        ("start_date", ""),
+        ("end_date", ""),
         ("source", ""),
     ]
 
     title = forms.CharField(label=_("Titulo"), required=True)
+    rangeLabel = forms.CharField(label=_("Etiqueta del eje Y"), required=True)
+    start_date = forms.CharField(label=_("Fecha de inicio"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
+    end_date = forms.CharField(label=_("Fecha de finalizacion"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
     source = forms.ChoiceField(label=_("Tabla/API"), choices=TIME_SERIES_CHOICES, required=True)
+
+# Formulario para Multi Time Series
+class MultiTimeSeriesForm(forms.Form, DashboardPluginFormBase):
+
+    plugin_data_fields = [
+        ("title", ""),
+        ("rangeLabel", ""),
+        ("start_date", ""),
+        ("end_date", ""),
+        ("source", ""),
+        ("origin", ""),
+        ("outset", ""),
+    ]
+
+    title = forms.CharField(label=_("Titulo"), required=True)
+    rangeLabel = forms.CharField(label=_("Etiqueta del eje Y"), required=True)
+    start_date = forms.CharField(label=_("Fecha de inicio"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
+    end_date = forms.CharField(label=_("Fecha de finalizacion"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
+    source = forms.ChoiceField(label=_("Tabla/API"), choices=MULTI_TIME_SERIES_CHOICES, required=True)
+    origin = forms.ChoiceField(label=_("Tabla/API"), choices=MULTI_TIME_SERIES_CHOICES, required=True)
+    outset = forms.ChoiceField(label=_("Tabla/API"), choices=MULTI_TIME_SERIES_CHOICES, required=True)
 
 # Formulario para Pie Chart
 class PieChartForm(forms.Form, DashboardPluginFormBase):

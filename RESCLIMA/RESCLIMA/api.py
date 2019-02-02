@@ -3,39 +3,57 @@ from django.conf.urls import include, url
 from main import api_views
 
 router = routers.DefaultRouter()
-router.register(r'db_resclima_variables', api_views.VariableViewset)
-router.register(r'db_resclima_station_types', api_views.StationTypeViewset)
-router.register(r'db_resclima_stations', api_views.StationViewset)
-router.register(r'db_resclima_providers', api_views.ProviderViewSet)
-router.register(r'db_resclima_measurements', api_views.MeasurementViewSet)
 
-router.register(r'db_resclima_average_measurement/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.APIAverageMeasurementViewSet, base_name='db_resclima_average_measurement')
+# Grafico de barras para los investigadores de ESPOL
+router.register(r'db_resclima_average_measurement/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.Medicion, base_name='db_resclima_average_measurement') # OK
 
-router.register(r'd3_bubble_chart_AVG_WE/(?P<sid>[-\w]+)', api_views.AVGWeightEmissionViewSet, base_name='d3_bubble_chart_AVG_WE')
-router.register(r'd3_bubble_chart_AVG_LE/(?P<sid>[-\w]+)', api_views.AVGLightEmissionViewSet, base_name='d3_bubble_chart_AVG_LE')
+# Grafico de barras para los investigadores de logistica y transporte (livianos)
+router.register(r'd3_bar_chart_L_EN/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.LEN, base_name='d3_bar_chart_L_EN') # OK
+router.register(r'd3_bar_chart_L_EO/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.LEO, base_name='d3_bar_chart_L_EO')
+router.register(r'd3_bar_chart_L_NO/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.LNO, base_name='d3_bar_chart_L_NO')
+router.register(r'd3_bar_chart_L_ON/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.LON, base_name='d3_bar_chart_L_ON')
+router.register(r'd3_bar_chart_L_OE/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.LOE, base_name='d3_bar_chart_L_OE')
+router.register(r'd3_bar_chart_L_NE/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.LNE, base_name='d3_bar_chart_L_NE')
 
-router.register(r'd3_line_chart_KV_W_CO2/(?P<sid>[-\w]+)', api_views.KVEmissionWeightCO2ViewSet, base_name='d3_line_chart_KV_W_CO2')
-router.register(r'd3_line_chart_KV_L_CO2/(?P<sid>[-\w]+)', api_views.KVEmissionLightCO2ViewSet, base_name='d3_line_chart_KV_L_CO2')
-router.register(r'd3_line_chart_KV_W_CO/(?P<sid>[-\w]+)', api_views.KVEmissionWeightCOViewSet, base_name='d3_line_chart_KV_W_CO')
-router.register(r'd3_line_chart_KV_L_CO/(?P<sid>[-\w]+)', api_views.KVEmissionLightCOViewSet, base_name='d3_line_chart_KV_L_CO')
+# Grafico de barras para los investigadores de logistica y transporte (pesados)
+router.register(r'd3_bar_chart_W_EN/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.WEN, base_name='d3_bar_chart_W_EN') # OK
+router.register(r'd3_bar_chart_W_EO/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.WEO, base_name='d3_bar_chart_W_EO')
+router.register(r'd3_bar_chart_W_NO/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.WNO, base_name='d3_bar_chart_W_NO')
+router.register(r'd3_bar_chart_W_ON/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.WON, base_name='d3_bar_chart_W_ON')
+router.register(r'd3_bar_chart_W_OE/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.WOE, base_name='d3_bar_chart_W_OE')
+router.register(r'd3_bar_chart_W_NE/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.WNE, base_name='d3_bar_chart_W_NE')
 
-router.register(r'd3_tree_map_sample', api_views.TreeMapViewSet, base_name='d3_tree_map_sample')
+# Grafico de barras (composicion %) para los investigadores de logistica y transporte
+router.register(r'd3_bar_chart_composition_EN/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.CEN, base_name='d3_bar_chart_composition_EN') # OK
+router.register(r'd3_bar_chart_composition_EO/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.CEO, base_name='d3_bar_chart_composition_EO')
+router.register(r'd3_bar_chart_composition_NO/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.CNO, base_name='d3_bar_chart_composition_NO')
+router.register(r'd3_bar_chart_composition_ON/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.CON, base_name='d3_bar_chart_composition_ON')
+router.register(r'd3_bar_chart_composition_OE/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.COE, base_name='d3_bar_chart_composition_OE')
+router.register(r'd3_bar_chart_composition_NE/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.CNE, base_name='d3_bar_chart_composition_NE')
 
-router.register(r'd3_bar_chart_L_ON/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.APILightONViewSet, base_name='d3_bar_chart_L_ON')
-router.register(r'd3_bar_chart_L_OE/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.APILightOEViewSet, base_name='d3_bar_chart_L_OE')
-router.register(r'd3_bar_chart_L_NE/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.APILightNEViewSet, base_name='d3_bar_chart_L_NE')
-router.register(r'd3_bar_chart_W_ON/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.APIWeightONViewSet, base_name='d3_bar_chart_W_ON')
-router.register(r'd3_bar_chart_W_OE/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.APIWeightOEViewSet, base_name='d3_bar_chart_W_OE')
-router.register(r'd3_bar_chart_W_NE/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.APIWeightNEViewSet, base_name='d3_bar_chart_W_NE')
+# Grafico circular para los investigadores de logsitica y transporte
+router.register(r'd3_pie_chart_WE/(?P<sid>[-\w]+)', api_views.WE, base_name='d3_pie_chart_WE') # OK
+router.register(r'd3_pie_chart_LE/(?P<sid>[-\w]+)', api_views.LE, base_name='d3_pie_chart_LE') # OK
+# Grafico de barras para los investigadores de logsitica y transporte
 
-router.register(r'd3_pie_chart_composition_ON/(?P<date>[-\w]+)', api_views.APICompositionONViewSet, base_name='d3_pie_chart_composition_ON')
-router.register(r'd3_pie_chart_composition_OE/(?P<date>[-\w]+)', api_views.APICompositionOEViewSet, base_name='d3_pie_chart_composition_OE')
-router.register(r'd3_pie_chart_composition_NE/(?P<date>[-\w]+)', api_views.APICompositionNEViewSet, base_name='d3_pie_chart_composition_NE')
-router.register(r'd3_pie_chart_composition/(?P<date>[-\w]+)', api_views.APICompositionViewSet, base_name='d3_pie_chart_composition')
+# Grafico de lineas para los investigadores de logistica y transporte
+router.register(r'd3_line_chart_W_CO2/(?P<sid>[-\w]+)', api_views.WCO2, base_name='d3_line_chart_KV_W_CO2') # Eliminar?
+router.register(r'd3_line_chart_L_CO2/(?P<sid>[-\w]+)', api_views.LCO2, base_name='d3_line_chart_KV_L_CO2') # Eliminar?
+router.register(r'd3_line_chart_W_CO/(?P<sid>[-\w]+)', api_views.WCO, base_name='d3_line_chart_KV_W_CO') # Eliminar?
+router.register(r'd3_line_chart_L_CO/(?P<sid>[-\w]+)', api_views.LCO, base_name='d3_line_chart_KV_L_CO') # Eliminar?
+# Grafico ________ para los investigadores de logsitica y transporte
+
 
 # Series de tiempo para los investigadores de cambio climatico
-router.register(r'd3_time_series_tmin/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.TminViewSet, base_name='d3_time_series_tmin') #OK
-router.register(r'd3_time_series_tmax/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.TmaxViewSet, base_name='d3_time_series_tmax') # OK
-router.register(r'd3_time_series_rr/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.RRViewSet, base_name='d3_time_series_rr') # OK
-router.register(r'd3_time_series_oni/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.ONIViewSet, base_name='d3_time_series_oni') # OK
-router.register(r'd3_time_series_tmean/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.TmeanViewSet, base_name='d3_time_series_tmean') # OK
+router.register(r'd3_time_series_tmin/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.Minimo, base_name='d3_time_series_tmin') # OK
+router.register(r'd3_time_series_tmax/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.Maximo, base_name='d3_time_series_tmax') # OK
+router.register(r'd3_time_series_tmean/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.Promedio, base_name='d3_time_series_tmean') # OK
+router.register(r'd3_time_series_rr/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.RR, base_name='d3_time_series_rr') # OK
+router.register(r'd3_time_series_oni/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.ONI, base_name='d3_time_series_oni') # OK
+
+# Grafico circular para los investigadores de cambio climatico
+router.register(r'd3_pie_chart_censo/(?P<date>[-\w]+)', api_views.Censo, base_name='d3_pie_chart_censo') # OK
+# Grafico de barras para los investigadores de cambio climatico
+router.register(r'd3_bar_chart_censo/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.CensoBar, base_name='d3_bar_chart_censo') # No se mira bien
+router.register(r'd3_bar_chart_population/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.Population, base_name='d3_bar_chart_population') # OK
+# Grafico de grupos de barras para los investigadores de cambio climatico

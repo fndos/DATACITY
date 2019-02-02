@@ -14,7 +14,7 @@ import json
 
 # Funcion que utiliza django filters para realizar query a la DB
 # Tomada como ejemplo, para crear JsonResponse
-
+# Eliminar
 def test(request):
 
 	select_stm = 'SELECT v."id", v."name", array_agg(s.id) as stations, count(*) OVER() AS full_count '

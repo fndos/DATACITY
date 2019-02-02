@@ -187,6 +187,13 @@ input[type=date]::-webkit-calendar-picker-indicator {
     width: 6px;
     height: 7px;
 }
+
+/*------------------- Utilizar para escribir en TinyMemo ---------------------*/
+
+.memo-body {
+  text-align: justify !important;
+}
+
 /*-------------------------- Sidebar Navigation ------------------------------*/
 
 .overlay,.sideMenu {

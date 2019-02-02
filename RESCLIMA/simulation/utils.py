@@ -2,7 +2,7 @@
 def metseg_a_kmhor(metseg):
 	km_hora = round(3.6*float(metseg), 2)
 	return km_hora
-	
+
 def cutter(path):
 	temp = path
 	cut_position = 0

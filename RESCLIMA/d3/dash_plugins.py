@@ -5,9 +5,7 @@ from dash.factory import plugin_factory, plugin_widget_factory
 
 
 from .dash_widgets import (
-    BaseBubbleChartWidget,
     BaseBarChartWidget,
-    BaseTreeMapWidget,
     BaseTimeSeriesWidget,
     BaseMultiTimeSeriesWidget,
     BasePieChartWidget,
@@ -32,50 +30,37 @@ class BaseChartPlugin(BaseDashboardPlugin):
     form = ChartForm
     html_classes = ['chartonic']
 
-class BaseBubbleChartPlugin(BaseChartPlugin):
-    """Base bubble chart plugin."""
-
-    name = _("Grafico de burbuja")
-    form = BubbleChartForm
-    html_classes = ['chartonic', 'd3-bubble-chart-plugin']
-
 class BaseBarChartPlugin(BaseChartPlugin):
-    """Base sunburst partition chart plugin."""
+    """Base bar chart plugin."""
 
     name = _("Grafico de barras")
     form = BarChartForm
     html_classes = ['chartonic', 'd3-bar-chart-plugin']
 
-class BaseTreeMapPlugin(BaseChartPlugin):
-    """Base sunburst partition chart plugin."""
-
-    name = _("Grafico de jerarquia")
-    form = TreeMapForm
-    html_classes = ['chartonic', 'd3-tree-map-plugin']
 
 class BaseTimeSeriesPlugin(BaseChartPlugin):
-    """Base sunburst partition chart plugin."""
+    """Base time series plugin."""
 
     name = _("Series de tiempo")
     form = TimeSeriesForm
     html_classes = ['chartonic', 'd3-time-series-plugin']
 
 class BaseMultiTimeSeriesPlugin(BaseChartPlugin):
-    """Base sunburst partition chart plugin."""
+    """Base multi time series plugin."""
 
     name = _("Series de tiempo multiples")
     form = MultiTimeSeriesForm
     html_classes = ['chartonic', 'd3-multi-time-series-plugin']
 
 class BasePieChartPlugin(BaseChartPlugin):
-    """Base sunburst partition chart plugin."""
+    """Base pie chart plugin."""
 
     name = _("Grafico circular")
     form = PieChartForm
     html_classes = ['chartonic', 'd3-pie-chart-plugin']
 
 class BaseLineChartPlugin(BaseChartPlugin):
-    """Base sunburst partition chart plugin."""
+    """Base line chart plugin."""
 
     name = _("Grafico de lineas")
     form = LineChartForm
@@ -94,27 +79,11 @@ sizes = (
     (7, 7),
 )
 
-plugin_factory(BaseBubbleChartPlugin,
-               'd3_bubble_chart',
-               sizes)
-plugin_factory(BaseBarChartPlugin,
-               'd3_bar_chart',
-               sizes)
-plugin_factory(BaseTreeMapPlugin,
-               'd3_tree_map',
-               sizes)
-plugin_factory(BaseTimeSeriesPlugin,
-               'd3_time_series',
-               sizes)
-plugin_factory(BaseMultiTimeSeriesPlugin,
-               'd3_multi_time_series',
-               sizes)
-plugin_factory(BasePieChartPlugin,
-               'd3_pie_chart',
-               sizes)
-plugin_factory(BaseLineChartPlugin,
-               'd3_line_chart',
-               sizes)
+plugin_factory(BaseBarChartPlugin, 'd3_bar_chart', sizes)
+plugin_factory(BaseTimeSeriesPlugin, 'd3_time_series', sizes)
+plugin_factory(BaseMultiTimeSeriesPlugin, 'd3_multi_time_series', sizes)
+plugin_factory(BasePieChartPlugin, 'd3_pie_chart', sizes)
+plugin_factory(BaseLineChartPlugin, 'd3_line_chart', sizes)
 
 # *****************************************************************************
 # ********************************* Registering widgets ***********************
@@ -122,51 +91,8 @@ plugin_factory(BaseLineChartPlugin,
 
 # Registering chart plugin widgets
 
-# Bubble Chart
-plugin_widget_factory(BaseBubbleChartWidget,
-                      'bootstrap_materialize',
-                      'main',
-                      'd3_bubble_chart',
-                      sizes)
-
-# Bar Chart
-plugin_widget_factory(BaseBarChartWidget,
-                      'bootstrap_materialize',
-                      'main',
-                      'd3_bar_chart',
-                      sizes)
-
-# Tree Map
-plugin_widget_factory(BaseTreeMapWidget,
-                      'bootstrap_materialize',
-                      'main',
-                      'd3_tree_map',
-                      sizes)
-
-# Time Series
-plugin_widget_factory(BaseTimeSeriesWidget,
-                      'bootstrap_materialize',
-                      'main',
-                      'd3_time_series',
-                      sizes)
-
-# Multi Time Series
-plugin_widget_factory(BaseMultiTimeSeriesWidget,
-                      'bootstrap_materialize',
-                      'main',
-                      'd3_multi_time_series',
-                      sizes)
-
-# Pie Chart
-plugin_widget_factory(BasePieChartWidget,
-                      'bootstrap_materialize',
-                      'main',
-                      'd3_pie_chart',
-                      sizes)
-
-# Line Chart
-plugin_widget_factory(BaseLineChartWidget,
-                      'bootstrap_materialize',
-                      'main',
-                      'd3_line_chart',
-                      sizes)
+plugin_widget_factory(BaseBarChartWidget, 'bootstrap_materialize', 'main', 'd3_bar_chart', sizes)
+plugin_widget_factory(BaseTimeSeriesWidget, 'bootstrap_materialize', 'main', 'd3_time_series', sizes)
+plugin_widget_factory(BaseMultiTimeSeriesWidget, 'bootstrap_materialize', 'main', 'd3_multi_time_series', sizes)
+plugin_widget_factory(BasePieChartWidget, 'bootstrap_materialize', 'main', 'd3_pie_chart', sizes)
+plugin_widget_factory(BaseLineChartWidget, 'bootstrap_materialize', 'main', 'd3_line_chart', sizes)

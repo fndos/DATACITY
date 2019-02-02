@@ -31,18 +31,8 @@ class BaseChartWidget(BaseDashboardPluginWidget):
         )
 
 
-class BaseBubbleChartWidget(BaseChartWidget):
-    """Base bubble chart widget."""
-
-    media_js = (
-        'js/d3.v3.min.js',  # Main D3 script
-        'js/d3_bubble_chart.js',  # Helper script
-    )
-    _template = 'd3_samples/plugins/render_d3_bubble_chart.html'
-
-
 class BaseBarChartWidget(BaseChartWidget):
-    """Bar partition chart widget."""
+    """Base bar chart widget."""
 
     media_js = (
         'js/d3.v3.min.js',  # Main D3 script
@@ -56,22 +46,9 @@ class BaseBarChartWidget(BaseChartWidget):
 
     _template = 'd3_samples/plugins/render_d3_bar_chart.html'
 
-class BaseTreeMapWidget(BaseChartWidget):
-    """Bar partition chart widget."""
-
-    media_js = (
-        'js/d3.v3.min.js',  # Main D3 script
-        'js/d3_tree_map.js',  # Helper script
-    )
-
-    media_css = (
-        'css/d3_tree_map.css',  # Specific styles
-    )
-
-    _template = 'd3_samples/plugins/render_d3_tree_map.html'
 
 class BaseTimeSeriesWidget(BaseChartWidget):
-    """Bar partition chart widget."""
+    """Base time series widget."""
 
     media_js = (
         'js/d3.v3.min.js',  # Main D3 script
@@ -88,7 +65,7 @@ class BaseTimeSeriesWidget(BaseChartWidget):
     _template = 'd3_samples/plugins/render_d3_time_series.html'
 
 class BaseMultiTimeSeriesWidget(BaseChartWidget):
-    """Bar partition chart widget."""
+    """Base multi time series widget."""
 
     media_js = (
         'js/d3.v3.min.js',  # Main D3 script

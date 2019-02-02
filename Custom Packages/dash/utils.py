@@ -635,7 +635,7 @@ def get_or_create_dashboard_settings(user):
         dashboard_settings = DashboardSettings()
         dashboard_settings.layout_uid = layout.uid
         dashboard_settings.user = user
-        dashboard_settings.title = "RESCLIMA"
+        dashboard_settings.title = "DATA-CITY"
         dashboard_settings.save()
 
     return dashboard_settings

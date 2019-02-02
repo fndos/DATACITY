@@ -166,6 +166,10 @@ input[type="file"] {
   margin-top: 23px !important;
 }
 
+.no-data {
+  margin-top: 10px !important;
+}
+
 /*-------------------------- Sidebar Navigation ------------------------------*/
 
 .overlay,.sideMenu {

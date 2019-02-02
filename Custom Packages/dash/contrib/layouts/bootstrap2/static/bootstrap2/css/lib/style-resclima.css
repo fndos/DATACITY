@@ -188,6 +188,11 @@ input[type=date]::-webkit-calendar-picker-indicator {
     height: 7px;
 }
 
+.paste-from-clipboard {
+  text-align: center !important;
+  margin-top: 18px !important;
+}
+
 /*------------------- Utilizar para escribir en TinyMemo ---------------------*/
 
 .memo-body {

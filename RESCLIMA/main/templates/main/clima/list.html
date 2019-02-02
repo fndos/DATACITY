@@ -15,7 +15,7 @@
 		<table class="bordered">
 			<tbody>
 				<tr>
-					{% for data in object_list %}
+				{% for data in object_list %}
 						<td>{{ data.id }} Datos cargados con éxito</td>
 				</tr>
 				{% endfor %}
@@ -24,7 +24,7 @@
     {% else %}
 		<div class="wrapper">
 			<div class="container">
-				<p>No hay datos para mostrar</p>
+				<p class="no-data">No hay datos para mostrar</p>
 			</div>
 		</div>
 		{% endif %}

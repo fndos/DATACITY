@@ -21,9 +21,16 @@ def CensoCreate(request):
 		return HttpResponseRedirect('/censo/')
 	return render(request, 'main/censo/form.html')
 
-class CensoList(ListView):
-	queryset = Censo.objects.order_by('id')
-	template_name = 'main/censo/list.html'
+class CensoList(TemplateView):
+    template_name = 'main/censo/list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(CensoList, self).get_context_data(**kwargs)
+        try:
+            context['object_list'] = Censo.objects.filter(user=self.request.user).order_by('id')
+        except Censo.DoesNotExist:
+            context['object_list'] = None
+        return context
 
 # No se esta usando por el momento
 class CensoUpdate(UpdateView):

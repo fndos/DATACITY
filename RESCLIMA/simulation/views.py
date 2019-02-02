@@ -40,9 +40,16 @@ class SimulationCreate(CreateView):
 
 		return super(SimulationCreate, self).form_valid(form)
 
-class SimulationList(ListView):
-	queryset = Simulation.objects.order_by('id')
-	template_name = 'simulation/list.html'
+class SimulationList(TemplateView):
+    template_name = 'simulation/list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(SimulationList, self).get_context_data(**kwargs)
+        try:
+            context['object_list'] = Simulation.objects.filter(user=self.request.user).order_by('id')
+        except Simulation.DoesNotExist:
+            context['object_list'] = None
+        return context
 
 class SimulationUpdate(UpdateView):
 	model = Simulation

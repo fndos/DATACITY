@@ -21,9 +21,17 @@ def LogisticaCreate(request):
 		return HttpResponseRedirect('/data/')
 	return render(request, 'main/logistica/form.html')
 
-class LogisticaList(ListView):
-	queryset = Logistica.objects.order_by('id')
-	template_name = 'main/logistica/list.html'
+
+class LogisticaList(TemplateView):
+    template_name = 'main/logistica/list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(LogisticaList, self).get_context_data(**kwargs)
+        try:
+            context['object_list'] = Logistica.objects.filter(user=self.request.user).order_by('id')
+        except Logistica.DoesNotExist:
+            context['object_list'] = None
+        return context
 
 # No se esta usando por el momento
 class LogisticaUpdate(UpdateView):

@@ -21,9 +21,17 @@ def ClimaCreate(request):
 		return HttpResponseRedirect('/clima/')
 	return render(request, 'main/clima/form.html')
 
-class ClimaList(ListView):
-	queryset = Clima.objects.order_by('id')
-	template_name = 'main/clima/list.html'
+
+class ClimaList(TemplateView):
+    template_name = 'main/clima/list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ClimaList, self).get_context_data(**kwargs)
+        try:
+            context['object_list'] = Clima.objects.filter(user=self.request.user).order_by('id')
+        except Clima.DoesNotExist:
+            context['object_list'] = None
+        return context
 
 # No se esta usando por el momento
 class ClimaUpdate(UpdateView):

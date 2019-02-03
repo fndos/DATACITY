@@ -28,16 +28,14 @@ KEY_VALUE_CHOICES = (
   # ('d3_bar_chart_W_ON', 'Circulación de vehiculos pesados en GI Sentido O-N'),
   # ('d3_bar_chart_W_OE', 'Circulación de vehiculos pesados en GD Sentido O-E'),
   # ('d3_bar_chart_W_NE', 'Circulación de vehiculos pesados en GD Sentido N-E'),
-  # Choices con datos de logistica y transporte
-  ('d3_bar_chart_composition_EN', 'Composicion de vehicular en GD Sentido E-N'),
   # Choices solo para SUMO | Emisiones
-  ('d3_line_chart_W_CO2', 'SUMO: Emisiones de CO2 de vehiculos pesados'),
-  ('d3_line_chart_L_CO2', 'SUMO: Emisiones de CO2 de vehiculos livianos'),
-  ('d3_line_chart_W_CO', 'SUMO: Emisiones de CO de vehiculos pesados'),
-  ('d3_line_chart_L_CO', 'SUMO: Emisiones de CO de vehiculos livianos'),
+  ('d3_line_chart_WMS', 'SUMO: Velocidad promedio de vehiculos pesados'),
+  ('d3_line_chart_LMS', 'SUMO: Velocidad promedio de vehiculos livianos'),
+  ('d3_line_chart_WT', 'SUMO: Tiempo de espera promedio de vehiculos pesados'),
+  ('d3_line_chart_LT', 'SUMO: Tiempo de espera promedio de vehiculos livianos'),
   # Datos de Censo
-  ('d3_bar_chart_censo', 'Censo (Hombres, Mujeres)'),
-  ('d3_bar_chart_population', 'Censo (Total Poblacion)')
+  ('d3_bar_chart_censo', 'Censo (Hombres, Mujeres)'), # No se mira bien
+  ('d3_bar_chart_population', 'Censo (Total Poblacion)')  # No se mira bien
 )
 
 MOVEMENT_TYPE_CHOICES = (
@@ -52,9 +50,12 @@ MOVEMENT_TYPE_CHOICES = (
 
 PIE_CHART_CHOICES = (
   (None, 'Selecciona una opción'),
+  # Datos de Censo
   ('d3_pie_chart_censo', 'Censo (Hombres, Mujeres)'),
   ('d3_pie_chart_WE', 'SUMO: Emisiones de gases de vehiculos pesados'),
   ('d3_pie_chart_LE', 'SUMO: Emisiones de gases de vehiculos livianos'),
+  # Choices con datos de logistica y transporte
+  ('d3_pie_chart_composition_EN', 'Composicion de vehicular E-N giro a la derecha'),
 )
 
 TIME_SERIES_CHOICES = (
@@ -149,11 +150,13 @@ class PieChartForm(forms.Form, DashboardPluginFormBase):
         ("title", ""),
         ("simulation", ""),
         ("source", ""),
-        ("date", ""),
+        ("start_date", ""),
+        ("end_date", ""),
     ]
 
     title = forms.CharField(label=_("Titulo"), required=True)
-    date = forms.CharField(label=_("Fecha"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
+    start_date = forms.CharField(label=_("Fecha de inicio"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
+    end_date = forms.CharField(label=_("Fecha de finalizacion"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
 
     def __init__(self, *args, **kwargs):
         super(PieChartForm, self).__init__(*args, **kwargs)

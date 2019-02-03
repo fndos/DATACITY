@@ -24,7 +24,7 @@ function checkDate(start_date, end_date) {
 }
 
 
-function d3TimeSeriesSample(container, staticURL, size, source, rangeLabel, start_date, end_date) {
+function d3TimeSeriesSample(container, size, source, rangeLabel, start_date, end_date) {
   if (!checkDate(start_date, end_date)) {
     // Una de las fechas ingresadas no es valida
     start_date = null;

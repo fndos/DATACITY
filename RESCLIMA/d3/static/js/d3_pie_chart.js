@@ -24,19 +24,25 @@ function isEmpty(str) {
 	else { return false }
 }
 
-function setSourcePieChart(sid, source, date) {
-	if (!sid) { return "http://127.0.0.1:8000/api/" + source + "/" + date + "/"; }
+function checkDate(start_date, end_date) {
+   if (!isEmpty(start_date) && !isEmpty(end_date)) { return true; }
+  else { return false; }
+}
+
+function setSourcePieChart(sid, source, start_date, end_date) {
+	if (!sid) { return "http://127.0.0.1:8000/api/" + source + "/" + start_date + "/" + end_date + "/"; }
 	else { return "http://127.0.0.1:8000/api/" + source + "/" + sid; }
 }
 
-function d3PieChartSample(container, source, date, size, sid) {
-  if (isEmpty(date)) {
+function d3PieChartSample(container, source, start_date, end_date, size, sid) {
+  if (!checkDate(start_date, end_date)) {
     // Una de las fechas ingresadas no es valida
-    date = null;
+    start_date = null;
+    end_date = null;
   }
 
-  SOURCE_URL = setSourcePieChart(sid, source, date)
-  
+  SOURCE_URL = setSourcePieChart(sid, source, start_date, end_date)
+
   var colorScheme = ["#FF8A65", "#4DB6AC","#FFF176","#BA68C8","#00E676","#AED581","#9575CD","#7986CB","#E57373","#A1887F","#90A4AE","#64B5F6"];
 
   var margin = {top:50,bottom:50,left:50,right:50};
@@ -97,7 +103,7 @@ function d3PieChartSample(container, source, date, size, sid) {
 
       var percent = (1000 * d.data.value / total) / 10;
 			tooltip.select('.tip-label').html(d.data.key);
-			tooltip.select('.count').html(d.data.data);
+			tooltip.select('.count').html(d.data.value);
 			tooltip.select('.percent').html(percent.toFixed(2) + '%');
 
 			tooltip.style('display', 'block');

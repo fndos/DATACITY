@@ -65,7 +65,7 @@ class Medicion(viewsets.ViewSet):
 		return Response(content)
 
 # Grafico circular para los investigadores de logsitica y transporte
-# Response format: {key, value, data}
+# Response format: {key, value}
 class WE(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
@@ -79,15 +79,7 @@ class WE(viewsets.ViewSet):
 			NOx = output_instance.avg_weight_emission[4]['NOx']
 			HC = output_instance.avg_weight_emission[5]['HC']
 
-			TOTAL = CO2 + CO + PMx + NOx + HC
-
-			# Calcular porcentaje
-			CO2_PERCENT = (CO2 * 100) / TOTAL
-			CO_PERCENT = (CO * 100) / TOTAL
-			PMx_PERCENT = (PMx * 100) / TOTAL
-			NOx_PERCENT = (NOx * 100) / TOTAL
-			HC_PERCENT = (HC * 100) / TOTAL
-
+			# Formatter
 			CO2 = str("{0:.2f}".format(CO2))
 			CO = str("{0:.2f}".format(CO))
 			PMx = str("{0:.2f}".format(PMx))
@@ -95,11 +87,11 @@ class WE(viewsets.ViewSet):
 			HC = str("{0:.2f}".format(HC))
 
 			# Generar respuesta JSON
-			content = [{"data": float(CO2), "value":CO2_PERCENT, "key":"CO2"},
-				       {"data": float(CO), "value":CO_PERCENT, "key":"CO"},
-					   {"data": float(PMx), "value":PMx_PERCENT, "key":"PMx"},
-   				       {"data": float(NOx), "value":NOx_PERCENT, "key":"NOx"},
-   				       {"data": float(HC), "value":HC_PERCENT, "key":"HC"}
+			content = [{"value":float(CO2), "key":"CO2"},
+				       {"value":float(CO), "key":"CO"},
+					   {"value":float(PMx), "key":"PMx"},
+   				       {"value":float(NOx), "key":"NOx"},
+   				       {"value":float(HC), "key":"HC"}
 					  ]
 
 		except:
@@ -108,7 +100,7 @@ class WE(viewsets.ViewSet):
 
 		return Response(content)
 
-# Response format: {key, value, data}
+# Response format: {key, value}
 class LE(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
@@ -122,15 +114,7 @@ class LE(viewsets.ViewSet):
 			NOx = output_instance.avg_light_emission[4]['NOx']
 			HC = output_instance.avg_light_emission[5]['HC']
 
-			TOTAL = CO2 + CO + PMx + NOx + HC
-
-			# Calcular porcentaje
-			CO2_PERCENT = (CO2 * 100) / TOTAL
-			CO_PERCENT = (CO * 100) / TOTAL
-			PMx_PERCENT = (PMx * 100) / TOTAL
-			NOx_PERCENT = (NOx * 100) / TOTAL
-			HC_PERCENT = (HC * 100) / TOTAL
-
+			# Formatter
 			CO2 = str("{0:.2f}".format(CO2))
 			CO = str("{0:.2f}".format(CO))
 			PMx = str("{0:.2f}".format(PMx))
@@ -138,11 +122,11 @@ class LE(viewsets.ViewSet):
 			HC = str("{0:.2f}".format(HC))
 
 			# Generar respuesta JSON
-			content = [{"data": float(CO2), "value":CO2_PERCENT, "key":"CO2"},
-				       {"data": float(CO), "value":CO_PERCENT, "key":"CO"},
-					   {"data": float(PMx), "value":PMx_PERCENT, "key":"PMx"},
-   				       {"data": float(NOx), "value":NOx_PERCENT, "key":"NOx"},
-   				       {"data": float(HC), "value":HC_PERCENT, "key":"HC"}
+			content = [{"value":float(CO2), "key":"CO2"},
+				       {"value":float(CO), "key":"CO"},
+					   {"value":float(PMx), "key":"PMx"},
+   				       {"value":float(NOx), "key":"NOx"},
+   				       {"value":float(HC), "key":"HC"}
 					  ]
 
 		except:
@@ -153,13 +137,13 @@ class LE(viewsets.ViewSet):
 
 # Grafico de lineas para los investigadores de logistica y transporte
 # Response format: {key, value}
-class WCO2(viewsets.ViewSet):
+class WMS(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
 	def list(self, request, sid=None):
 		try:
 			output_instance = simulation_models.Output.objects.get(simulation__id=sid)
-			content = output_instance.key_value_weight_co2
+			content = output_instance.key_value_weight_mean_speed
 		except simulation_models.Output.DoesNotExist:
 			# Si el Query retorna None
 			content = {}
@@ -167,13 +151,13 @@ class WCO2(viewsets.ViewSet):
 		return Response(content)
 
 # Response format: {key, value}
-class LCO2(viewsets.ViewSet):
+class LMS(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
 	def list(self, request, sid=None):
 		try:
 			output_instance = simulation_models.Output.objects.get(simulation__id=sid)
-			content = output_instance.key_value_light_co2
+			content = output_instance.key_value_light_mean_speed
 		except:
 			# Si el Query retorna None
 			content = {}
@@ -181,27 +165,27 @@ class LCO2(viewsets.ViewSet):
 		return Response(content)
 
 # Response format: {key, value}
-class WCO(viewsets.ViewSet):
+class WWT(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
 	def list(self, request, sid=None):
 		try:
 			output_instance = simulation_models.Output.objects.get(simulation__id=sid)
-			content = output_instance.key_value_weight_co
-		except:
+			content = output_instance.key_value_weight_waiting
+		except simulation_models.Output.DoesNotExist:
 			# Si el Query retorna None
 			content = {}
 
 		return Response(content)
 
 # Response format: {key, value}
-class LCO(viewsets.ViewSet):
+class LWT(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
 	def list(self, request, sid=None):
 		try:
 			output_instance = simulation_models.Output.objects.get(simulation__id=sid)
-			content = output_instance.key_value_light_co
+			content = output_instance.key_value_light_waiting
 		except:
 			# Si el Query retorna None
 			content = {}
@@ -536,7 +520,7 @@ class WNE(viewsets.ViewSet):
 
 # Grafico de barras (composicion %) para los investigadores de logistica y transporte
 # Descripcion: Composicion de vehiculos pesados en GD sentido E-N
-# Response format: {key, value, data} ?
+# Response format: {key, value}
 class CEN(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
@@ -554,7 +538,6 @@ class CEN(viewsets.ViewSet):
 
 			liviano = 0
 			pesado = 0
-			total = 0
 
 			for i in range(len(d)):
 				if d[i].vehicle_type == 1:
@@ -563,16 +546,10 @@ class CEN(viewsets.ViewSet):
 				elif d[i].vehicle_type == 0:
 					# Contar pesados
 					pesado = pesado + d[i].value
-				# Contar todos
-				total = total + d[i].value
-
-			# Calcular equivalente porcentual
-			liviano_percent = str("{0:.2f}".format((float(liviano) * 100) / float(total)))
-			pesado_percent = str("{0:.2f}".format((float(pesado) * 100) / float(total)))
 
 			# Generar respuesta JSON
-			content = [{"percent": float(liviano_percent), "value":liviano, "key":"Livianos"},
-				       {"percent": float(pesado_percent), "value":pesado, "key":"Pesados"}
+			content = [{"value":liviano, "key":"Livianos"},
+				       {"value":pesado, "key":"Pesados"}
 					  ]
 		except:
 			# Si el Query retorna None
@@ -581,7 +558,7 @@ class CEN(viewsets.ViewSet):
 		return Response(content)
 
 # Descripcion: Composicion de vehiculos pesados en FR Sentido E-O
-# Response format: {key, value, data} ?
+# Response format: {key, value}
 class CEO(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
@@ -599,7 +576,6 @@ class CEO(viewsets.ViewSet):
 
 			liviano = 0
 			pesado = 0
-			total = 0
 
 			for i in range(len(d)):
 				if d[i].vehicle_type == 1:
@@ -608,16 +584,10 @@ class CEO(viewsets.ViewSet):
 				elif d[i].vehicle_type == 0:
 					# Contar pesados
 					pesado = pesado + d[i].value
-				# Contar todos
-				total = total + d[i].value
-
-			# Calcular equivalente porcentual
-			liviano_percent = str("{0:.2f}".format((float(liviano) * 100) / float(total)))
-			pesado_percent = str("{0:.2f}".format((float(pesado) * 100) / float(total)))
 
 			# Generar respuesta JSON
-			content = [{"percent": float(liviano_percent), "value":liviano, "key":"Livianos"},
-				       {"percent": float(pesado_percent), "value":pesado, "key":"Pesados"}
+			content = [{"value":liviano, "key":"Livianos"},
+				       {"value":pesado, "key":"Pesados"}
 					  ]
 		except:
 			# Si el Query retorna None
@@ -626,7 +596,7 @@ class CEO(viewsets.ViewSet):
 		return Response(content)
 
 # Descripcion: Composicion de vehiculos pesados en GD Sentido N-O
-# Response format: {key, value, data} ?
+# Response format: {key, value}
 class CNO(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
@@ -644,7 +614,6 @@ class CNO(viewsets.ViewSet):
 
 			liviano = 0
 			pesado = 0
-			total = 0
 
 			for i in range(len(d)):
 				if d[i].vehicle_type == 1:
@@ -653,16 +622,10 @@ class CNO(viewsets.ViewSet):
 				elif d[i].vehicle_type == 0:
 					# Contar pesados
 					pesado = pesado + d[i].value
-				# Contar todos
-				total = total + d[i].value
-
-			# Calcular equivalente porcentual
-			liviano_percent = str("{0:.2f}".format((float(liviano) * 100) / float(total)))
-			pesado_percent = str("{0:.2f}".format((float(pesado) * 100) / float(total)))
 
 			# Generar respuesta JSON
-			content = [{"percent": float(liviano_percent), "value":liviano, "key":"Livianos"},
-				       {"percent": float(pesado_percent), "value":pesado, "key":"Pesados"}
+			content = [{"value":liviano, "key":"Livianos"},
+				       {"value":pesado, "key":"Pesados"}
 					  ]
 		except:
 			# Si el Query retorna None
@@ -671,7 +634,7 @@ class CNO(viewsets.ViewSet):
 		return Response(content)
 
 # Descripcion: Composicion de vehiculos pesados en GI Sentido O-N
-# Response format: {key, value, data} ?
+# Response format: {key, value}
 class CON(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
@@ -689,7 +652,6 @@ class CON(viewsets.ViewSet):
 
 			liviano = 0
 			pesado = 0
-			total = 0
 
 			for i in range(len(d)):
 				if d[i].vehicle_type == 1:
@@ -698,16 +660,10 @@ class CON(viewsets.ViewSet):
 				elif d[i].vehicle_type == 0:
 					# Contar pesados
 					pesado = pesado + d[i].value
-				# Contar todos
-				total = total + d[i].value
-
-			# Calcular equivalente porcentual
-			liviano_percent = str("{0:.2f}".format((float(liviano) * 100) / float(total)))
-			pesado_percent = str("{0:.2f}".format((float(pesado) * 100) / float(total)))
 
 			# Generar respuesta JSON
-			content = [{"percent": float(liviano_percent), "value":liviano, "key":"Livianos"},
-				       {"percent": float(pesado_percent), "value":pesado, "key":"Pesados"}
+			content = [{"value":liviano, "key":"Livianos"},
+				       {"value":pesado, "key":"Pesados"}
 					  ]
 		except:
 			# Si el Query retorna None
@@ -716,7 +672,7 @@ class CON(viewsets.ViewSet):
 		return Response(content)
 
 # Descripcion: Composicion de vehiculos pesados en FR Sentido O-E
-# Response format: {key, value, data} ?
+# Response format: {key, value}
 class COE(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
@@ -734,7 +690,6 @@ class COE(viewsets.ViewSet):
 
 			liviano = 0
 			pesado = 0
-			total = 0
 
 			for i in range(len(d)):
 				if d[i].vehicle_type == 1:
@@ -743,16 +698,10 @@ class COE(viewsets.ViewSet):
 				elif d[i].vehicle_type == 0:
 					# Contar pesados
 					pesado = pesado + d[i].value
-				# Contar todos
-				total = total + d[i].value
-
-			# Calcular equivalente porcentual
-			liviano_percent = str("{0:.2f}".format((float(liviano) * 100) / float(total)))
-			pesado_percent = str("{0:.2f}".format((float(pesado) * 100) / float(total)))
 
 			# Generar respuesta JSON
-			content = [{"percent": float(liviano_percent), "value":liviano, "key":"Livianos"},
-				       {"percent": float(pesado_percent), "value":pesado, "key":"Pesados"}
+			content = [{"value":liviano, "key":"Livianos"},
+				       {"value":pesado, "key":"Pesados"}
 					  ]
 		except:
 			# Si el Query retorna None
@@ -761,7 +710,7 @@ class COE(viewsets.ViewSet):
 		return Response(content)
 
 # Descripcion: Composicion de vehiculos pesados en GI Sentido N-E
-# Response format: {key, value, data} ?
+# Response format: {key, value}
 class CNE(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
@@ -779,7 +728,6 @@ class CNE(viewsets.ViewSet):
 
 			liviano = 0
 			pesado = 0
-			total = 0
 
 			for i in range(len(d)):
 				if d[i].vehicle_type == 1:
@@ -788,16 +736,10 @@ class CNE(viewsets.ViewSet):
 				elif d[i].vehicle_type == 0:
 					# Contar pesados
 					pesado = pesado + d[i].value
-				# Contar todos
-				total = total + d[i].value
-
-			# Calcular equivalente porcentual
-			liviano_percent = str("{0:.2f}".format((float(liviano) * 100) / float(total)))
-			pesado_percent = str("{0:.2f}".format((float(pesado) * 100) / float(total)))
 
 			# Generar respuesta JSON
-			content = [{"percent": float(liviano_percent), "value":liviano, "key":"Livianos"},
-				       {"percent": float(pesado_percent), "value":pesado, "key":"Pesados"}
+			content = [{"value":liviano, "key":"Livianos"},
+				       {"value":pesado, "key":"Pesados"}
 					  ]
 		except:
 			# Si el Query retorna None
@@ -932,31 +874,29 @@ class ONI(viewsets.ViewSet):
 		return Response(content)
 
 # Grafico circular para los investigadores de cambio climatico
-# Response format: {key, value, data}
+# Response format: {key, value}
 class Censo(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
 
-	def list(self, request, date=None):
+	def list(self, request, start_date=None, end_date=None):
 		# Como ingresar parametros al API
 		try:
 			# Escoger solo en el rango de fechas determinado
-			if date == "null":
+			if start_date == "null" or end_date == "null":
 				# qs no debe incluir fechas
 				qs = main_models.Censo.objects.raw('''SELECT * FROM main_censo''');
 			else:
-				qs = main_models.Censo.objects.raw('''SELECT * FROM main_censo WHERE year = %s ''', [date[:4]]);
+				qs = main_models.Censo.objects.raw('''SELECT * FROM main_censo WHERE year = %s ''', [start_date[:4]]);
 
 			d = list(qs)
 
 			for i in range(len(d)):
-				man_percent = (float(d[i].man) * 100) / float(d[i].total_pob)
 				man = d[i].man
-				woman_percent = (float(d[i].woman) * 100) / float(d[i].total_pob)
 				woman = d[i].woman
 
 			# Generar respuesta JSON
-			content = [{"data": man, "value":man_percent, "key":"Hombres"},
-				       {"data": woman, "value":woman_percent, "key":"Mujeres"}
+			content = [{"value":man, "key":"Hombres"},
+				       {"value":woman, "key":"Mujeres"}
 					  ]
 		except:
 			# Si el Query retorna None

@@ -7,9 +7,9 @@ from . utils import (
 	get_average_emission,
 	get_average_emission_by_type,
 	get_average_trace,
-	get_average_trace_by_type,
 	get_summary,
-	get_key_value_emission_by_type
+	get_key_value_speed_by_type,
+	get_key_value_waiting_by_type
 )
 
 def emission_parser(path):
@@ -34,9 +34,9 @@ def emission_parser(path):
 	# Realizar las funciones de acumulacion, average, etc.
 	AVG_EMISSION_DICT = get_average_emission(data)
 	AVG_WEIGHT_EMISSION_DICT, AVG_LIGHT_EMISSION_DICT = get_average_emission_by_type(data)
-	KEY_VALUE_WEIGHT_CO2_DICT, KEY_VALUE_LIGHT_CO2_DICT= get_key_value_emission_by_type(vehicle_list, "CO2")
-	KEY_VALUE_WEIGHT_CO_DICT, KEY_VALUE_LIGHT_CO_DICT = get_key_value_emission_by_type(vehicle_list, "CO")
-	return AVG_EMISSION_DICT, AVG_WEIGHT_EMISSION_DICT, AVG_LIGHT_EMISSION_DICT, KEY_VALUE_WEIGHT_CO2_DICT, KEY_VALUE_LIGHT_CO2_DICT, KEY_VALUE_WEIGHT_CO_DICT, KEY_VALUE_LIGHT_CO_DICT
+	KEY_VALUE_WEIGHT_MEAN_SPEED_DICT, KEY_VALUE_LIGHT_MEAN_SPEED_DICT = get_key_value_speed_by_type(vehicle_list)
+	KEY_VALUE_WEIGHT_WAITING_DICT, KEY_VALUE_LIGHT_WAITING_DICT = get_key_value_waiting_by_type(vehicle_list)
+	return AVG_EMISSION_DICT, AVG_WEIGHT_EMISSION_DICT, AVG_LIGHT_EMISSION_DICT, KEY_VALUE_WEIGHT_MEAN_SPEED_DICT, KEY_VALUE_LIGHT_MEAN_SPEED_DICT, KEY_VALUE_WEIGHT_WAITING_DICT, KEY_VALUE_LIGHT_WAITING_DICT
 
 def trace_parser(path):
 	with open(path) as fd:
@@ -59,8 +59,7 @@ def trace_parser(path):
 			data.append({'vehicle': x})
 	# Realizar las funciones de acumulacion, average, etc.
 	AVG_TRACE_DICT = get_average_trace(data)
-	AVG_WEIGHT_TRACE_DICT, AVG_LIGHT_TRACE_DICT = get_average_trace_by_type(data)
-	return AVG_TRACE_DICT, AVG_WEIGHT_TRACE_DICT, AVG_LIGHT_TRACE_DICT
+	return AVG_TRACE_DICT
 
 def summary_parser(path):
 	with open(path) as fd:

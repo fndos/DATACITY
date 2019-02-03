@@ -33,7 +33,7 @@ function setMTSLegend(str) {
   }
 }
 
-function d3MultiTimeSeriesSample(container, staticURL, size, source, origin, outset, rangeLabel, start_date, end_date) {
+function d3MultiTimeSeriesSample(container, size, source, origin, outset, rangeLabel, start_date, end_date) {
   if (!checkDate(start_date, end_date)) {
     // Una de las fechas ingresadas no es valida
     start_date = null;

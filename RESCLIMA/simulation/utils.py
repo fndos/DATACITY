@@ -192,66 +192,6 @@ def get_average_trace(data):
 			  ]
 	return AVG_TRACE_DICT
 
-def get_average_trace_by_type(data):
-	avg = [0] * 9
-	sum = [0] * 9
-	for i in range(len(data)):
-		v = data[i]['vehicle']
-		if v["@type"] == "bus_bus":
-			# Vehiculo Pesado
-			# avg[0] = avg[0] + float(v["@id"])
-			avg[1] = avg[1] + float(v["@x"])
-			avg[2] = avg[2] + float(v["@y"])
-			avg[3] = avg[3] + float(v["@angle"])
-			# avg[4] = avg[4] + float(v["@type"])
-			avg[5] = avg[5] + float(v["@speed"])
-			avg[6] = avg[6] + float(v["@pos"])
-			# avg[7] = avg[7] + float(v["@lane"])
-			avg[8] = avg[8] + float(v["@slope"])
-		else:
-			# Vehiculo Liviano
-			# sum[0] = sum[0] + float(v["@id"])
-			sum[1] = sum[1] + float(v["@x"])
-			sum[2] = sum[2] + float(v["@y"])
-			sum[3] = sum[3] + float(v["@angle"])
-			# sum[4] = sum[4] + float(v["@type"])
-			sum[5] = sum[5] + float(v["@speed"])
-			sum[6] = sum[6] + float(v["@pos"])
-			# sum[7] = sum[7] + float(v["@lane"])
-			sum[8] = sum[8] + float(v["@slope"])
-
-	# Calcular el promedio de vehiculos pesados
-	for i in range(len(avg)):
-		avg[i] = avg[i] / len(data)
-	# Calcular el promedio de vehiculos livianos
-	for i in range(len(sum)):
-		sum[i] = sum[i] / len(data)
-	# Creo el diccionario de salida para vehiculos pesados
-	AVG_WEIGHT_TRACE_DICT = [
-			   # {"value":avg[0], "key":"id"},
-			   {"x":avg[1]},
-			   {"y":avg[2]},
-			   {"angle":avg[3]},
-			   # {"value":avg[4], "key":"type"},
-			   {"speed":avg[5]},
-			   {"pos":avg[6]},
-			   # {"value":avg[7], "key":"lane"},
-			   {"slope":avg[8]},
-			  ]
-	# Creo el diccionario de salida para vehiculos livianos
-	AVG_LIGHT_TRACE_DICT = [
-	       # {"value":sum[0], "key":"id"},
-		    {"x":sum[1]},
-		    {"y":sum[2]},
-		    {"angle":sum[3]},
-		    # {"value":sum[4], "key":"type"},
-		    {"speed":sum[5]},
-		    {"pos":sum[6]},
-		    # {"value":sum[7], "key":"lane"},
-		    {"slope":sum[8]},
-	      ]
-	return AVG_WEIGHT_TRACE_DICT, AVG_LIGHT_TRACE_DICT
-
 def get_summary(data):
 	avg = [0] * 12
 	for i in range(len(data)):
@@ -289,7 +229,17 @@ def get_summary(data):
 			  ]
 	return SUMMARY_DICT
 
-def get_key_value_emission_by_type(data, key):
+# No se esta usando en esta version
+def get_key_value_summary(data):
+	KEY_VALUE_MEAN_SPEED_DICT = []
+	KEY_VALUE_WAITING_DICT = []
+	for i in range(len(data)):
+		v = data[i]['step']
+		KEY_VALUE_MEAN_SPEED_DICT.append({"value": v["@meanSpeed"], "key": int(float(v["@time"]))})
+		KEY_VALUE_WAITING_DICT.append({"value": v["@waiting"], "key": int(float(v["@time"]))})
+	return KEY_VALUE_MEAN_SPEED_DICT, KEY_VALUE_WAITING_DICT
+
+def get_key_value_speed_by_type(data):
 	WEIGHT_STEP = []
 	LIGHT_STEP = []
 	for x in range(len(data)):
@@ -297,28 +247,60 @@ def get_key_value_emission_by_type(data, key):
 		LIGHT = 0
 		TOTAL_WEIGHT = 0
 		TOTAL_LIGHT = 0
-		# Por cada lista de vehiculos en el timestep
 		for i in range(len(data[x])):
 			v = data[x][i]
 			if v["@type"] == "bus_bus":
 				# Vehiculo pesado
-				WEIGHT = WEIGHT + float(v["@"+key])
+				WEIGHT = WEIGHT + float(v["@speed"])
 				TOTAL_WEIGHT = TOTAL_WEIGHT + 1
 			else:
 				# Vehiculo liviano
-				LIGHT = LIGHT + float(v["@"+key])
+				LIGHT = LIGHT + float(v["@speed"])
 				TOTAL_LIGHT = TOTAL_LIGHT + 1
+		# Calcular promedio
 		WEIGHT_STEP.append("{0:.2f}".format(WEIGHT/TOTAL_WEIGHT))
 		LIGHT_STEP.append("{0:.2f}".format(LIGHT/TOTAL_LIGHT))
 
 	# Creo el diccionario de salida para vehiculos pesados
-	KEY_VALUE_WEIGHT_DICT = []
+	KEY_VALUE_WEIGHT_MEAN_SPEED_DICT = []
 	for i in range(len(WEIGHT_STEP)):
-		KEY_VALUE_WEIGHT_DICT.append({"value": WEIGHT_STEP[i], "key": i})
-
+		KEY_VALUE_WEIGHT_MEAN_SPEED_DICT.append({"value": metseg_a_kmhor(WEIGHT_STEP[i]), "key": i})
 	# Creo el diccionario de salida para vehiculos livianos
-	KEY_VALUE_LIGHT_DICT = []
+	KEY_VALUE_LIGHT_MEAN_SPEED_DICT = []
 	for i in range(len(LIGHT_STEP)):
-		KEY_VALUE_LIGHT_DICT.append({"value": LIGHT_STEP[i], "key": i})
+		KEY_VALUE_LIGHT_MEAN_SPEED_DICT.append({"value": metseg_a_kmhor(LIGHT_STEP[i]), "key": i})
 
-	return KEY_VALUE_WEIGHT_DICT, KEY_VALUE_LIGHT_DICT
+	return KEY_VALUE_WEIGHT_MEAN_SPEED_DICT, KEY_VALUE_LIGHT_MEAN_SPEED_DICT
+
+def get_key_value_waiting_by_type(data):
+	WEIGHT_STEP = []
+	LIGHT_STEP = []
+	for x in range(len(data)):
+		WEIGHT = 0
+		LIGHT = 0
+		TOTAL_WEIGHT = 0
+		TOTAL_LIGHT = 0
+		for i in range(len(data[x])):
+			v = data[x][i]
+			if v["@type"] == "bus_bus":
+				# Vehiculo pesado
+				WEIGHT = WEIGHT + int(float(v["@waiting"]))
+				TOTAL_WEIGHT = TOTAL_WEIGHT + 1
+			else:
+				# Vehiculo liviano
+				LIGHT = LIGHT + int(float(v["@waiting"]))
+				TOTAL_LIGHT = TOTAL_LIGHT + 1
+		# Calcular promedio
+		WEIGHT_STEP.append("{0:.2f}".format(WEIGHT/TOTAL_WEIGHT))
+		LIGHT_STEP.append("{0:.2f}".format(LIGHT/TOTAL_LIGHT))
+
+	# Creo el diccionario de salida para vehiculos pesados
+	KEY_VALUE_WEIGHT_WAITING_DICT = []
+	for i in range(len(WEIGHT_STEP)):
+		KEY_VALUE_WEIGHT_WAITING_DICT.append({"value": float(WEIGHT_STEP[i]), "key": i})
+	# Creo el diccionario de salida para vehiculos livianos
+	KEY_VALUE_LIGHT_WAITING_DICT = []
+	for i in range(len(LIGHT_STEP)):
+		KEY_VALUE_LIGHT_WAITING_DICT.append({"value": float(LIGHT_STEP[i]), "key": i})
+
+	return KEY_VALUE_WEIGHT_WAITING_DICT, KEY_VALUE_LIGHT_WAITING_DICT

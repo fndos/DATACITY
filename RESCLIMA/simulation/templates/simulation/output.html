@@ -27,10 +27,24 @@
     </div>
   </li>
   <li>
-    <div class="collapsible-header"><i class="material-icons">view_module</i>Vehículos</div>
+    <div class="collapsible-header"><i class="material-icons">directions_bus</i>Vehículos Pesados</div>
     <div class="collapsible-body">
       <span id="simulation-trace">
         {% for data in simulation_trace %}
+          {% for key, value in data.iteritems %}
+            <span class="resclima-span">{{ key }}: </span>
+            <span>{{ value }}</span>
+            <br>
+          {% endfor %}
+        {% endfor %}
+      </span>
+    </div>
+  </li>
+  <li>
+    <div class="collapsible-header"><i class="material-icons">directions_car</i>Vehículos Livianos</div>
+    <div class="collapsible-body">
+      <span id="simulation-trace">
+        {% for data in simulation_trace_liviano %}
           {% for key, value in data.iteritems %}
             <span class="resclima-span">{{ key }}: </span>
             <span>{{ value }}</span>

@@ -80,7 +80,7 @@ function d3TimeSeriesSample(container, size, source, rangeLabel, start_date, end
 
         // the date range of available data:
         var dataXrange = d3.extent(dataset, function(d) { return d.month; });
-        var dataYrange = [0, d3.max(dataset, function(d) { return d.count; })];
+        var dataYrange = [d3.min(dataset, function(d) { return d.count; }), d3.max(dataset, function(d) { return d.count; })];
 
         // maximum date range allowed to display
         var mindate = dataXrange[0],  // use the range of the data
@@ -101,7 +101,7 @@ function d3TimeSeriesSample(container, size, source, rangeLabel, start_date, end
             .domain(dataXrange);
 
         var y = d3.scale.linear()
-        	.range([height, 0])
+        	.range([height,0])
             .domain(dataYrange);
 
         var xAxis = d3.svg.axis()
@@ -150,6 +150,14 @@ function d3TimeSeriesSample(container, size, source, rangeLabel, start_date, end
           .y0((height))
           .y1(function(d) { return y(d.count); });
 
+        var line_missing = d3.svg.line()
+            .x(function(d) { return x(d.month); })
+            .y(function(d) { return y(d.count); });
+
+        var area_missing = d3.svg.area()
+            .x(function(d) { return x(d.month); })
+            .y0((height))
+            .y1(function(d) { return y(d.count); });
         /* === Context Chart === */
 
         var area_context = d3.svg.area()
@@ -207,9 +215,9 @@ function d3TimeSeriesSample(container, size, source, rangeLabel, start_date, end
             .attr("class", "pane")
             .attr("width", width)
             .attr("height", height)
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-            .call(zoom)
-            .call(draw);
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        rect.call(zoom)
+    .call(draw);
 
         // === current date range text & zoom buttons === //
 
@@ -275,6 +283,14 @@ function d3TimeSeriesSample(container, size, source, rangeLabel, start_date, end
            	.attr("transform", "translate(" + (width) + ", 0)");
 
         focus.append("path")
+        .datum(dataset)
+        .attr("class", "area_missing")
+        .attr("d", area_missing)
+        .call(zoom)
+        .call(draw);
+
+
+        focus.append("path")
             .datum(dataset)
             .attr("class", "area")
             .attr("d", area);
@@ -283,12 +299,31 @@ function d3TimeSeriesSample(container, size, source, rangeLabel, start_date, end
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
             .call(xAxis);
-
+        focus.append("path")
+            .datum(dataset)
+            .attr("class", "line_missing")
+            .attr("d", line_missing);
         focus.append("path")
             .datum(dataset)
             .attr("class", "line")
             .attr("d", line);
 
+        focus.selectAll(".dot")
+            .data(dataset)
+            //.defined(function(d) { return d.data_point == true; })
+            .enter().append("circle")
+              .attr("class", "dot")
+              .attr("r", 3)
+              .attr("cx", function(d) { return x(d.month); })
+              .attr("cy", function(d) { return y(d.count); })
+              .on("mouseover", function(d) {show_tooltip(d)} )
+              .on("mouseout", function(d) {hide_tooltip(d)} );
+
+        /* === tooltip === */
+        var div = d3.select(container).append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
+        // console.log(container)
         /* === context chart === */
 
         context.append("path")
@@ -392,9 +427,31 @@ function d3TimeSeriesSample(container, size, source, rangeLabel, start_date, end
 
         // === brush and zoom functions ===
 
+        function show_tooltip(d) {
+            
+            if (d.count == 1) {
+                var metricName_point = metricName.slice(0, -1);
+            } else {
+                var metricName_point = metricName;
+            }
+
+            div.transition()
+                .duration(60)
+                .style("opacity", 0.98);
+            div.html(d.count + " " + metricName_point + " in <b>" + DateFormat(d.month) + "</b><br/>" + d.count + " " + metricName + " total")
+                .style("left", (d3.event.pageX -45) + "px")
+                .style("top", (d3.event.pageY -50) + "px");
+            };
+
+function hide_tooltip(d) {
+            div.transition()
+                .duration(60)
+                .style("opacity", 0);
+};
         function brushed() {
 
             x.domain(brush.empty() ? x2.domain() : brush.extent());
+            common_behaviour();
             focus.select(".area").attr("d", area);
             focus.select(".line").attr("d", line);
             focus.select(".x.axis").call(xAxis);
@@ -407,6 +464,7 @@ function d3TimeSeriesSample(container, size, source, rangeLabel, start_date, end
 
         function draw() {
             setYdomain();
+            common_behaviour();
             focus.select(".area").attr("d", area);
             focus.select(".line").attr("d", line);
             focus.select(".x.axis").call(xAxis);
@@ -416,6 +474,16 @@ function d3TimeSeriesSample(container, size, source, rangeLabel, start_date, end
             vis.select(".brush").call(brush);
             // and update the text showing range of dates.
             updateDisplayDates();
+        };
+        function common_behaviour() {
+            focus.select(".area").attr("d", area);
+            focus.select(".line").attr("d", line);
+            focus.select(".area_missing").attr("d", area_missing);
+            focus.select(".line_missing").attr("d", line_missing);
+            focus.select(".x.axis").call(xAxis);
+            focus.selectAll(".dot")
+                .attr("cx", function(d) { return x(d.month); })
+                .attr("cy", function(d) { return y(d.count); });
         };
 
         function brushend() {
@@ -511,13 +579,14 @@ function d3TimeSeriesSample(container, size, source, rangeLabel, start_date, end
             countSubset.push(yleft);
             countSubset.push(yright);
             var ymax_new = d3.max(countSubset);
+            var ymin_new = d3.min(countSubset);
 
             if(ymax_new == 0){
                 ymax_new = dataYrange[1];
             }
 
             // reset and redraw the yaxis
-            y.domain([0, ymax_new*1.05]);
+            y.domain([ymin_new*1.05, ymax_new*1.05]);
             focus.select(".y.axis").call(yAxis);
 
         };

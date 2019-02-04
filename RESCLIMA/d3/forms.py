@@ -56,6 +56,12 @@ PIE_CHART_CHOICES = (
   ('d3_pie_chart_LE', 'SUMO: Emisiones de gases de vehiculos livianos'),
   # Choices con datos de logistica y transporte
   ('d3_pie_chart_composition_EN', 'Composicion de vehicular E-N giro a la derecha'),
+  ('d3_pie_chart_composition_EO', 'Composicion de vehicular E-O frente'),
+  ('d3_pie_chart_composition_NO', 'Composicion de vehicular N-O giro a la derecha'),
+  ('d3_pie_chart_composition_ON', 'Composicion de vehicular O-N giro a la izquierda'),
+  ('d3_pie_chart_composition_OE', 'Composicion de vehicular O-E frente'),
+  ('d3_pie_chart_composition_NE', 'Composicion de vehicular N-E giro a la izquierda'),
+
 )
 
 TIME_SERIES_CHOICES = (

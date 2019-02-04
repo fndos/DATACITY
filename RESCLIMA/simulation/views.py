@@ -112,12 +112,13 @@ def SimulationOutput(request, pk):
 
 		SUMMARY_DICT = summary_parser(SUMMARY_PATH)
 		AVG_EMISSION_DICT, AVG_WEIGTH_EMISSION_DICT, AVG_LIGHT_EMISSION_DICT, KEY_VALUE_WEIGHT_MEAN_SPEED_DICT, KEY_VALUE_LIGHT_MEAN_SPEED_DICT, KEY_VALUE_WEIGHT_WAITING_DICT, KEY_VALUE_LIGHT_WAITING_DICT = emission_parser(EMISSION_PATH)
-		AVG_TRACE_DICT = trace_parser(TRACE_PATH)
+		AVG_TRACE_DICT_PESADO,AVG_TRACE_DICT_LIVIANO = trace_parser(TRACE_PATH)
 		# Save to DB the Output (Usar try, except)
 		try:
 			output_instance = Output(simulation=Simulation.objects.get(id=pk),
 				summary=SUMMARY_DICT,
-				avg_trace=AVG_TRACE_DICT,
+				avg_trace=AVG_TRACE_DICT_PESADO,
+				avg_trace_liviano=AVG_TRACE_DICT_LIVIANO,
 				avg_emission=AVG_EMISSION_DICT,
 				avg_weight_emission=AVG_WEIGTH_EMISSION_DICT,
 				avg_light_emission=AVG_LIGHT_EMISSION_DICT,
@@ -132,7 +133,8 @@ def SimulationOutput(request, pk):
 		# Se envia el contexto para presentar un resumen breve de la simulacion
 		context['simulation_summary'] = SUMMARY_DICT
 		context['simulation_emission'] = AVG_EMISSION_DICT
-		context['simulation_trace'] = AVG_TRACE_DICT
+		context['simulation_trace'] = AVG_TRACE_DICT_PESADO
+		context['simulation_trace_liviano'] = AVG_TRACE_DICT_LIVIANO
 
 	except ImportError:
 		context = {}

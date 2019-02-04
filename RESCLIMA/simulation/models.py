@@ -59,6 +59,7 @@ class Output(models.Model):
 	simulation = models.OneToOneField(Simulation, on_delete=models.CASCADE, primary_key=True)
 	summary = JSONField()
 	avg_trace = JSONField()
+	avg_trace_liviano = JSONField()
 	avg_emission = JSONField()
 	avg_weight_emission = JSONField()
 	avg_light_emission = JSONField()

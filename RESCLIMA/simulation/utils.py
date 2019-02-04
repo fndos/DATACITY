@@ -3,6 +3,10 @@ def metseg_a_kmhor(metseg):
 	km_hora = round(3.6*float(metseg), 2)
 	return km_hora
 
+def seg_a_min(seg):
+	minu=round(float(seg)/60.0,2)
+	return minu
+
 def cutter(path):
 	temp = path
 	cut_position = 0
@@ -44,17 +48,17 @@ def get_average_emission(data):
 	# Creo el diccionario de salida
 	AVG_EMISSION_DICT = [{"Ruido":str("{0:.2f}".format(avg[0])) + " dB"},
 			   # {"value":avg[1], "key":"lane"},
-			   {"CO2":str("{0:.2f}".format(avg[2])) + " ppm"},
-			   {"CO":str("{0:.2f}".format(avg[3])) + " ppm" },
+			   {"CO2":str("{0:.2f}".format(avg[2])) + " mg/s"},
+			   {"CO":str("{0:.2f}".format(avg[3])) + " mg/s" },
 			   # {"value":avg[4], "key":"angle"},
 			   # {"value":avg[5], "key":"id"},
 			   # {"value":avg[6], "key":"pos"},
-			   {"PMx":str("{0:.2f}".format(avg[7])) + " ppm"},
+			   {"PMx":str("{0:.2f}".format(avg[7])) + " mg/s"},
 			   # {"value":avg[8], "key":"waiting"},
 			   # {"value":avg[9], "key":"electricity"},
-			   {"NOx":str("{0:.2f}".format(avg[10])) + " ppm"},
+			   {"NOx":str("{0:.2f}".format(avg[10])) + " mg/s"},
 			   # {"value":avg[11], "key":"route"},
-			   {"HC":str("{0:.2f}".format(avg[12])) + " ppm"},
+			   {"HC":str("{0:.2f}".format(avg[12])) + " mg/s"},
 			   # {"value":avg[13], "key":"fuel"},
 			   # {"value":avg[14], "key":"x"},
 			   # {"value":avg[15], "key":"y"},
@@ -164,22 +168,40 @@ def get_average_emission_by_type(data):
 
 def get_average_trace(data):
 	avg = [0] * 9
+	liviano = [0] * 9
+	contador_liviano=0
+	contador_pesado=0
 	for i in range(len(data)):
 		v = data[i]['vehicle']
-		# avg[0] = avg[0] + float(v["@id"])
-		avg[1] = avg[1] + float(v["@x"])
-		avg[2] = avg[2] + float(v["@y"])
-		avg[3] = avg[3] + float(v["@angle"])
-		# avg[4] = avg[4] + float(v["@type"])
-		avg[5] = avg[5] + float(v["@speed"])
-		avg[6] = avg[6] + float(v["@pos"])
-		# avg[7] = avg[7] + float(v["@lane"])
-		avg[8] = avg[8] + float(v["@slope"])
+		if v["@type"] =="bus_bus":
+			# avg[0] = avg[0] + float(v["@id"])
+			avg[1] = avg[1] + float(v["@x"])
+			avg[2] = avg[2] + float(v["@y"])
+			avg[3] = avg[3] + float(v["@angle"])
+			# avg[4] = avg[4] + float(v["@type"])
+			avg[5] = avg[5] + float(v["@speed"])
+			avg[6] = avg[6] + float(v["@pos"])
+			# avg[7] = avg[7] + float(v["@lane"])
+			avg[8] = avg[8] + float(v["@slope"])
+			contador_pesado+=1
+		else:
+			# avg[0] = avg[0] + float(v["@id"])
+			liviano[1] = liviano[1] + float(v["@x"])
+			liviano[2] = liviano[2] + float(v["@y"])
+			liviano[3] = liviano[3] + float(v["@angle"])
+			# avg[4] = avg[4] + float(v["@type"])
+			liviano[5] = liviano[5] + float(v["@speed"])
+			liviano[6] = liviano[6] + float(v["@pos"])
+			# avg[7] = avg[7] + float(v["@lane"])
+			liviano[8] = liviano[8] + float(v["@slope"])
+			contador_liviano+=1
+
 	# Calcular el promedio
 	for i in range(len(avg)):
-		avg[i] = avg[i] / len(data)
+		avg[i] = avg[i] / contador_pesado
+		liviano[i] = liviano[i] / contador_liviano
 	# Creo el diccionario de salida
-	AVG_TRACE_DICT = [
+	AVG_TRACE_DICT_PESADO = [
 			   # {"value":avg[0], "key":"id"},
 			   {"x":"{0:.2f}".format(avg[1])},
 			   {"y":"{0:.2f}".format(avg[2])},
@@ -190,21 +212,32 @@ def get_average_trace(data):
 			   # {"value":avg[7], "key":"lane"},
 			   {"Peralte":"{0:.2f}".format(avg[8])},
 			  ]
-	return AVG_TRACE_DICT
+	AVG_TRACE_DICT_LIVIANO= [
+			   # {"value":avg[0], "key":"id"},
+			   {"x":"{0:.2f}".format(liviano[1])},
+			   {"y":"{0:.2f}".format(liviano[2])},
+			   {"Angulo":"{0:.2f}".format(liviano[3])},
+			   # {"value":avg[4], "key":"type"},
+			   {"Velocidad":"{0:.2f}".format(liviano[5])},
+			   {"pos":"{0:.2f}".format(liviano[6])},
+			   # {"value":avg[7], "key":"lane"},
+			   {"Peralte":"{0:.2f}".format(liviano[8])},
+			  ]
+	return AVG_TRACE_DICT_PESADO, AVG_TRACE_DICT_LIVIANO
 
 def get_summary(data):
 	avg = [0] * 12
 	for i in range(len(data)):
 		v = data[i]['step']
-		avg[0] = avg[0] + float(v["@time"])
-		avg[1] = avg[1] + int(v["@loaded"])
-		avg[2] = avg[2] + int(v["@inserted"])
-		avg[3] = avg[3] + int(v["@running"])
-		avg[4] = avg[4] + int(v["@waiting"])
-		avg[5] = avg[5] + int(v["@ended"])
+		avg[0] = float(v["@time"])
+		avg[1] = max(avg[1], int(v["@loaded"]))
+		avg[2] = max(avg[2], int(v["@inserted"]))
+		avg[3] = max(avg[3], int(v["@running"]))
+		avg[4] = max(avg[4], int(v["@waiting"]))
+		avg[5] = int(v["@ended"])
 		avg[6] = avg[6] + float(v["@meanWaitingTime"])
 		avg[7] = avg[7] + float(v["@meanTravelTime"])
-		avg[8] = avg[8] + int(v["@halting"])
+		avg[8] = max(avg[8], int(v["@halting"]))
 		avg[9] = avg[9] + float(v["@meanSpeed"])
 		avg[10] = avg[10] + float(v["@meanSpeedRelative"])
 		avg[11] = avg[11] + int(v["@duration"])
@@ -213,19 +246,19 @@ def get_summary(data):
 	avg[10]=round(float(float(avg[10])/float(len(data))),2)
 	SUMMARY_DICT = [
 			   {"tiempo":str(avg[0]) + " segundos"},
-			   {"cargado":str(avg[1]) + " vehiculos"},
-			   {"insertado":str(avg[2]) + " vehiculos"},
-			   {"corriendo":str(avg[3]) + " vehiculos"},
-			   {"esperando":str(avg[4]) + " vehiculos"},
+			   {"cargado":str(avg[1]) + " vehiculos en total"},
+			   {"insertado":str(avg[2]) + " vehiculos en total"},
+			   {"corriendo":str(avg[3]) + " vehiculos concurrentes"},
+			   {"esperando":str(avg[4]) + " vehiculos en espera (Maximo)"},
 			   {"terminado":str(avg[5]) + " vehiculos"},
-			   {"tiempo de espera medio":str(avg[6]) + " segundos"},
-			   {"tiempo de viaje medio":str(avg[7]) + " segundos"},
-			   {"interrupcion":avg[8]},
+			   {"tiempo de espera medio":str(seg_a_min(avg[6])) + " minutos"},
+			   {"tiempo de viaje medio":str(seg_a_min(avg[7])) + " minutos"},
+			   {"interrupcion":str(avg[8])+" vehiculos (Maximo)"},
 			   #{"velocidad media":str(avg[9]) + " metros por segundo"},
 			   {"velocidad media":str(metseg_a_kmhor(avg[9])) + " kilometros por hora"},
 			   #{"velocidad relativa media":str(avg[10])  + " metros por segundo"},
 			   {"velocidad relativa media":str(metseg_a_kmhor(avg[10]))  + " kilometros por hora"},
-			   {"duracion":str(avg[11]) + " segundos"},
+			   #{"duracion":str(avg[11]) + " segundos"},
 			  ]
 	return SUMMARY_DICT
 

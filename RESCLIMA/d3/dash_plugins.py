@@ -10,6 +10,7 @@ from .dash_widgets import (
     BaseMultiTimeSeriesWidget,
     BasePieChartWidget,
     BaseLineChartWidget,
+    BaseGroupedBarChartWidget,
 )
 
 from .forms import *
@@ -66,6 +67,12 @@ class BaseLineChartPlugin(BaseChartPlugin):
     form = LineChartForm
     html_classes = ['chartonic', 'd3-line-chart-plugin']
 
+class BaseGroupedBarChartPlugin(BaseChartPlugin):
+    """Base line chart plugin."""
+
+    name = _("Grafico de barras agrupadas")
+    form = GroupedBarChartForm
+    html_classes = ['chartonic', 'd3-grouped-bar-chart-plugin']
 
 # *****************************************************************************
 # ********** Generating and registering the plugins using factory *************
@@ -84,6 +91,7 @@ plugin_factory(BaseTimeSeriesPlugin, 'd3_time_series', sizes)
 plugin_factory(BaseMultiTimeSeriesPlugin, 'd3_multi_time_series', sizes)
 plugin_factory(BasePieChartPlugin, 'd3_pie_chart', sizes)
 plugin_factory(BaseLineChartPlugin, 'd3_line_chart', sizes)
+plugin_factory(BaseGroupedBarChartPlugin, 'd3_grouped_bar_chart', sizes)
 
 # *****************************************************************************
 # ********************************* Registering widgets ***********************
@@ -96,3 +104,4 @@ plugin_widget_factory(BaseTimeSeriesWidget, 'bootstrap_materialize', 'main', 'd3
 plugin_widget_factory(BaseMultiTimeSeriesWidget, 'bootstrap_materialize', 'main', 'd3_multi_time_series', sizes)
 plugin_widget_factory(BasePieChartWidget, 'bootstrap_materialize', 'main', 'd3_pie_chart', sizes)
 plugin_widget_factory(BaseLineChartWidget, 'bootstrap_materialize', 'main', 'd3_line_chart', sizes)
+plugin_widget_factory(BaseGroupedBarChartWidget, 'bootstrap_materialize', 'main', 'd3_grouped_bar_chart', sizes)

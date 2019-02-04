@@ -63,7 +63,10 @@ PIE_CHART_CHOICES = (
   ('d3_pie_chart_composition_NE', 'Composicion de vehicular N-E giro a la izquierda'),
 
 )
-
+TIME_SERIES_CHOICES = (
+  (None, 'Selecciona una opción'),
+  ('d3_grouped_bar_chart', 'Precipitacion'), # Mover a Z Time Series
+)
 TIME_SERIES_CHOICES = (
   (None, 'Selecciona una opción'),
   ('d3_time_series_oni', 'Oceanic Niño Index (ONI)'), # Mover a Z Time Series
@@ -110,6 +113,30 @@ class BarChartForm(forms.Form, DashboardPluginFormBase):
         self.fields['source'] = forms.ChoiceField(label=_("Tabla/API"), choices=KEY_VALUE_CHOICES, required=True)
         self.fields['color'] = forms.CharField(label=_("Color principal"), required=True, widget=forms.TextInput(attrs={'type':'color'}))
         self.fields['hover'] = forms.CharField(label=_("Color secundario"), required=True, widget=forms.TextInput(attrs={'type':'color'}))
+
+class GroupedBarChartForm(forms.Form, DashboardPluginFormBase):
+
+    plugin_data_fields = [
+        ("title", ""),
+        ("start_date", ""),
+        ("end_date", ""),
+        # ("domainLabel", ""),
+        ("rangeLabel", ""),
+        # ("simulation", ""),
+        ("source", ""),
+        # ("color", ""),
+        # ("hover", ""),
+    ]
+
+    title = forms.CharField(label=_("Titulo"), required=True)
+    # domainLabel = forms.CharField(label=_("Etiqueta del eje X"), required=True)
+    rangeLabel = forms.CharField(label=_("Etiqueta del eje Y"), required=True)
+    start_date = forms.CharField(label=_("Fecha de inicio"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
+    end_date = forms.CharField(label=_("Fecha de finalizacion"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
+    source = forms.ChoiceField(label=_("Tabla/API"), choices=TIME_SERIES_CHOICES, required=True)
+
+
+
 
 # Formulario para Time Series
 class TimeSeriesForm(forms.Form, DashboardPluginFormBase):

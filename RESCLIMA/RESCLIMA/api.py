@@ -22,6 +22,7 @@ router.register(r'd3_bar_chart_W_NO/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)'
 router.register(r'd3_bar_chart_W_ON/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.WON, base_name='d3_bar_chart_W_ON')
 router.register(r'd3_bar_chart_W_OE/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.WOE, base_name='d3_bar_chart_W_OE')
 router.register(r'd3_bar_chart_W_NE/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.WNE, base_name='d3_bar_chart_W_NE')
+router.register(r'd3_grouped_bar_chart/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.Precipitation, base_name='d3_grouped_bar_chart')
 
 # Grafico de barras (composicion %) para los investigadores de logistica y transporte
 router.register(r'd3_pie_chart_composition_EN/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.CEN, base_name='d3_pie_chart_composition_EN') # OK

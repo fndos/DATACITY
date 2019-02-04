@@ -952,3 +952,29 @@ class Population(viewsets.ViewSet):
 			content = {}
 
 		return Response(content)
+
+class Precipitation(viewsets.ViewSet):
+	renderer_classes = (JSONRenderer, )
+
+	def list(self, request, start_date=None, end_date=None):
+		try:
+			# Obtener la informacion de la BD
+			qs = main_models.Clima.objects.raw('''SELECT date_part('year', date) AS year, sum(rr) AS suma, MIN(rr) AS minimo, MAX(rr) AS maximo, AVG(rr) as media FROM main_clima  GROUP BY d ORDER BY d ASC''');
+			d = list(qs)
+			dict = {}
+			
+			for i in range(len(d)):
+				lista_dicts = []
+				lista_dicts.append({'value':d[i].suma,'rate':'Acumulado'})
+				lista_dicts.append({'value':d[i].minimo,'rate':'Minimo'})
+				lista_dicts.append({'value':d[i].maximo,'rate':'Maximo'})
+				lista_dicts.append({'value':d[i].media,'rate':'Promedio'})
+				dict[d[i].year] = lista_dicts
+			# Crear JSON dinamico
+			content = [{"categorie": k, "values": v } for k, v in dict.iteritems()]
+
+		except:
+			# Si el Query retorna None
+			content = {}
+
+		return Response(content)

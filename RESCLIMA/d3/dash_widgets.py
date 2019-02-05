@@ -67,7 +67,8 @@ class BaseTimeSeriesWidget(BaseChartWidget):
     media_js = (
         'js/d3.v3.min.js',  # Main D3 script
         'js/underscore.min.js', # Underscore Script
-        'js/legend.min.js', # D3 Legend
+        'js/d3.tip.min.js', # D3 Tip Script
+        # 'js/legend.min.js', # D3 Legend
         'js/d3.queue.min.js', # D3 Queue
         'js/d3_time_series.js',  # Helper script
     )

@@ -13,6 +13,11 @@ function isEmpty(str) {
 	else { return false }
 }
 
+function getBarChartPluginSize(str) {
+  return parseInt(str[str.length-1]);
+}
+
+
 function checkDate(start_date, end_date) {
    if (!isEmpty(start_date) && !isEmpty(end_date)) { return true; }
   else { return false; }
@@ -23,7 +28,7 @@ function setSource(sid, source, start_date, end_date) {
 	else { return "http://127.0.0.1:8000/api/" + source + "/" + sid; }
 }
 
-function d3BarChartSample(container, source, start_date, end_date, domainLabel, rangeLabel, color, hover, sid) {
+function d3BarChartSample(container, source, start_date, end_date, domainLabel, rangeLabel, color, hover, sid, size) {
   if (!checkDate(start_date, end_date)) {
     // Una de las fechas ingresadas no es valida
     start_date = null;
@@ -71,7 +76,8 @@ function d3BarChartSample(container, source, start_date, end_date, domainLabel, 
              "<div><span>" + toTitleCase(rangeLabel) + ":</span> <span style='color:white'>" + d['value'] + "</span></div>";
     })
 
-  svg.call(tip);
+  // BUG: No llamar tooltip en 4x4
+  if (getBarChartPluginSize(size) != 4) { svg.call(tip) }
 
   d3.json(SOURCE_URL, function(error, data) {
     // get data from table

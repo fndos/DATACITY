@@ -14,10 +14,10 @@ function getTimeSeriesPluginSize(str) {
 // }
 
 function getTimeSeriesViewBox(size) {
-	if (size == 4) { return "-32 0 665 665" }
-	else if (size == 5) { return "-22 0 640 640" }
-	else if (size == 6) { return "-18 0 625 625" }
-	else { return "0 0 580 350" }
+	if (size == 4) { return "222 0 745 799" }
+	else if (size == 5) { return "69 0 745 579" }
+	else if (size == 6) { return "22 0 699 459" }
+	else { return "4 0 600 370" }
 }
 
 function isEmpty(str) {
@@ -40,8 +40,8 @@ function d3TimeSeriesSample(container, size, source, rangeLabel, start_date, end
 
   // example data
   var metricName = rangeLabel;
-  var optwidth = 580; //600
-  var optheight = 350; //370
+  var optwidth = 600;
+  var optheight = 370;
 
   // Define URL for JSON
   SOURCE_URL = "http://127.0.0.1:8000/api/" + source + "/" + start_date + "/" + end_date + "/";
@@ -238,7 +238,8 @@ function d3TimeSeriesSample(container, size, source, rangeLabel, start_date, end
           return "<b>" + DateFormat(d.month) + "</b><br/>" + d.count
         });
 
-      vis.call(tip);
+      // BUG: Llamar tooltip solo en 7x7
+      if (getTimeSeriesPluginSize(size) == 7) { vis.call(tip); }
 
       vis.append("defs").append("clipPath")
           .attr("id", "clip")

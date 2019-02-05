@@ -13,10 +13,10 @@ function getLineChartPluginSize(str) {
 }
 
 function getLineChartViewBox(size) {
-	if (size == 4) { return "6 0 589 589" }
-	else if (size == 5) { return "6 0 589 589" }
-	else if (size == 6) { return "6 0 589 589" }
-	else { return "6 0 589 589" }
+	if (size == 4) { return "6 0 1062 425" }
+	else if (size == 5) { return "6 0 842 325" }
+	else if (size == 6) { return "6 0 700 270" }
+	else { return "4 0 586 270" } // OK
 }
 
 function setSource(sid, source, start_date, end_date) {
@@ -61,8 +61,8 @@ function d3LineChartSample(container, start_date, end_date, source, origin, doma
 
   // Set the dimensions of the canvas / graph
   var	margin = {top: 30, right: 20, bottom: 30, left: 50},
-  	  width = 600 - margin.left - margin.right,
-  	  height = 270 - margin.top - margin.bottom;
+  	  width = 586 - margin.left - margin.right, // 600
+  	  height = 270 - margin.top - margin.bottom; // 270
 
   // Set the ranges
   var x = d3.scale.linear().range([0 , width]),
@@ -81,34 +81,65 @@ function d3LineChartSample(container, start_date, end_date, source, origin, doma
   // Define the line
   var	line = d3.svg.line()
     .x(function(d) { return x(d.key); })
-    .y(function(d) { return y(d.value); }).interpolate("basis");
+    .y(function(d) { return y(d.value); });
+    // .interpolate("basis");
 
   // Adds the svg canvas
   var	svg = d3.select(container)
     .append("svg")
     .attr("viewBox", getLineChartViewBox(getLineChartPluginSize(size)))
     .attr("perserveAspectRatio", "xMinYMid")
+    .attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+  // Add tooltip
+  var tip = d3.tip()
+    .attr('class', 'd3-tip')
+    .offset([-10, 0])
+    .html(function(d) {
+      return "<span>" + domainLabel + ": </span><span style='color: white;'>" + d.key + "</span><br/>" +
+             "<span>" + rangeLabel + ": </span><span style='color: white;'>" + d.value + "</span>"
+    });
+
+  // BUG: Llamar tooltip solo en 7x7
+  if (getLineChartPluginSize(size) == 7) { svg.call(tip); }
 
   d3.queue()
     .defer(d3.json, SOURCE_URL)
     .defer(d3.json, ORIGIN_URL)
-    .await(function(error, data, root) {
+    .await(function(error, data, data2) {
     if (error) {
         console.error('Algo salió mal: ' + error);
     }
     else {
+        // Escoger el maximo y
+        data_max = d3.max(data, function(d) { return d.value });
+        data2_max = d3.max(data2, function(d) { return d.value });
         // Scale the range of the data
-      	x.domain(d3.extent(data, function(d) { return d.key; }));
-        y.domain([0, d3.max(root, function(d) { return d.value; })]);
+      	x.domain(d3.extent(data, function(d) { return d.key }));
+        y.domain([0, Math.max(data_max, data2_max)]);
 
       	// Add the line path.
       	svg.append("path")
       		.attr("class", "line")
       		.attr("d", line(data))
           .attr("data-legend",function(d) { return setLegend(source) });
+
+        // circles
+        svg.selectAll(".dot")
+        	.data(data)
+      	   //.defined(function(d) { return d.data_point == true; })
+          .enter().append("circle")
+          .attr("class", "dot")
+          .style("stroke", "blue")
+          .style("fill", "blue")
+          .attr("r", 3)
+          .attr("cx", function(d) { return x(d.key); })
+          .attr("cy", function(d) { return y(d.value); })
+      	  .on("mouseover", function(d) {tip.show(d);} )
+          .on("mouseout", function(d) {tip.hide(d);} );
 
       	// Add the X Axis
       	svg.append("g")
@@ -117,7 +148,7 @@ function d3LineChartSample(container, start_date, end_date, source, origin, doma
       		.call(xAxis)
           .append("text").style("font-size", "14px")
           .attr("x", width / 2 + 13)
-          .attr("y",  36)
+          .attr("y",  30)
           .attr("dx", ".75em")
           .style("text-anchor", "end")
           .text(domainLabel);
@@ -137,12 +168,26 @@ function d3LineChartSample(container, start_date, end_date, source, origin, doma
       	svg.append("path")
       		.attr("class", "line")
           .style("stroke", "red")
-      		.attr("d", line(root))
+      		.attr("d", line(data2))
           .attr("data-legend",function(d) { return setLegend(origin) });
+
+        // circles
+        svg.selectAll(".dot2")
+        	.data(data2)
+      	   //.defined(function(d) { return d.data_point == true; })
+          .enter().append("circle")
+          .attr("class", "dot2")
+          .style("stroke", "red")
+          .style("fill", "red")
+          .attr("r", 3)
+          .attr("cx", function(d) { return x(d.key); })
+          .attr("cy", function(d) { return y(d.value); })
+      	  .on("mouseover", function(d) {tip.show(d);} )
+          .on("mouseout", function(d) {tip.hide(d);} );
 
         legend = svg.append("g")
           .attr("class","legend")
-          .attr("transform","translate(474,-19)")
+          .attr("transform","translate(474,-22)")
           .style("font-size","12px")
           .call(d3.legend)
 

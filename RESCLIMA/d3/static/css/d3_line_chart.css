@@ -16,8 +16,8 @@
   fill: none;
 }
 
-.legend rect {
+.legend > .legend-box {
   fill:white;
   stroke:white;
-  opacity:0.8;
+  opacity:0.0;
 }

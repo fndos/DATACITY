@@ -77,7 +77,8 @@ function d3GroupedBarChartSample(container, source, start_date, end_date, rangeL
       return "<div><span>" + d.rate + ":</span> <span style='color:white'>" + d.value + "</span></div>";
     })
 
-  svg.call(tip);
+  // BUG: No llamar tooltip en 6x6
+  if (getGroupedBarChartPluginSize(size) != 6) { svg.call(tip) }
 
   d3.json("http://127.0.0.1:8000/api/" + source + "/" + start_date + "/" + end_date, function(error, data) {
 

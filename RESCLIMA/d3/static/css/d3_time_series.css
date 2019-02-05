@@ -45,14 +45,14 @@
 /*missing data line */
 .metric-chart path.line_missing {
 	fill: none;
-	stroke: #00AA8D; /* default, changed in each theme */
+	stroke: #00AA8D; /* default 00AA8D, changed in each theme */
 	stroke-width: 1.5px;
-	stroke-dasharray: 1.5px 2px;
+	/* stroke-dasharray: 1.5px 2px; */
 	clip-path: url(#clip);
 }
 /*missing data area */
 .metric-chart path.area_missing {
-	fill: #00AA8D; /* CB default, changed in each theme */
+	fill: white; /* CB default 00AA8D, changed in each theme */
 	opacity: 0.15;
 	clip-path: url(#clip);
 	cursor: move; /* fallback if grab cursor is unsupported */

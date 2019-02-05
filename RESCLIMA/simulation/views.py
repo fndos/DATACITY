@@ -112,7 +112,7 @@ def SimulationOutput(request, pk):
 
 		SUMMARY_DICT = summary_parser(SUMMARY_PATH)
 		AVG_EMISSION_DICT, AVG_WEIGTH_EMISSION_DICT, AVG_LIGHT_EMISSION_DICT, KEY_VALUE_WEIGHT_MEAN_SPEED_DICT, KEY_VALUE_LIGHT_MEAN_SPEED_DICT, KEY_VALUE_WEIGHT_WAITING_DICT, KEY_VALUE_LIGHT_WAITING_DICT = emission_parser(EMISSION_PATH)
-		AVG_TRACE_DICT_PESADO,AVG_TRACE_DICT_LIVIANO = trace_parser(TRACE_PATH)
+		AVG_TRACE_DICT_PESADO, AVG_TRACE_DICT_LIVIANO = trace_parser(TRACE_PATH)
 		# Save to DB the Output (Usar try, except)
 		try:
 			output_instance = Output(simulation=Simulation.objects.get(id=pk),

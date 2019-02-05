@@ -19,8 +19,8 @@ def simulation_task(self, params):
 	progress_recorder = ProgressRecorder(self)
 
 	try:
-		#os.environ["SUMO_HOME"] = "/home/fernando/sumo-git"
-		os.environ["SUMO_HOME"] = "/home/carlos/sumo-1.1.0/sumo"
+		os.environ["SUMO_HOME"] = "/home/fernando/sumo-git"
+		#os.environ["SUMO_HOME"] = "/home/carlos/sumo-1.1.0/sumo"
 		tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
 		sys.path.append(tools)
 		import sumolib
@@ -37,8 +37,8 @@ def simulation_task(self, params):
 		EMISSION_OUT = MEDIA + params['simulation_path'] + "output/resclima_emission_output.xml"
 		SUMMARY_OUT = MEDIA + params['simulation_path'] + "output/resclima_summary_output.xml"
 		# Definiendo la ruta del simulador y realizar la simulacion
-		#sumoBinary = "/home/fernando/sumo-git/bin/sumo"
-		sumoBinary = "/home/carlos/sumo-1.1.0/sumo/bin/sumo"
+		sumoBinary = "/home/fernando/sumo-git/bin/sumo"
+		#sumoBinary = "/home/carlos/sumo-1.1.0/sumo/bin/sumo"
 		sumoCmd = [sumoBinary, "-c", PATH, "--fcd-output", TRACE_OUT, "--emission-output", EMISSION_OUT, "--summary", SUMMARY_OUT]
 		traci.start(sumoCmd, port=8888)
 		print("Realizando la simulacion...")

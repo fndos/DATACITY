@@ -100,8 +100,8 @@ WSGI_APPLICATION = 'RESCLIMA.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-DB_PARAMS = "/home/carlos/Desktop/MateriaIntegradora/DATACITY/dbparams.json"
-#DB_PARAMS = "/home/fernando/Documentos/GIT/DATACITY/dbparams.json"
+#DB_PARAMS = "/home/carlos/Desktop/MateriaIntegradora/DATACITY/dbparams.json"
+DB_PARAMS = "/home/fernando/Documentos/GIT/DATACITY/dbparams.json"
 
 dbParams = None
 with open(DB_PARAMS) as data_file:

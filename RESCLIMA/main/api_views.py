@@ -10,6 +10,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 
 import json
+import collections
 
 # Grafico de barras para los investigadores de ESPOL
 # Response format: {key, value}
@@ -953,26 +954,32 @@ class Population(viewsets.ViewSet):
 
 		return Response(content)
 
+# Grafico de barras agrupadas para los investigadores de cambio climatico
+# Response format: {categorie, key, value}
 class Precipitation(viewsets.ViewSet):
 	renderer_classes = (JSONRenderer, )
-
 	def list(self, request, start_date=None, end_date=None):
 		try:
 			# Obtener la informacion de la BD
-			qs = main_models.Clima.objects.raw('''SELECT date_part('year', date) AS year, sum(rr) AS suma, MIN(rr) AS minimo, MAX(rr) AS maximo, AVG(rr) as media FROM main_clima  GROUP BY d ORDER BY d ASC''');
+			# Obtener la informacion de la BD
+			if start_date == "null" or end_date == "null":
+				# qs no debe incluir fechas
+				qs = main_models.Clima.objects.raw('''SELECT COUNT(id) as id, CAST(date_part('year', date) AS INTEGER) AS year, SUM(rr) AS suma, MIN(rr) AS minimo, MAX(rr) AS maximo, AVG(rr) AS media FROM main_clima GROUP BY year''')
+			else:
+				qs = main_models.Clima.objects.raw('''SELECT COUNT(id) as id, CAST(date_part('year', date) AS INTEGER) AS year, SUM(rr) AS suma, MIN(rr) AS minimo, MAX(rr) AS maximo, AVG(rr) AS media FROM main_clima WHERE date <= %s AND date >= %s GROUP BY year''', [end_date, start_date])
 			d = list(qs)
 			dict = {}
-			
+
 			for i in range(len(d)):
 				lista_dicts = []
-				lista_dicts.append({'value':d[i].suma,'rate':'Acumulado'})
-				lista_dicts.append({'value':d[i].minimo,'rate':'Minimo'})
-				lista_dicts.append({'value':d[i].maximo,'rate':'Maximo'})
-				lista_dicts.append({'value':d[i].media,'rate':'Promedio'})
+				lista_dicts.append({'value':round(d[i].suma, 2),'rate':'Acumulado'})
+				lista_dicts.append({'value':round(d[i].minimo),'rate':'Minimo'})
+				lista_dicts.append({'value':round(d[i].maximo),'rate':'Maximo'})
+				lista_dicts.append({'value':round(d[i].media),'rate':'Promedio'})
 				dict[d[i].year] = lista_dicts
+			ordered_dict = collections.OrderedDict(sorted(dict.items()))
 			# Crear JSON dinamico
-			content = [{"categorie": k, "values": v } for k, v in dict.iteritems()]
-
+			content = [{"values": v, "categorie": k} for k, v in ordered_dict.iteritems()]
 		except:
 			# Si el Query retorna None
 			content = {}

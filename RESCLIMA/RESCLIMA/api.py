@@ -22,7 +22,6 @@ router.register(r'd3_bar_chart_W_NO/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)'
 router.register(r'd3_bar_chart_W_ON/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.WON, base_name='d3_bar_chart_W_ON')
 router.register(r'd3_bar_chart_W_OE/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.WOE, base_name='d3_bar_chart_W_OE')
 router.register(r'd3_bar_chart_W_NE/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.WNE, base_name='d3_bar_chart_W_NE')
-router.register(r'd3_grouped_bar_chart/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.Precipitation, base_name='d3_grouped_bar_chart')
 
 # Grafico de barras (composicion %) para los investigadores de logistica y transporte
 router.register(r'd3_pie_chart_composition_EN/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.CEN, base_name='d3_pie_chart_composition_EN') # OK
@@ -35,13 +34,12 @@ router.register(r'd3_pie_chart_composition_NE/(?P<start_date>[-\w]+)/(?P<end_dat
 # Grafico circular para los investigadores de logsitica y transporte
 router.register(r'd3_pie_chart_WE/(?P<sid>[-\w]+)', api_views.WE, base_name='d3_pie_chart_WE') # OK
 router.register(r'd3_pie_chart_LE/(?P<sid>[-\w]+)', api_views.LE, base_name='d3_pie_chart_LE') # OK
-# Grafico de barras para los investigadores de logsitica y transporte
 
 # Grafico de lineas para los investigadores de logistica y transporte
 router.register(r'd3_line_chart_WMS/(?P<sid>[-\w]+)', api_views.WMS, base_name='d3_line_chart_LMS') # OK
 router.register(r'd3_line_chart_LMS/(?P<sid>[-\w]+)', api_views.LMS, base_name='d3_line_chart_LMS') # OK
-router.register(r'd3_line_chart_WT/(?P<sid>[-\w]+)', api_views.WWT, base_name='d3_line_chart_WT') # Check Utils +/.
-router.register(r'd3_line_chart_LT/(?P<sid>[-\w]+)', api_views.LWT, base_name='d3_line_chart_LT') # Check Utils +/.
+router.register(r'd3_line_chart_WT/(?P<sid>[-\w]+)', api_views.WWT, base_name='d3_line_chart_WT') # OK
+router.register(r'd3_line_chart_LT/(?P<sid>[-\w]+)', api_views.LWT, base_name='d3_line_chart_LT') # OK
 
 
 # Series de tiempo para los investigadores de cambio climatico
@@ -56,4 +54,5 @@ router.register(r'd3_pie_chart_censo/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)
 # Grafico de barras para los investigadores de cambio climatico
 router.register(r'd3_bar_chart_censo/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.CensoBar, base_name='d3_bar_chart_censo') # No se mira bien
 router.register(r'd3_bar_chart_population/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.Population, base_name='d3_bar_chart_population') # OK
-# Grafico de grupos de barras para los investigadores de cambio climatico
+# Grafico de barras agrupadas para los investigadores de cambio climatico
+router.register(r'd3_grouped_bar_chart/(?P<start_date>[-\w]+)/(?P<end_date>[-\w]+)', api_views.Precipitation, base_name='d3_grouped_bar_chart') # OK

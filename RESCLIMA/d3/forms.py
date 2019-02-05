@@ -17,17 +17,17 @@ KEY_VALUE_CHOICES = (
   ('db_resclima_average_measurement', 'RESCLIMA: Promedio de mediciones por variable'),
   # Choices con datos de logistica y transporte
   ('d3_bar_chart_L_EN', 'Circulación de vehiculos livianos en GD Sentido E-N'),
-  # ('d3_bar_chart_L_EO', 'Circulación de vehiculos livianos en FR Sentido E-O'),
-  # ('d3_bar_chart_L_NO', 'Circulación de vehiculos livianos en GD Sentido N-O'),
-  # ('d3_bar_chart_L_ON', 'Circulación de vehiculos livianos en GI Sentido O-N'),
-  # ('d3_bar_chart_L_OE', 'Circulación de vehiculos livianos en GD Sentido O-E'),
-  # ('d3_bar_chart_L_NE', 'Circulación de vehiculos livianos en GD Sentido N-E'),
+  ('d3_bar_chart_L_EO', 'Circulación de vehiculos livianos en FR Sentido E-O'),
+  ('d3_bar_chart_L_NO', 'Circulación de vehiculos livianos en GD Sentido N-O'),
+  ('d3_bar_chart_L_ON', 'Circulación de vehiculos livianos en GI Sentido O-N'),
+  ('d3_bar_chart_L_OE', 'Circulación de vehiculos livianos en GD Sentido O-E'),
+  ('d3_bar_chart_L_NE', 'Circulación de vehiculos livianos en GD Sentido N-E'),
   ('d3_bar_chart_W_EN', 'Circulación de vehiculos pesados en GD Sentido E-N'),
-  # ('d3_bar_chart_W_EO', 'Circulación de vehiculos pesados en FR Sentido E-O'),
-  # ('d3_bar_chart_W_NO', 'Circulación de vehiculos pesados en GD Sentido N-O'),
-  # ('d3_bar_chart_W_ON', 'Circulación de vehiculos pesados en GI Sentido O-N'),
-  # ('d3_bar_chart_W_OE', 'Circulación de vehiculos pesados en GD Sentido O-E'),
-  # ('d3_bar_chart_W_NE', 'Circulación de vehiculos pesados en GD Sentido N-E'),
+  ('d3_bar_chart_W_EO', 'Circulación de vehiculos pesados en FR Sentido E-O'),
+  ('d3_bar_chart_W_NO', 'Circulación de vehiculos pesados en GD Sentido N-O'),
+  ('d3_bar_chart_W_ON', 'Circulación de vehiculos pesados en GI Sentido O-N'),
+  ('d3_bar_chart_W_OE', 'Circulación de vehiculos pesados en GD Sentido O-E'),
+  ('d3_bar_chart_W_NE', 'Circulación de vehiculos pesados en GD Sentido N-E'),
   # Choices solo para SUMO | Emisiones
   ('d3_line_chart_WMS', 'SUMO: Velocidad promedio de vehiculos pesados'),
   ('d3_line_chart_LMS', 'SUMO: Velocidad promedio de vehiculos livianos'),
@@ -63,13 +63,15 @@ PIE_CHART_CHOICES = (
   ('d3_pie_chart_composition_NE', 'Composicion de vehicular N-E giro a la izquierda'),
 
 )
-TIME_SERIES_CHOICES = (
+
+GROUPED_BAR_CHART_CHOICES = (
   (None, 'Selecciona una opción'),
-  ('d3_grouped_bar_chart', 'Precipitacion'), # Mover a Z Time Series
+  ('d3_grouped_bar_chart', 'Precipitacion'),
 )
+
 TIME_SERIES_CHOICES = (
   (None, 'Selecciona una opción'),
-  ('d3_time_series_oni', 'Oceanic Niño Index (ONI)'), # Mover a Z Time Series
+  ('d3_time_series_oni', 'Oceanic Niño Index (ONI)'),
   ('d3_time_series_rr', 'Relative Risk (RR)'),
 )
 
@@ -98,8 +100,8 @@ class BarChartForm(forms.Form, DashboardPluginFormBase):
     ]
 
     title = forms.CharField(label=_("Titulo"), required=True)
-    domainLabel = forms.CharField(label=_("Etiqueta del eje X"), required=True)
-    rangeLabel = forms.CharField(label=_("Etiqueta del eje Y"), required=True)
+    domainLabel = forms.CharField(label=_("Etiqueta del eje X"), required=False)
+    rangeLabel = forms.CharField(label=_("Etiqueta del eje Y"), required=False)
     start_date = forms.CharField(label=_("Fecha de inicio"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
     end_date = forms.CharField(label=_("Fecha de finalizacion"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
 
@@ -114,29 +116,22 @@ class BarChartForm(forms.Form, DashboardPluginFormBase):
         self.fields['color'] = forms.CharField(label=_("Color principal"), required=True, widget=forms.TextInput(attrs={'type':'color'}))
         self.fields['hover'] = forms.CharField(label=_("Color secundario"), required=True, widget=forms.TextInput(attrs={'type':'color'}))
 
+# Formulario para Grouped Bar Chart
 class GroupedBarChartForm(forms.Form, DashboardPluginFormBase):
 
     plugin_data_fields = [
         ("title", ""),
         ("start_date", ""),
         ("end_date", ""),
-        # ("domainLabel", ""),
         ("rangeLabel", ""),
-        # ("simulation", ""),
         ("source", ""),
-        # ("color", ""),
-        # ("hover", ""),
     ]
 
     title = forms.CharField(label=_("Titulo"), required=True)
-    # domainLabel = forms.CharField(label=_("Etiqueta del eje X"), required=True)
-    rangeLabel = forms.CharField(label=_("Etiqueta del eje Y"), required=True)
+    rangeLabel = forms.CharField(label=_("Etiqueta del eje Y"), required=False)
     start_date = forms.CharField(label=_("Fecha de inicio"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
     end_date = forms.CharField(label=_("Fecha de finalizacion"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
-    source = forms.ChoiceField(label=_("Tabla/API"), choices=TIME_SERIES_CHOICES, required=True)
-
-
-
+    source = forms.ChoiceField(label=_("Tabla/API"), choices=GROUPED_BAR_CHART_CHOICES, required=True)
 
 # Formulario para Time Series
 class TimeSeriesForm(forms.Form, DashboardPluginFormBase):
@@ -150,7 +145,7 @@ class TimeSeriesForm(forms.Form, DashboardPluginFormBase):
     ]
 
     title = forms.CharField(label=_("Titulo"), required=True)
-    rangeLabel = forms.CharField(label=_("Etiqueta del eje Y"), required=True)
+    rangeLabel = forms.CharField(label=_("Etiqueta del eje Y"), required=False)
     start_date = forms.CharField(label=_("Fecha de inicio"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
     end_date = forms.CharField(label=_("Fecha de finalizacion"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
     source = forms.ChoiceField(label=_("Tabla/API"), choices=TIME_SERIES_CHOICES, required=True)
@@ -169,7 +164,7 @@ class MultiTimeSeriesForm(forms.Form, DashboardPluginFormBase):
     ]
 
     title = forms.CharField(label=_("Titulo"), required=True)
-    rangeLabel = forms.CharField(label=_("Etiqueta del eje Y"), required=True)
+    rangeLabel = forms.CharField(label=_("Etiqueta del eje Y"), required=False)
     start_date = forms.CharField(label=_("Fecha de inicio"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
     end_date = forms.CharField(label=_("Fecha de finalizacion"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
     source = forms.ChoiceField(label=_("Tabla/API"), choices=MULTI_TIME_SERIES_CHOICES, required=True)
@@ -215,8 +210,8 @@ class LineChartForm(forms.Form, DashboardPluginFormBase):
     ]
 
     title = forms.CharField(label=_("Titulo"), required=True)
-    domainLabel = forms.CharField(label=_("Etiqueta del eje X"), required=True)
-    rangeLabel = forms.CharField(label=_("Etiqueta del eje Y"), required=True)
+    domainLabel = forms.CharField(label=_("Etiqueta del eje X"), required=False)
+    rangeLabel = forms.CharField(label=_("Etiqueta del eje Y"), required=False)
     start_date = forms.CharField(label=_("Fecha de inicio"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
     end_date = forms.CharField(label=_("Fecha de finalizacion"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
 

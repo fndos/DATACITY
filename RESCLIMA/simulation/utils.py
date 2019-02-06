@@ -291,6 +291,10 @@ def get_key_value_speed_by_type(data):
 				LIGHT = LIGHT + float(v["@speed"])
 				TOTAL_LIGHT = TOTAL_LIGHT + 1
 		# Calcular promedio
+		if TOTAL_WEIGHT == 0:
+			TOTAL_WEIGHT = 1
+		if TOTAL_LIGHT == 0:
+			TOTAL_LIGHT = 1
 		WEIGHT_STEP.append("{0:.2f}".format(WEIGHT/TOTAL_WEIGHT))
 		LIGHT_STEP.append("{0:.2f}".format(LIGHT/TOTAL_LIGHT))
 
@@ -324,6 +328,10 @@ def get_key_value_waiting_by_type(data):
 				LIGHT = LIGHT + int(float(v["@waiting"]))
 				TOTAL_LIGHT = TOTAL_LIGHT + 1
 		# Calcular promedio
+		if TOTAL_WEIGHT == 0:
+			TOTAL_WEIGHT = 1
+		if TOTAL_LIGHT == 0:
+			TOTAL_LIGHT = 1
 		WEIGHT_STEP.append("{0:.2f}".format(WEIGHT/TOTAL_WEIGHT))
 		LIGHT_STEP.append("{0:.2f}".format(LIGHT/TOTAL_LIGHT))
 

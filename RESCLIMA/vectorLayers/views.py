@@ -61,7 +61,7 @@ def export_geojson(request, vectorlayer_id):
 	except VectorLayer.DoesNotExist:
 		return HttpResponseNotFound()
 	geojson = exporter.export_geojson(vectorlayer)
-	return JsonResponse(geojson)
+	return HttpResponse(geojson)
 
 def updateVectorLayer(vectorlayer,request):
 	try:

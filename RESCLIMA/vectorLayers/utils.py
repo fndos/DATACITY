@@ -24,7 +24,7 @@ def ogr_type_to_geometry_name(ogr_type):
 
 """
 La funcion recibe una   geometria.
-Si esa   geometria  es  Polygon, o 
+Si esa   geometria  es  Polygon, o
 LineString retorna un MultiPolygon
 o MultiLineString
 """
@@ -38,7 +38,7 @@ def wrap_geos_geometry(geometry):
 
 """
 Dado el nombre de un  tipo de una   geometria,
-retorna el nombre equivalente de esa geometria 
+retorna el nombre equivalente de esa geometria
 en PostGIS
 """
 def calc_geometry_field(geometry_type):
@@ -52,7 +52,7 @@ def calc_geometry_field(geometry_type):
 """
 Dado  un vectorlayer.models.Attribute, un
 vectorLayer.models.Feature  y el encoding
-de  una  capa,  retorna el  valor  de ese 
+de  una  capa,  retorna el  valor  de ese
 atributo como string
 """
 def getOGRFeatureAttribute(attr, feature, encoding):
@@ -63,12 +63,12 @@ def getOGRFeatureAttribute(attr, feature, encoding):
 	if not feature.IsFieldSet(attr_name):
 		return (True, None)
 
-	# si el tipo de dato del attribute 
+	# si el tipo de dato del attribute
 	# es string, este flag es verdadero
 	needs_encoding = False
 
 	# Dependiendo del tipo de dato del attr
-	# se obtiene el value, y se transforma 
+	# se obtiene el value, y se transforma
 	if attr.type == ogr.OFTInteger:
 		value = str(feature.GetFieldAsInteger(attr_name))
 	elif attr.type == ogr.OFTIntegerList:
@@ -112,11 +112,11 @@ def getOGRFeatureAttribute(attr, feature, encoding):
 	else:
 		return (False, "Unsupported attribute type: " +
                        str(attr.type))
-    
+
     # si se requiere encoding
 	if needs_encoding:
 		try:
-			value = value.decode(encoding)
+			value = value.encode(encoding)
 		except UnicodeDecodeError:
 			return (False, "Unable to decode value in " +
 						repr(attr_name) + " attribute.&nbsp; " +
@@ -134,9 +134,9 @@ def unwrap_geos_geometry(geometry):
 	return geometry
 
 """
-Dado un vectorlayer.models.Attribute, 
-un el valor  del attr, un ogr.Feature 
-y el encoding  de  una capa, setea el 
+Dado un vectorlayer.models.Attribute,
+un el valor  del attr, un ogr.Feature
+y el encoding  de  una capa, setea el
 value al feature
 """
 def set_ogr_feature_attribute(attr, value, feature, encoding):
@@ -198,9 +198,9 @@ def set_ogr_feature_attribute(attr, value, feature, encoding):
 """
 Dado  un vectorlayer.models.Attribute, un
 vectorLayer.models.Feature  y el encoding
-de  una  capa,  retorna el  valor  de ese 
+de  una  capa,  retorna el  valor  de ese
 atributo como su tipo de dato real
-"""     
+"""
 def getAttrValue(attr, value, encoding):
 	attr_name = str(attr.name)
 	if value == None:
@@ -261,4 +261,3 @@ def getAttrValue(attr, value, encoding):
 		return integers
 
 	return None;
-

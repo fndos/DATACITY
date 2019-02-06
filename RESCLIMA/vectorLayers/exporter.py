@@ -11,9 +11,9 @@ from wsgiref.util import FileWrapper
 import json
 
 """
-Obtiene los  datos de una capa 
-vectorial, crea un shapefile y 
-retorna un HttpResponse con el 
+Obtiene los  datos de una capa
+vectorial, crea un shapefile y
+retorna un HttpResponse con el
 archivo
 """
 def export_shapefile(vectorlayer):
@@ -26,13 +26,13 @@ def export_shapefile(vectorlayer):
 	# original de la capa
 	dst_spatial_ref = osr.SpatialReference()
 	dst_spatial_ref.ImportFromWkt(vectorlayer.srs_wkt)
-	
+
 	# con la libreria osr se crea el shapefile
 	driver = ogr.GetDriverByName("ESRI shapefile")
-	datasource = driver.CreateDataSource(dst_file)	
+	datasource = driver.CreateDataSource(dst_file)
 	layer = datasource.CreateLayer(vectorlayer.filename.encode('utf-8'),dst_spatial_ref)
 
-	# se guardan los atributos de la capa en 
+	# se guardan los atributos de la capa en
 	# el archivo
 	for attr in vectorlayer.attribute_set.all():
 		field = ogr.FieldDefn(str(attr.name), attr.type)
@@ -89,15 +89,15 @@ def export_shapefile(vectorlayer):
 	f = FileWrapper(zip_file)
 	response = HttpResponse(f, content_type="application/zip")
 	response['Content-Disposition'] = "attachment; filename=" + vectorlayer_name + ".zip"
-	
+
 	return response
 
 
 """
-Obtiene los  datos d e una capa 
+Obtiene los  datos d e una capa
 vectorial,  crea un diccionario
 que   contiene un  geojson y lo
-retorna 
+retorna
 """
 def export_geojson(vectorlayer):
 	geojson = {}
@@ -106,7 +106,7 @@ def export_geojson(vectorlayer):
 	geojson["bbox"] = bbox.geojson;
 	geojson["crs"] = {"type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" }}
 	geojson["features"] = []
-		
+
 	geom_field = utils.calc_geometry_field(vectorlayer.geom_type)
 	for feature in vectorlayer.feature_set.all():
 		geometry = getattr(feature, geom_field)
@@ -124,6 +124,5 @@ def export_geojson(vectorlayer):
 			value = attr_value.value;
 			value = utils.getAttrValue(attr,value,vectorlayer.encoding)
 			feature_json["properties"][attr_name] = value;
-			
-	return geojson
 
+	return json.dumps(geojson, encoding=vectorlayer.encoding)

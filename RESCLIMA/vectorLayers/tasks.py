@@ -130,6 +130,9 @@ def import_vector_layer(vectorlayer_params):
 	for i in feature_count:
 		src_feature = layer.GetFeature(i)
 		src_geometry = src_feature.GetGeometryRef()
+		# si no se puede recuperar el geomtry se ignora el resto
+		if(src_geometry==None):
+			continue		
 		src_geometry.Transform(coord_transform)
 		# se extrae el envelope
 		env = src_geometry.GetEnvelope()

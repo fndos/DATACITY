@@ -10,7 +10,7 @@ function getMultiTimeSeriesViewBox(size) {
   if (size == 4) { return "222 0 745 799" }
 	else if (size == 5) { return "69 0 745 579" }
 	else if (size == 6) { return "22 0 699 459" }
-	else { return "4 0 600 370" }
+	else  { return "4 0 600 370" }
 }
 
 function isEmpty(str) {

@@ -56,10 +56,10 @@ function d3BarChartSample(container, source, start_date, end_date, domainLabel, 
       .scale(y)
       .orient("left")
       .ticks(10)
-      .tickFormat(function (d) {
-          var prefix = d3.formatPrefix(d);
-          return prefix.scale(d) + prefix.symbol;
-      });
+      // .tickFormat(function (d) {
+      //     var prefix = d3.formatPrefix(d);
+      //     return prefix.scale(d) + prefix.symbol;
+      // });
 
   // add the SVG element
   var svg = d3.select(container).append("svg")

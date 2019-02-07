@@ -207,6 +207,9 @@ class LineChartForm(forms.Form, DashboardPluginFormBase):
         ("simulation", ""),
         ("source", ""),
         ("origin", ""),
+        ("color", ""),
+        ("hover", ""),
+
     ]
 
     title = forms.CharField(label=_("Titulo"), required=True)
@@ -214,6 +217,7 @@ class LineChartForm(forms.Form, DashboardPluginFormBase):
     rangeLabel = forms.CharField(label=_("Etiqueta del eje Y"), required=False)
     start_date = forms.CharField(label=_("Fecha de inicio"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
     end_date = forms.CharField(label=_("Fecha de finalizacion"), required=False, widget=forms.TextInput(attrs={'type':'date'}))
+
 
     def __init__(self, *args, **kwargs):
         super(LineChartForm, self).__init__(*args, **kwargs)
@@ -224,6 +228,8 @@ class LineChartForm(forms.Form, DashboardPluginFormBase):
         self.fields['simulation'] = forms.ChoiceField(label=_("Simulacion [Solo en caso de que quiera utilizar datos de SUMO]"), choices=SIMULATION_CHOICES, required=False)
         self.fields['source'] = forms.ChoiceField(label=_("Tabla/API"), choices=KEY_VALUE_CHOICES, required=True)
         self.fields['origin'] = forms.ChoiceField(label=_("Tabla/API"), choices=KEY_VALUE_CHOICES, required=True)
+        self.fields['color'] = forms.CharField(label=_("Color principal"), required=True, widget=forms.TextInput(attrs={'type':'color'}))
+        self.fields['hover'] = forms.CharField(label=_("Color secundario"), required=True, widget=forms.TextInput(attrs={'type':'color'}))
 
 # Clase base de la cual heredan todos los charts
 class ChartForm(forms.Form, DashboardPluginFormBase):

@@ -49,7 +49,7 @@ function setLegend(str) {
   }
 }
 
-function d3LineChartSample(container, start_date, end_date, source, origin, domainLabel, rangeLabel, size, sid) {
+function d3LineChartSample(container, start_date, end_date, source, origin, domainLabel, rangeLabel, size, sid, color, hover) {
   if (!checkDate(start_date, end_date)) {
     // Una de las fechas ingresadas no es valida
     start_date = null;
@@ -81,8 +81,8 @@ function d3LineChartSample(container, start_date, end_date, source, origin, doma
   // Define the line
   var	line = d3.svg.line()
     .x(function(d) { return x(d.key); })
-    .y(function(d) { return y(d.value); });
-    // .interpolate("basis");
+    .y(function(d) { return y(d.value); })
+    .interpolate("basis");
 
   // Adds the svg canvas
   var	svg = d3.select(container)
@@ -124,6 +124,7 @@ function d3LineChartSample(container, start_date, end_date, source, origin, doma
       	// Add the line path.
       	svg.append("path")
       		.attr("class", "line")
+          .style("stroke", color)
       		.attr("d", line(data))
           .attr("data-legend",function(d) { return setLegend(source) });
 
@@ -133,8 +134,9 @@ function d3LineChartSample(container, start_date, end_date, source, origin, doma
       	   //.defined(function(d) { return d.data_point == true; })
           .enter().append("circle")
           .attr("class", "dot")
-          .style("stroke", "blue")
-          .style("fill", "blue")
+          .style("stroke", color)
+          .style("fill", color)
+          .style("opacity", "0.0")
           .attr("r", 3)
           .attr("cx", function(d) { return x(d.key); })
           .attr("cy", function(d) { return y(d.value); })
@@ -167,7 +169,7 @@ function d3LineChartSample(container, start_date, end_date, source, origin, doma
       	// Add the line path.
       	svg.append("path")
       		.attr("class", "line")
-          .style("stroke", "red")
+          .style("stroke", hover)
       		.attr("d", line(data2))
           .attr("data-legend",function(d) { return setLegend(origin) });
 
@@ -177,8 +179,9 @@ function d3LineChartSample(container, start_date, end_date, source, origin, doma
       	   //.defined(function(d) { return d.data_point == true; })
           .enter().append("circle")
           .attr("class", "dot2")
-          .style("stroke", "red")
-          .style("fill", "red")
+          .style("stroke", hover)
+          .style("fill", hover)
+          .style("opacity", "0.0")
           .attr("r", 3)
           .attr("cx", function(d) { return x(d.key); })
           .attr("cy", function(d) { return y(d.value); })
